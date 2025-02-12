@@ -55,5 +55,22 @@ export const createAccount = (username, password) => {
     }
 
     saveCredentials(username, password);
-    console.log("Account created succesgfully...");
+    console.log("Account created successfully...");
+}
+
+export const login = (username, password) => {
+    const filepath = './credentials.json';
+    let data = { credentials: [] };
+
+    if (fs.existsSync(filepath)) {
+        data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+    }
+
+    const credential = data.credentials.find(credential => credential.username === username && credential.password === password);
+
+    if (!credential) {
+        throw new Error('Invalid credentials...');
+    }
+
+    console.log("Loged in successfully...");
 }
