@@ -1,0 +1,40 @@
+.home{
+    text-align: center;
+}
+
+.combo-box {
+    width: 200px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.advanced-options {
+    display: none;
+    margin-top: 20px;
+}
+
+.advanced-options.show {
+    display: block;
+}
+
+.migrate-button {
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.migrate-button:hover {
+    background-color: #45a049;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.advanced-button{
+    display: flex;
+    margin: auto;
+}
