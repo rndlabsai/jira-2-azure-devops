@@ -1,5 +1,8 @@
 import { useState } from 'react'
+
+{/*Importacion de los css necesarios*/}
 import './login.css'
+import '../styles/global.css'
 
 function Login() {
 
