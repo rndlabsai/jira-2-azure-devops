@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './home.css';
+import './migrate.css';
 
-const Home = () => {
+const Migrate = () => {
     const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
 
     const toggleAdvancedOptions = () => {
@@ -39,4 +39,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Migrate;
