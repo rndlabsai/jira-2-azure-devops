@@ -3,6 +3,7 @@ import './token-manager.css';
 import '../styles/global.css';
 import JiraSection from './jira-section';
 import ZephyrSection from './zephyr-section';
+import AzureSection from './azure-section';
 
 function TokenManager() {
   return (
@@ -10,6 +11,8 @@ function TokenManager() {
       <JiraSection/>
 
       <ZephyrSection/>
+
+      <AzureSection/>
     </div>
     
     
