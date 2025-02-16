@@ -1,46 +1,37 @@
-/* Estilos generales del header */
+
 .header {
     background-color: var(--color-header);
-    width: 100%; /* Ocupa todo el ancho de la pantalla */
+    width: 100%;
     padding: 10px 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: fixed; /* Fija el header en la parte superior */
-    top: 0; /* Lo pega a la parte superior */
-    left: 0; /* Lo pega a la izquierda */
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    position: fixed; 
+    top: 0;
+    left: 0;
   }
   
-  /* Estilos de la barra de navegación */
   .navbar {
     display: flex;
-    align-items: center;
     gap: 20px;
-    max-width: 1200px; /* Limita el ancho del contenido */
-    margin: 0 auto; /* Centra el contenido */
+    max-width: 1200px;
+    margin-left: 0 auto; 
   }
   
-  /* Estilos de las pestañas */
+ 
   .tab {
     position: relative;
     cursor: pointer;
     padding: 10px 15px;
-    font-size: var(--font-size-medium); /* Usa una variable global */
-    color: black; /* Texto negro */
+    font-size: var(--font-size-medium);
+    color: black;
     transition: background-color 0.3s ease;
   }
   
-  .tab:hover {
-    background-color: var(--color-highlight); /* Usa una variable global */
-    border-radius: 5px;
-  }
-  
-  /* Estilos del menú desplegable */
   .dropdown {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: white;
+    background-color: var(--color-header);
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -51,15 +42,15 @@
     display: block;
   }
   
-  /* Estilos de los elementos del menú desplegable */
+  
   .dropdown-item {
     padding: 10px 15px;
-    font-size: var(--font-size-small); /* Usa una variable global */
-    color: black; /* Texto negro */
+    font-size: var(--font-size-small);
+    color: black;
     transition: background-color 0.3s ease;
   }
   
   .dropdown-item:hover {
-    background-color: var(--color-primary); /* Usa una variable global */
+    background-color: var(--color-primary);
     color: white;
   }
