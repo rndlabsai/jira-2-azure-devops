@@ -2,10 +2,17 @@ import React from 'react';
 import './token-manager.css';
 import '../styles/global.css';
 import JiraSection from './jira-section';
+import ZephyrSection from './zephyr-section';
 
 function TokenManager() {
   return (
-    <JiraSection/>
+    <div>
+      <JiraSection/>
+
+      <ZephyrSection/>
+    </div>
+    
+    
   );
 }
 

@@ -30,7 +30,7 @@ function JiraSection() {
           placeholder="Enter the url of your Jira instance"
         />
       </div>
-      <button className="save-button">Save</button>
+      <button className="save-button">Save Jira Token</button>
     </div>
   );
 }
