@@ -1,4 +1,3 @@
-import { error } from 'console';
 import fs from 'fs';
 
 const passwordIsValid = (password) => {
@@ -23,13 +22,17 @@ const passwordIsValid = (password) => {
 
 const isUsernameUnique = (username) => {
     const filepath = './credentials.json';
-    let data = { credentials: [] };
+    let data = {};
 
     if (fs.existsSync(filepath)) {
         data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
     }
 
-    return data.credentials.find(credential => credential.username === username) === undefined;
+    if (!data.credentials) {
+        return true;
+    }
+
+    return !data.credentials.find(credential => credential.username === username);
 }
 
 const saveCredentials = (username, password) => {
@@ -40,7 +43,11 @@ const saveCredentials = (username, password) => {
         data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
     }
 
-    data.credentials.push({ username, password });
+    if (!data.credentials) {
+        data.credentials = [];
+    }
+
+    data.credentials.push({ username, password, tokens: [] });
 
     fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
 }

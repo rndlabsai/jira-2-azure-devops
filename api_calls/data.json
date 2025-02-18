@@ -1,0 +1,14 @@
+{
+  "projects": [
+    {
+      "id": "10000",
+      "name": "Mi proyecto",
+      "key": "SCRUM",
+      "extra_data": {
+        "issues": [],
+        "fields": [],
+        "screens": []
+      }
+    }
+  ]
+}
