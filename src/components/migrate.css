@@ -1,13 +1,3 @@
-.home{
-    text-align: center;
-}
-
-.combo-box {
-    width: 200px;
-    padding: 10px;
-    margin: 10px 0;
-}
-
 .advanced-options {
     display: none;
     margin-top: 20px;
@@ -17,24 +7,25 @@
     display: block;
 }
 
-.migrate-button {
-    display: block;
-    margin: auto;
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.migrate-button:hover {
-    background-color: #45a049;
-    margin: auto;
-    margin-top: 10px;
-}
-
-.advanced-button{
+.layout {
     display: flex;
-    margin: auto;
+    height: 100vh;;
 }
+
+.left-container {
+    width: 50vw;
+    background-color:#9fa8da;
+    padding: 20px;
+}
+
+.right-container {
+    flex-grow: 1;
+    padding: 20px; 
+    display: flex;
+    margin-left: 100px;  
+    flex-direction: column;    /* Stack content vertically */
+    justify-content: center;    /* Vertically center the content */
+    align-items: left;  
+    gap: 10px;                 /* Adds space between stacked items */
+    background-color: #e8eaf6
+  }

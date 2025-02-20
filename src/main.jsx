@@ -11,6 +11,8 @@ createRoot(document.getElementById('root')).render(
     
     
     <Header/>
-    <TokenManager/>
+    
+    <Migrate/>
+
   </StrictMode>
 )
