@@ -8,8 +8,9 @@ import TokenManager from './components/token-manager.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Header/>
     
+    
+    <Header/>
     <TokenManager/>
   </StrictMode>
 )
