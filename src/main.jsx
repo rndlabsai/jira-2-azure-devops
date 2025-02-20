@@ -10,9 +10,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     
     
-    <Header/>
-    
-    <Migrate/>
+    <Login />
 
   </StrictMode>
 )

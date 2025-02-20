@@ -1,21 +1,27 @@
-import { useState } from 'react'
-
-{/*Importacion de los css necesarios*/}
-import './login.css'
-import '../styles/global.css'
+import './login.css';
+import loginImage from '../assets/login-image.jpg';
 
 function Login() {
-
   return (
-    <div class = "login">
-        <h1>Login</h1>
+    <div className="login-container">
+      <div className="login-header">
+        <img src={loginImage} alt="UPB Migration Tool" className="login-image" />
+        <h1>UPB Migration Tool</h1>
+      </div>
+      <div className="login-box">
+        <h2>Log in</h2>
         <form>
-            <input type="text" placeholder="Username" required/>
-            <input type="password" placeholder="Password" required/>
-            <button type="submit">Entrar</button>
+          <div className="input-group">
+            <input type="text" id="username" placeholder="Enter your email/username" required />
+          </div>
+          <div className="input-group">
+            <input type="password" id="password" placeholder="Enter your password" required />
+          </div>
+          <button type="submit" className="login-button">Entrar</button>
         </form>
-        </div>
-  )
+      </div>
+    </div>
+  );
 }
 
-export default Login
+export default Login;

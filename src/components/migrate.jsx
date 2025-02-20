@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './migrate.css';
-import './main.css'
+import '../styles/global.css';
 
 const Migrate = () => {
     const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);

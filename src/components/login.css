@@ -1,19 +1,62 @@
- h1{
-    font-size: var(--font-size-xlarge);
-    color: var(--color-text);
-}
 
-.login{
-    text-align: center;
-}
-
-.login form{
+body {
+    background-color: var(--color-two);
+  }
+  
+.login-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
 }
+  
+  .login-header {
+    text-align: center;
+  }
+  
+  .login-image {
+    width: auto;
+    height: auto;
+  }
 
-.login input{
-    margin: 10px 0;
+  
+  
+  .login-box {
+    background-color: var(--color-five);
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+  }
+  
+  .login-box h2 {
+    font-size: var(--font-size-xlarge);
+    text-align: center;
+  }
+  
+  
+
+  .input-group {
+    margin-bottom: 70px;
+    margin-top: 70px;
+  }
+  
+  /*Hasta aqui bien*/
+  .input-group input {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .login-button {
+    width: 100%;
+    padding: 10px;
     border-radius: 5px;
-}
+    border: none;
+    background-color: var(--color-primary);
+    font-size: var(--font-size-small);
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .login-button:hover {
+    background-color: var(--color-highlight);
+  }
