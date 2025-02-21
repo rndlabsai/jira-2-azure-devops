@@ -7,20 +7,26 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 200px;
 }
   .login-header {
     text-align: center;
   }
+
+  .login-header h1 {
+    margin-left: 270px;
+  }
   
   .login-image {
-    width: auto;
-    height: auto;
+    width: 400px;
+    height: 360px;
+    margin-left: 270px;
   }
 
   
   .login-box {
     background-color: var(--color-five);
-    padding: 40px;
+    padding: 50px;
     border-radius: 20px;
     width: 100%;
   }
@@ -28,6 +34,7 @@ body {
   .login-box h2 {
     font-size: var(--font-size-xlarge);
     text-align: center;
+    
   }
   
   
@@ -35,6 +42,8 @@ body {
   .input-group {
     margin-bottom: 70px;
     margin-top: 70px;
+    margin-left: 25px;
+    margin-right: 25px;
   }
 
   /*Hasta aqui bien*/
