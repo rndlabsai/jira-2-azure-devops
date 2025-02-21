@@ -7,7 +7,7 @@ import AzureSection from './azure-section';
 
 function TokenManager() {
   return (
-    <div>
+    <div className='SectionContainer'>
       <JiraSection/>
 
       <ZephyrSection/>
