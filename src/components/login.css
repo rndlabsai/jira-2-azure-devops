@@ -7,9 +7,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
 }
-  
   .login-header {
     text-align: center;
   }
@@ -19,7 +17,6 @@ body {
     height: auto;
   }
 
-  
   
   .login-box {
     background-color: var(--color-five);
@@ -39,24 +36,26 @@ body {
     margin-bottom: 70px;
     margin-top: 70px;
   }
-  
+
   /*Hasta aqui bien*/
   .input-group input {
     width: 100%;
     padding: 10px;
+    border: none;
+    border-bottom: 2px solid black;
+    background: transparent;
   }
   
-  .login-button {
-    width: 100%;
-    padding: 10px;
+.login-button {
+    width: 100px;
     border-radius: 5px;
-    border: none;
-    background-color: var(--color-primary);
+    background-color: var(--color-one);
     font-size: var(--font-size-small);
     cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .login-button:hover {
-    background-color: var(--color-highlight);
-  }
+    display: block;
+    margin: 0 auto;
+}
+
+.login-button:hover {
+    background-color: var(--color-one);
+}
