@@ -7,7 +7,7 @@ function AzureSection() {
     <div className="azure-section">
       <h2>Azure DevOps</h2>
       <div className="input-group">
-        <label htmlFor="api-token">Azure Token:</label>
+        <label htmlFor="api-token">API Token:</label>
         <input
           type="text"
           id="api-token"

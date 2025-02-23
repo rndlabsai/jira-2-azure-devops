@@ -7,7 +7,7 @@ function ZephyrSection() {
     <div className="zephyr-section">
       <h2>Zephyr</h2>
       <div className="input-group">
-        <label htmlFor="api-token">Zephyr API Token:</label>
+        <label htmlFor="api-token">API Token:</label>
         <input
           type="text"
           id="api-token"

@@ -8,9 +8,30 @@
 
 .SectionContainer {
   margin-top: 115px;
-  
+  margin-bottom: 115px;
 }
 
 .SectionContainer > div { 
   width: 100%;
+}
+
+
+
+.token-manager-page .input-group input{
+  background: var(--color-three);
+  border: transparent;
+  border-radius: 10px;
+  font-size: var(--font-size-xsmall);
+  
+}
+
+
+
+.token-manager-page .save-button {
+  background-color: var(--color-six);
+  color: black;
+  cursor: pointer;
+  font-weight: normal;
+  display: block;
+  margin: 0 auto;
 }
