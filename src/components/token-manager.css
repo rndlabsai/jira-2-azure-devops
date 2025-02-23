@@ -1,8 +1,16 @@
 .token-manager-page {
   background-color: var(--color-four);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
 }
 
-  .SectionContainer{
-    margin-top: 115px;
-    
-  }
+.SectionContainer {
+  margin-top: 115px;
+  
+}
+
+.SectionContainer > div { 
+  width: 100%;
+}
