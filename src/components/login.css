@@ -1,13 +1,13 @@
+.login-page {
+  background-color: var(--color-two);
+}
 
-body {
-    background-color: var(--color-two);
-  }
-  
 .login-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 200px;
+    
 }
   .login-header {
     text-align: center;

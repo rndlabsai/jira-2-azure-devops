@@ -1,6 +1,6 @@
-body {
-    background-color: var(--color-four);
-  }
+.token-manager-page {
+  background-color: var(--color-four);
+}
 
   .SectionContainer{
     margin-top: 115px;

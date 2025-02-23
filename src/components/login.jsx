@@ -1,7 +1,18 @@
-import './login.css';
-import loginImage from '../assets/login-image.jpg';
+import { useEffect } from "react";
+import "./login.css";
+import loginImage from "../assets/login-image.jpg";
 
 function Login() {
+  useEffect(() => {
+
+    document.body.classList.add("login-page");
+
+    
+    return () => {
+      document.body.classList.remove("login-page");
+    };
+  }, []);
+
   return (
     <div className="login-container">
       <div className="login-header">
