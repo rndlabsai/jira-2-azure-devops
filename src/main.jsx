@@ -10,10 +10,10 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     
     
-    {/*<Login />*/}
+    <Login />
     
-    <Header />
-    <Migrate />
+    {/*<Header />
+    <TokenManager />*/}
 
   </StrictMode>
 )
