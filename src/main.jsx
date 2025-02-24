@@ -13,7 +13,7 @@ createRoot(document.getElementById('root')).render(
     {/*<Login />*/}
     
     <Header />
-    <TokenManager />
+    <Migrate />
 
   </StrictMode>
 )

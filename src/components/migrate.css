@@ -1,31 +1,56 @@
+@import url('../styles/global.css');
+
+.migrate-text{
+    color: black;
+    font-size: var(--font-size-medium);
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+}
+
 .advanced-options {
     display: none;
-    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: var(--color-three);
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+    max-width: 380px;
 }
 
 .advanced-options.show {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .layout {
     display: flex;
-    height: 100vh;;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--color-five);
+    top: 0;
+    left: 0;
 }
 
 .left-container {
+    height: 100%;
     width: 50vw;
-    background-color:#9fa8da;
-    padding: 20px;
+    background-color: var(--color-two);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .right-container {
-    flex-grow: 1;
-    padding: 20px; 
-    display: flex;
-    margin-left: 100px;  
-    flex-direction: column;    /* Stack content vertically */
-    justify-content: center;    /* Vertically center the content */
-    align-items: left;  
-    gap: 10px;                 /* Adds space between stacked items */
-    background-color: #e8eaf6
-  }
+    padding-top: 200px;
+    padding-left: 50px;
+    display: flex; 
+    flex-direction: column;
+    background-color: var(--color-five);
+    align-items: left;
+    gap: 10px;
+    width: 50vw; 
+}
