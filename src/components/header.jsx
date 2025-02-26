@@ -17,9 +17,11 @@ function Header() {
         </Link>
         
 
-        {/* Pestaña "API Token Management" con subsecciones */}
+        {/* Pestaña "API Token Management" con subsecciones (el style es para que no se desconfigure el color al añadir Link)*/}
         <div className="tab">
+        <Link to="/token-manager" style={{ color: "inherit", textDecoration: "none" }}>
           <span>API Token Management</span>
+        </Link>
           <div className="dropdown">
             <div className="dropdown-item">Jira</div>
             <div className="dropdown-item">Zephyr</div>
