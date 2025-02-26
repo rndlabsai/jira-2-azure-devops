@@ -1,10 +1,24 @@
 import React from 'react';
 import './header.css';
 import '../styles/global.css';
-import { Link } from 'react-router-dom'; //Esto igual muy importante
+import { Link, useNavigate } from "react-router-dom"; //Esto igual muy importante
 
 
 function Header() {
+  const navigate = useNavigate();
+
+  const handleNavigationWithHash = (path, hash) => (e) => {
+    e.preventDefault();
+    navigate(path);
+    setTimeout(() => {
+      //Esto busca el hash luego de ir al path con rutas
+      const section = document.querySelector(hash);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 50);
+  };
+
   return (
     <header className="header">
       <nav className="navbar">
@@ -23,7 +37,7 @@ function Header() {
           <span>API Token Management</span>
         </Link>
           <div className="dropdown">
-            <div className="dropdown-item">Jira</div>
+            <div className="dropdown-item" onClick={handleNavigationWithHash('/token-manager', '#jira-section')}>Jira</div>
             <div className="dropdown-item">Zephyr</div>
             <div className="dropdown-item">Azure Devops</div>
           </div>

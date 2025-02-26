@@ -16,9 +16,18 @@ function TokenManager() {
 
   return (
     <div className="SectionContainer">
-      <JiraSection />
-      <ZephyrSection />
-      <AzureSection />
+      <section id="jira-section">
+        <JiraSection/>
+      </section>
+      
+      <section id="zephyr-section">
+        <ZephyrSection />
+      </section>
+      
+      <section id="azure-section">
+        <AzureSection />
+      </section>
+      
     </div>
   );
 }
