@@ -38,8 +38,8 @@ function Header() {
         </Link>
           <div className="dropdown">
             <div className="dropdown-item" onClick={handleNavigationWithHash('/token-manager', '#jira-section')}>Jira</div>
-            <div className="dropdown-item">Zephyr</div>
-            <div className="dropdown-item">Azure Devops</div>
+            <div className="dropdown-item" onClick={handleNavigationWithHash('/token-manager', '#zephyr-section')}>Zephyr</div>
+            <div className="dropdown-item" onClick={handleNavigationWithHash('/token-manager', '#azure-section')}>Azure Devops</div>
           </div>
         </div>
       </nav>
