@@ -1,6 +1,8 @@
 import React from 'react';
 import './header.css';
 import '../styles/global.css';
+import { Link } from 'react-router-dom'; //Esto igual muy importante
+
 
 function Header() {
   return (
@@ -8,9 +10,12 @@ function Header() {
       <nav className="navbar">
         
         {/* Pestaña "Migrate" */}
-        <div className="tab">
-          <span>Migrate</span>
-        </div>
+        <Link to="/migrate">
+          <div className="tab">
+            <span>Migrate</span>
+          </div>
+        </Link>
+        
 
         {/* Pestaña "API Token Management" con subsecciones */}
         <div className="tab">
