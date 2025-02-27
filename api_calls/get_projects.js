@@ -15,6 +15,10 @@ export const getProjects = async (url, email, api_token) => {
         throw new Error("Invalid information, try again...");
     }
 
+    if (response.headers.get('x-seraph-loginreason') === 'AUTHENTICATED_FAILED') {
+        throw new Error("Your token is invalid, try again...");
+    }
+
     const text = await response.text();
 
     if (!text) {
@@ -34,6 +38,6 @@ export const getProjects = async (url, email, api_token) => {
         console.log(`- Name: ${project.name}\n\t  ID: ${project.id}\n\t  Key: ${project.key}`);
     });
 
-    console.log([data.values[0].name, data.values[0].id, data.values[0].key]);
-    return [data.values[0].name, data.values[0].id, data.values[0].key];
+    // console.log([data.values[0].name, data.values[0].id, data.values[0].key]);
+    return [data.values[0].name, data.values[0].id, data.values[0].key]; // return data.values;// 
 }

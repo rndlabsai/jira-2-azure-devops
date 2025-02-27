@@ -1,83 +1,53 @@
-import fs from 'fs';
+import bcrypt from 'bcrypt';
+import pool from './db.js';
+
+const SALT_ROUNDS = 10;
+
 
 const passwordIsValid = (password) => {
-    if (password.length < 8) {
-        return false;
-    }
+    return password.length >= 8 &&
+        /\d/.test(password) &&
+        /[a-zA-Z]/.test(password) &&
+        /[!@#$%^&*(),.?":{}|<>]/.test(password);
+};
 
-    if (!/\d/.test(password)) {
-        return false;
-    }
 
-    if (!/[a-zA-Z]/.test(password)) {
-        return false;
-    }
+const isUsernameUnique = async (username) => {
+    const [rows] = await pool.query('SELECT username FROM user WHERE username = ?', [username]);
+    return rows.length === 0;
+};
 
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-        return false;
-    }
 
-    return true;
-}
-
-const isUsernameUnique = (username) => {
-    const filepath = './credentials.json';
-    let data = {};
-
-    if (fs.existsSync(filepath)) {
-        data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
-    }
-
-    if (!data.credentials) {
-        return true;
-    }
-
-    return !data.credentials.find(credential => credential.username === username);
-}
-
-const saveCredentials = (username, password) => {
-    const filepath = './credentials.json';
-    let data = { credentials: [] };
-
-    if (fs.existsSync(filepath)) {
-        data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
-    }
-
-    if (!data.credentials) {
-        data.credentials = [];
-    }
-
-    data.credentials.push({ username, password, tokens: [] });
-
-    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
-}
-
-export const createAccount = (username, password) => {
-    if (!isUsernameUnique(username)) {
-        throw new Error('Username already exists...');
+export const createAccount = async (username, password) => {
+    if (!await isUsernameUnique(username)) {
+        throw new Error('El nombre de usuario ya existe.');
     }
 
     if (!passwordIsValid(password)) {
-        throw new Error('Password is invalid...');
+        throw new Error('La contraseña debe tener al menos 8 caracteres, incluir letras, números y un carácter especial.');
     }
 
-    saveCredentials(username, password);
-    console.log("Account created successfully...");
-}
+    const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+    await pool.query('INSERT INTO user (username, password) VALUES (?, ?)', [username, passwordHash]);
 
-export const login = (username, password) => {
-    const filepath = './credentials.json';
-    let data = { credentials: [] };
+    console.log("Cuenta creada con éxito.");
+};
 
-    if (fs.existsSync(filepath)) {
-        data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+
+export const login = async (username, password) => {
+    const [rows] = await pool.query('SELECT * FROM user WHERE username = ?', [username]);
+
+    if (rows.length === 0) {
+        throw new Error('Credenciales inválidas.');
     }
 
-    const credential = data.credentials.find(credential => credential.username === username && credential.password === password);
+    const user = rows[0];
+    const isMatch = await bcrypt.compare(password, user.password);
 
-    if (!credential) {
-        throw new Error('Invalid credentials...');
+    if (!isMatch) {
+        throw new Error('Credenciales inválidas.');
     }
 
-    console.log("Loged in successfully...");
-}
+    console.log("Inicio de sesión exitoso.");
+    return user;
+};

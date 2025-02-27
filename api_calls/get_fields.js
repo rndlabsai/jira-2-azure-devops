@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 export const getFields = async (url, email, api_token) => {
-    const response = await fetch(`${url}/rest/api/3/field`, {
+    const response = await fetch(`${url}/rest/api/3/field?expand=description`, {
         method: 'GET',
         headers: {
             'Authorization': `Basic ${Buffer.from(
