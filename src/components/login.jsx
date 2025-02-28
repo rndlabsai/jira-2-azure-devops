@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import "./login.css";
 import loginImage from "../assets/login-image.jpg";
 import {api} from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 
 function Login() {
+  const navigate = useNavigate();
   useEffect(() => {
     document.body.classList.add("login-page");
     return () => {
@@ -18,7 +20,7 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError('');
+    {/*setError('');
 
     try {
       const response = await api.post('/login', { username, password });
@@ -26,7 +28,11 @@ function Login() {
       alert("Inicio de sesión exitoso");
     } catch (err) {
       setError(err.response?.data?.message || "Error en el login");
-    }
+    }*/}
+
+    //Agregue solo esta linea andres, la agregas luego de tus verificaciones
+    navigate("/migrate");
+
   };
 
   return (
