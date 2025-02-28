@@ -1,17 +1,33 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./login.css";
 import loginImage from "../assets/login-image.jpg";
+import {api} from "../../utils/api";
+
 
 function Login() {
   useEffect(() => {
-
     document.body.classList.add("login-page");
-
-    
     return () => {
       document.body.classList.remove("login-page");
     };
   }, []);
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      const response = await api.post('/login', { username, password });
+      console.log("Login exitoso:", response.data);
+      alert("Inicio de sesión exitoso");
+    } catch (err) {
+      setError(err.response?.data?.message || "Error en el login");
+    }
+  };
 
   return (
     <div className="login-container">
@@ -21,12 +37,27 @@ function Login() {
       </div>
       <div className="login-box">
         <h2>Log in</h2>
-        <form>
+        {error && <p className="error-message">{error}</p>}
+        <form onSubmit={handleLogin}>
           <div className="input-group">
-            <input type="text" id="username" placeholder="Enter your email/username" required />
+            <input
+              type="text"
+              id="username"
+              placeholder="Enter your email/username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
           </div>
           <div className="input-group">
-            <input type="password" id="password" placeholder="Enter your password" required />
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
           <button type="submit" className="login-button">Entrar</button>
         </form>
