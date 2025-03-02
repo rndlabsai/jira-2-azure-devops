@@ -89,7 +89,7 @@ export const getMultipleIssues = async (url, email, api_token, project_key, issu
 }
 
 export const getIssues = async (url, email, api_token, project_key) => {
-    const response = await fetch(`${url}/rest/api/3/search/jql?jql=project=${project_key}&fields=*all`, {
+    const response = await fetch(`${url}/rest/api/3/search/jql?jql=project=${project_key}&fields=summary,description,assignee,author,creator,reporter`, {
         method: 'GET',
         headers: {
             'Authorization': `Basic ${Buffer.from(
@@ -115,4 +115,5 @@ export const getIssues = async (url, email, api_token, project_key) => {
     data.issues.forEach(issue => {
         console.log(issue.fields);
     });
+    return data.issues;
 }
