@@ -15,13 +15,13 @@ const API_TOKEN = process.env.API_TOKEN;
 
 const [p_name, p_id, p_key] = await getProjects(URL, EMAIL, API_TOKEN);
 
-// const workflows = await getWorkflows(URL, EMAIL, API_TOKEN);
+const workflows = await getWorkflows(URL, EMAIL, API_TOKEN);
 
 //console.log(`p_name is ${p_name}, p_id is ${p_id}, p_key is ${p_key}`);
 
-// const customFields = await getCustomFields(URL, EMAIL, API_TOKEN);
-// const issues = await getIssues(URL, EMAIL, API_TOKEN, p_key);
-const screens = await getScreens(URL, EMAIL, API_TOKEN);
+const customFields = await getCustomFields(URL, EMAIL, API_TOKEN);
+const issues = await getIssues(URL, EMAIL, API_TOKEN, p_key);
+// const screens = await getScreens(URL, EMAIL, API_TOKEN);
 
 // await getEpics(URL, EMAIL, API_TOKEN, p_key);
 //await getTasks(URL, EMAIL, API_TOKEN, p_key);
@@ -31,21 +31,46 @@ const screens = await getScreens(URL, EMAIL, API_TOKEN);
 // await getMultipleIssues(URL, EMAIL, API_TOKEN, p_key, ["Story", "Bug"]);
 
 // const filepath = './data.json';
-// const filepath = './issues.json';
-// const filepath = '../json/workflows.json';
-// const filepath = '../json/custom_fields.json';
-// const filepath = '../json/issues.json';
-const filepath = '../json/screens.json';
-let data = {};
+const workflows_filepath = '../json/workflows.json';
+const custom_fields_filepath = '../json/custom_fields.json';
+const issues_filepath = '../json/issues.json';
+// const filepath = '../json/screens.json';
+let wf = {};
+let cff = {};
+let isf = {};
 
-if (fs.existsSync(filepath)) {
-    data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+if (fs.existsSync(workflows_filepath)) {
+    wf = JSON.parse(fs.readFileSync(workflows_filepath, 'utf8'));
 }
 
-if (!data.screens) {
-    data.screens = [];
+if (!wf.workflows) {
+    wf.workflows = [];
 }
 
-data.screens = screens;
+wf.workflows = workflows;
 
-fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
+fs.writeFileSync(workflows_filepath, JSON.stringify(wf, null, 2), 'utf8');
+
+if (fs.existsSync(custom_fields_filepath)) {
+    cff = JSON.parse(fs.readFileSync(custom_fields_filepath, 'utf8'));
+}
+
+if (!cff.customFields) {
+    cff.customFields = [];
+}
+
+cff.customFields = customFields;
+
+fs.writeFileSync(custom_fields_filepath, JSON.stringify(cff, null, 2), 'utf8');
+
+if (fs.existsSync(issues_filepath)) {
+    isf = JSON.parse(fs.readFileSync(issues_filepath, 'utf8'));
+}
+
+if (!isf.issues) {
+    isf.issues = [];
+}
+
+isf.issues = issues;
+
+fs.writeFileSync(issues_filepath, JSON.stringify(isf, null, 2), 'utf8');
