@@ -1,23 +1,19 @@
-import fetch from 'node-fetch'
+import { getHttpRequest } from '../utils/utils.js';
 
 const retrieveWorkflows = async (url, email, api_token) => {
     let startAt = 0;
     let isLast = false;
     let values = [];
     do {
-        const response = await fetch(`${url}/rest/api/3/workflow/search?expand=transitions,statuses&startAt=${startAt}`, {
-            method: 'GET',
-            headers: {
+        const response = await getHttpRequest(
+            `${url}/rest/api/3/workflow/search?expand=transitions,statuses&startAt=${startAt}`,
+            {
                 'Authorization': `Basic ${Buffer.from(
                     `${email}:${api_token}`
                 ).toString('base64')}`,
                 'Accept': 'application/json'
             }
-        });
-
-        if (!response.ok) {
-            throw new Error("Invalid information, try again...");
-        }
+        );
 
         const data = await response.json();
 

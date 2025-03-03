@@ -1,19 +1,15 @@
-import fetch from 'node-fetch';
+import { getHttpRequest } from '../utils/utils.js';
 
 export const getProjects = async (url, email, api_token) => {
-    const response = await fetch(`${url}/rest/api/3/project/search`, {
-        method: 'GET',
-        headers: {
+    const response = await getHttpRequest(
+        `${url}/rest/api/3/project/search`,
+        {
             'Authorization': `Basic ${Buffer.from(
                 `${email}:${api_token}`
             ).toString('base64')}`,
             'Accept': 'application/json'
         }
-    });
-
-    if (!response.ok) {
-        throw new Error("Invalid information, try again...");
-    }
+    );
 
     if (response.headers.get('x-seraph-loginreason') === 'AUTHENTICATED_FAILED') {
         throw new Error("Your token is invalid, try again...", { cause: 'invalid_token' });

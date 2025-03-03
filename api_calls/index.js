@@ -13,17 +13,17 @@ const URL = process.env.URL;
 const EMAIL = process.env.EMAIL;
 const API_TOKEN = process.env.API_TOKEN;
 
-// const [p_name, p_id, p_key] = await getProjects(URL, EMAIL, API_TOKEN);
+const [p_name, p_id, p_key] = await getProjects(URL, EMAIL, API_TOKEN);
 
-const workflows = await getWorkflows(URL, EMAIL, API_TOKEN);
+// const workflows = await getWorkflows(URL, EMAIL, API_TOKEN);
 
 //console.log(`p_name is ${p_name}, p_id is ${p_id}, p_key is ${p_key}`);
 
 // const customFields = await getCustomFields(URL, EMAIL, API_TOKEN);
 // const issues = await getIssues(URL, EMAIL, API_TOKEN, p_key);
-// await getScreens(URL, EMAIL, API_TOKEN);
+const screens = await getScreens(URL, EMAIL, API_TOKEN);
 
-//await getEpics(URL, EMAIL, API_TOKEN, p_key);
+// await getEpics(URL, EMAIL, API_TOKEN, p_key);
 //await getTasks(URL, EMAIL, API_TOKEN, p_key);
 //await getStories(URL, EMAIL, API_TOKEN, p_key);
 //await getBugs(URL, EMAIL, API_TOKEN, p_key);
@@ -32,20 +32,20 @@ const workflows = await getWorkflows(URL, EMAIL, API_TOKEN);
 
 // const filepath = './data.json';
 // const filepath = './issues.json';
-const filepath = '../json/workflows.json';
+// const filepath = '../json/workflows.json';
 // const filepath = '../json/custom_fields.json';
+// const filepath = '../json/issues.json';
+const filepath = '../json/screens.json';
 let data = {};
 
 if (fs.existsSync(filepath)) {
     data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
 }
 
-if (!data.workflows) {
-    data.workflows = [];
+if (!data.screens) {
+    data.screens = [];
 }
 
-// data.projects.push({ id: p_id, name: p_name, key: p_key, extra_data: { issues: [], fields: [], screens: [] } });
-
-data.workflows = workflows;
+data.screens = screens;
 
 fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
