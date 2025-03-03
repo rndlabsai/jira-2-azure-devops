@@ -22,31 +22,28 @@ const getSpecificIssue = async (url, email, api_token, project_key, issue_type) 
     }
 
     const data = JSON.parse(text);
-    console.log(data);
 
-    data.issues.forEach(issue => {
-        console.log(issue.fields);
-    });
+    return data.issues;
 }
 
 export const getEpics = async (url, email, api_token, project_key) => {
-    getSpecificIssue(url, email, api_token, project_key, "Epic");
+    return getSpecificIssue(url, email, api_token, project_key, "Epic");
 }
 
 export const getStories = async (url, email, api_token, project_key) => {
-    getSpecificIssue(url, email, api_token, project_key, "Story");
+    return getSpecificIssue(url, email, api_token, project_key, "Story");
 }
 
 export const getTasks = async (url, email, api_token, project_key) => {
-    getSpecificIssue(url, email, api_token, project_key, "Task");
+    return getSpecificIssue(url, email, api_token, project_key, "Task");
 }
 
 export const getBugs = async (url, email, api_token, project_key) => {
-    getSpecificIssue(url, email, api_token, project_key, "Bug");
+    return getSpecificIssue(url, email, api_token, project_key, "Bug");
 }
 
 export const getSubTasks = async (url, email, api_token, project_key) => {
-    getSpecificIssue(url, email, api_token, project_key, "Sub-task");
+    return getSpecificIssue(url, email, api_token, project_key, "Sub-task");
 }
 
 export const getMultipleIssues = async (url, email, api_token, project_key, issue_types) => {
@@ -81,11 +78,8 @@ export const getMultipleIssues = async (url, email, api_token, project_key, issu
     }
 
     const data = JSON.parse(text);
-    console.log(data);
 
-    data.issues.forEach(issue => {
-        console.log(issue.fields);
-    });
+    return data.issues;
 }
 
 export const getIssues = async (url, email, api_token, project_key) => {
@@ -110,10 +104,6 @@ export const getIssues = async (url, email, api_token, project_key) => {
     }
 
     const data = JSON.parse(text);
-    console.log(data);
 
-    data.issues.forEach(issue => {
-        console.log(issue.fields);
-    });
     return data.issues;
 }

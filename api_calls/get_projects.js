@@ -16,16 +16,10 @@ export const getProjects = async (url, email, api_token) => {
     }
 
     if (response.headers.get('x-seraph-loginreason') === 'AUTHENTICATED_FAILED') {
-        throw new Error("Your token is invalid, try again...");
+        throw new Error("Your token is invalid, try again...", { cause: 'invalid_token' });
     }
 
-    const text = await response.text();
-
-    if (!text) {
-        throw new Error("No data was received...");
-    }
-
-    const data = JSON.parse(text);
+    const data = await response.json();
     console.log(data);
 
     if (data.total === 0) {
