@@ -18,14 +18,6 @@ export const retrieveAndWriteProjects = async (url, email, api_token) => {
 
     const projects = await getProjects(URL, EMAIL, API_TOKEN);
 
-    /*if (fs.existsSync(filepath)) {
-        pf = JSON.parse(fs.readFileSync(filepath, 'utf8'));
-    }
-
-    if (!pf.projects) {
-        pf.projects = [];
-    }*/
-
     const data = {
         projects
     }
