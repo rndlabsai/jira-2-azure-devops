@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import "./login.css";
 import loginImage from "../assets/login-image.jpg";
-import {api} from "../../utils/api";
 import { useNavigate } from "react-router-dom";
-
 
 function Login() {
   const navigate = useNavigate();
@@ -14,13 +12,15 @@ function Login() {
     };
   }, []);
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  // const [error, setError] = useState("");
+  const error = "";
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    {/*setError('');
+    {
+      /*setError('');
 
     try {
       const response = await api.post('/login', { username, password });
@@ -28,17 +28,21 @@ function Login() {
       alert("Inicio de sesión exitoso");
     } catch (err) {
       setError(err.response?.data?.message || "Error en el login");
-    }*/}
+    }*/
+    }
 
     //Agregue solo esta linea andres, la agregas luego de tus verificaciones
     navigate("/migrate");
-
   };
 
   return (
     <div className="login-container">
       <div className="login-header">
-        <img src={loginImage} alt="UPB Migration Tool" className="login-image" />
+        <img
+          src={loginImage}
+          alt="UPB Migration Tool"
+          className="login-image"
+        />
         <h1>UPB Migration Tool</h1>
       </div>
       <div className="login-box">
@@ -65,7 +69,9 @@ function Login() {
               required
             />
           </div>
-          <button type="submit" className="login-button">Entrar</button>
+          <button type="submit" className="login-button">
+            Entrar
+          </button>
         </form>
       </div>
     </div>

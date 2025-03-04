@@ -1,51 +1,58 @@
-import React, { useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./jira-section.css";
 import "../styles/global.css";
 import { postJiraTokens } from "../../utils/api.js";
 
 function JiraSection() {
   const [hasData, setHasData] = useState(false);
+  const apiTokenRef = useRef(null);
+  const emailRef = useRef(null);
+  const urlRef = useRef(null);
 
-  useEffect(async () => {
-    if (!hasData) {
-      return;
+  useEffect(() => {
+    async function saveTokens() {
+      if (!hasData) {
+        return;
+      }
+
+      const api_token = apiTokenRef.current.value;
+
+      if (api_token === "") {
+        alert("API Token is required");
+        setHasData(false);
+        return;
+      }
+
+      const email = emailRef.current.value;
+
+      if (email === "") {
+        alert("Email is required");
+        setHasData(false);
+        return;
+      }
+
+      const url = urlRef.current.value;
+
+      if (url === "") {
+        alert("URL is required");
+        setHasData(false);
+        return;
+      }
+
+      const response = await postJiraTokens(api_token, email, url);
+      if (response === false) {
+        alert("Your API TOKEN seems to be invalid or have expired...");
+        setHasData(false);
+        return;
+      }
+
+      if (response === true) {
+        alert("Your Jira information has been saved successfully!");
+        return;
+      }
     }
 
-    const api_token = Document.getElementById("api-token").value;
-
-    if (api_token === "") {
-      alert("API Token is required");
-      setHasData(false);
-      return;
-    }
-
-    const email = Document.getElementById("email").value;
-
-    if (email === "") {
-      alert("Email is required");
-      setHasData(false);
-      return;
-    }
-
-    const url = Document.getElementById("url").value;
-
-    if (url === "") {
-      alert("URL is required");
-      setHasData(false);
-      return;
-    }
-
-    const response = await postJiraTokens(api_token, email, url);
-    if (response === false) {
-      alert("Your API TOKEN seems to be invalid or have expired...");
-      setHasData(false);
-      return;
-    }
-
-    if (response === true) {
-      alert("Your Jira information has been saved successfully!");
-      return;
-    }
+    saveTokens();
   }, [hasData]);
 
   return (
@@ -54,9 +61,9 @@ function JiraSection() {
       <div className="input-group">
         <label htmlFor="api-token">API Token:</label>
         <input
-          type="text"
           id="api-token"
           placeholder="Enter your Jira API token"
+          ref={apiTokenRef}
         />
 
         <label htmlFor="email">Email:</label>
@@ -64,6 +71,7 @@ function JiraSection() {
           type="email"
           id="email"
           placeholder="Enter the email you use in Jira"
+          ref={emailRef}
         />
 
         <label htmlFor="url">URL:</label>
@@ -71,9 +79,10 @@ function JiraSection() {
           type="url"
           id="url"
           placeholder="Enter the url of your Jira instance"
+          ref={urlRef}
         />
       </div>
-      <button className="save-button" onClick={setHasData(true)}>
+      <button className="save-button" onClick={() => setHasData(true)}>
         Save Jira Token
       </button>
     </div>
