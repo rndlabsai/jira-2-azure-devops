@@ -4,7 +4,9 @@ const API_URL = "http://localhost:4000/api";
 
 const api = axios.create({
     baseURL: API_URL,
-    headers: { "Content-Type": "application/json" }
+    headers: {
+        "Content-Type": "application/json"
+    }
 });
 
 const postRequest = async (path, body) => {
@@ -24,6 +26,7 @@ export const postJiraTokens = async (api_token, email, url) => {
         url
     });
 
+    console.dir(response, { depth: null });
     if (response.status === 401 && response.data.body.message === "AUTHENTICATED_FAILED") {
         return false;
     }
@@ -32,7 +35,7 @@ export const postJiraTokens = async (api_token, email, url) => {
         return true;
     }
     else {
-        return response.data;
+        return response.data.body.message;
     }
 }
 

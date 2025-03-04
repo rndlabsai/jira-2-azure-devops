@@ -40,14 +40,16 @@ function JiraSection() {
       }
 
       const response = await postJiraTokens(api_token, email, url);
-      if (response === false) {
+      if (response === true) {
+        alert("Your Jira information has been saved successfully!");
+        return;
+      } else if (response === false) {
         alert("Your API TOKEN seems to be invalid or have expired...");
         setHasData(false);
         return;
-      }
-
-      if (response === true) {
-        alert("Your Jira information has been saved successfully!");
+      } else {
+        alert(response);
+        setHasData(false);
         return;
       }
     }
