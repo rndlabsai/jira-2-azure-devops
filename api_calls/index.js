@@ -16,7 +16,7 @@ const API_TOKEN = process.env.API_TOKEN;
 export const retrieveAndWriteProjects = async (url, email, api_token) => {
     const filepath = '../json/projects.json';
 
-    const projects = await getProjects(URL, EMAIL, API_TOKEN);
+    const projects = await getProjects(url, email, api_token);
 
     const data = {
         projects
@@ -28,7 +28,7 @@ export const retrieveAndWriteProjects = async (url, email, api_token) => {
 export const retrieveAndWriteCustomFields = async (url, email, api_token) => {
     const filepath = '../json/custom_fields.json';
 
-    const customFields = await getCustomFields(URL, EMAIL, API_TOKEN);
+    const customFields = await getCustomFields(url, email, api_token);
 
     /*if (fs.existsSync(filepath)) {
         data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
@@ -48,7 +48,7 @@ export const retrieveAndWriteCustomFields = async (url, email, api_token) => {
 export const retrieveAndWriteWorkflows = async (url, email, api_token) => {
     const filepath = '../json/workflows.json';
 
-    const workflows = await getWorkflows(URL, EMAIL, API_TOKEN);
+    const workflows = await getWorkflows(url, email, api_token);
 
     /*if (fs.existsSync(filepath)) {
         data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
@@ -68,7 +68,7 @@ export const retrieveAndWriteWorkflows = async (url, email, api_token) => {
 export const retrieveAndWriteScreens = async (url, email, api_token) => {
     const filepath = '../json/screens.json';
 
-    const screens = await getScreens(URL, EMAIL, API_TOKEN);
+    const screens = await getScreens(url, email, api_token);
 
     /*if (fs.existsSync(filepath)) {
         data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
