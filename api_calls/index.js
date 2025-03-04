@@ -13,79 +13,129 @@ const URL = process.env.URL;
 const EMAIL = process.env.EMAIL;
 const API_TOKEN = process.env.API_TOKEN;
 
-const projects = await getProjects(URL, EMAIL, API_TOKEN);
-/*
-const workflows = await getWorkflows(URL, EMAIL, API_TOKEN);
+export const retrieveAndWriteProjects = async (url, email, api_token) => {
+    const filepath = '../json/projects.json';
 
-//console.log(`p_name is ${p_name}, p_id is ${p_id}, p_key is ${p_key}`);
+    const projects = await getProjects(URL, EMAIL, API_TOKEN);
 
-const customFields = await getCustomFields(URL, EMAIL, API_TOKEN);
-const issues = await getIssues(URL, EMAIL, API_TOKEN, p_key);
-// const screens = await getScreens(URL, EMAIL, API_TOKEN);
+    /*if (fs.existsSync(filepath)) {
+        pf = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+    }
 
-// await getEpics(URL, EMAIL, API_TOKEN, p_key);
-//await getTasks(URL, EMAIL, API_TOKEN, p_key);
-//await getStories(URL, EMAIL, API_TOKEN, p_key);
-//await getBugs(URL, EMAIL, API_TOKEN, p_key);
-//await getSubTasks(URL, EMAIL, API_TOKEN, p_key);
-// await getMultipleIssues(URL, EMAIL, API_TOKEN, p_key, ["Story", "Bug"]);
-*/
-// const filepath = './data.json';
-// const workflows_filepath = '../json/workflows.json';
-// const custom_fields_filepath = '../json/custom_fields.json';
-// const issues_filepath = '../json/issues.json';
-// const screens_filepath = '../json/screens.json';
-const projects_filepath = '../json/projects.json';
-let wf = {};
-let cff = {};
-let isf = {};
-let pf = {};
-/*
-if (fs.existsSync(workflows_filepath)) {
-    wf = JSON.parse(fs.readFileSync(workflows_filepath, 'utf8'));
+    if (!pf.projects) {
+        pf.projects = [];
+    }*/
+
+    const data = {
+        projects
+    }
+
+    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
 }
 
-if (!wf.workflows) {
-    wf.workflows = [];
+export const retrieveAndWriteCustomFields = async (url, email, api_token) => {
+    const filepath = '../json/custom_fields.json';
+
+    const customFields = await getCustomFields(URL, EMAIL, API_TOKEN);
+
+    /*if (fs.existsSync(filepath)) {
+        data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+    }
+
+    if (!data.customFields) {
+        data.customFields = [];
+    }*/
+
+    const data = {
+        customFields
+    }
+
+    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
 }
 
-wf.workflows = workflows;
+export const retrieveAndWriteWorkflows = async (url, email, api_token) => {
+    const filepath = '../json/workflows.json';
 
-fs.writeFileSync(workflows_filepath, JSON.stringify(wf, null, 2), 'utf8');
+    const workflows = await getWorkflows(URL, EMAIL, API_TOKEN);
 
-if (fs.existsSync(custom_fields_filepath)) {
-    cff = JSON.parse(fs.readFileSync(custom_fields_filepath, 'utf8'));
+    /*if (fs.existsSync(filepath)) {
+        data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+    }
+
+    if (!data.workflows) {
+        data.workflows = [];
+    }*/
+
+    const data = {
+        workflows
+    }
+
+    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
 }
 
-if (!cff.customFields) {
-    cff.customFields = [];
+export const retrieveAndWriteScreens = async (url, email, api_token) => {
+    const filepath = '../json/screens.json';
+
+    const screens = await getScreens(URL, EMAIL, API_TOKEN);
+
+    /*if (fs.existsSync(filepath)) {
+        data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+    }
+
+    if (!data.screens) {
+        data.screens = [];
+    }*/
+
+    const data = {
+        screens
+    }
+
+    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
 }
 
-cff.customFields = customFields;
+export const retrieveAndWriteIssues = async (url, email, api_token, project_key, search_type = "All", search_obj = null) => {
+    const filepath = '../json/issues.json';
 
-fs.writeFileSync(custom_fields_filepath, JSON.stringify(cff, null, 2), 'utf8');
+    let issues = [];
 
-if (fs.existsSync(issues_filepath)) {
-    isf = JSON.parse(fs.readFileSync(issues_filepath, 'utf8'));
+    if (search_type === "All") {
+        issues = await getIssues(url, email, api_token, project_key);
+    }
+    else if (search_type === "Multiple") {
+        if (search_obj === null || search_obj.length === 0) {
+            throw new Error("You need to provide a list of issues to search for...", { cause: 'invalid_search' });
+        }
+
+        issues = await getMultipleIssues(url, email, api_token, project_key, search_obj);
+    }
+    else if (search_type === "Specific") {
+        switch (search_obj) {
+            case "Epic":
+                issues = await getEpics(url, email, api_token, project_key);
+                break;
+            case "Story":
+                issues = await getStories(url, email, api_token, project_key);
+                break;
+            case "Task":
+                issues = await getTasks(url, email, api_token, project_key);
+                break;
+            case "Bug":
+                issues = await getBugs(url, email, api_token, project_key);
+                break;
+            case "SubTask":
+                issues = await getSubTasks(url, email, api_token, project_key);
+                break;
+            default:
+                throw new Error("Invalid search object...", { cause: 'invalid_search' });
+        }
+    }
+    else {
+        throw new Error("Invalid search type...\n\nValid search types are:\n\t- All\n\t- Multiple\n\t- Specific", { cause: 'invalid_search' });
+    }
+
+    const data = {
+        issues
+    }
+
+    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
 }
-
-if (!isf.issues) {
-    isf.issues = [];
-}
-
-isf.issues = issues;
-
-fs.writeFileSync(issues_filepath, JSON.stringify(isf, null, 2), 'utf8');
-*/
-if (fs.existsSync(projects_filepath)) {
-    pf = JSON.parse(fs.readFileSync(projects_filepath, 'utf8'));
-}
-
-if (!pf.projects) {
-    pf.projects = [];
-}
-
-pf.projects = projects;
-
-fs.writeFileSync(projects_filepath, JSON.stringify(pf, null, 2), 'utf8');
-
