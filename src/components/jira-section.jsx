@@ -59,39 +59,42 @@ function JiraSection() {
 
   return (
     <div className="jira-section">
-      <h2>Jira</h2>
-      <div className="input-group">
-        <label htmlFor="api-token">API Token:</label>
-        <input
-          id="api-token"
-          placeholder="Enter your Jira API token"
-          required
-          minLength={192}
-          ref={apiTokenRef}
-        />
+  <h2>Jira</h2>
+  <form onSubmit={() => setHasData(true)}>
+    <div className="input-group">
+      <label htmlFor="api-token">API Token:</label>
+      <input
+        id="api-token"
+        placeholder="Enter your Jira API token"
+        required
+        minLength={192}
+        ref={apiTokenRef}
+      />
 
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter the email you use in Jira"
-          required
-          ref={emailRef}
-        />
+      <label htmlFor="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter the email you use in Jira"
+        required
+        ref={emailRef}
+      />
 
-        <label htmlFor="url">URL:</label>
-        <input
-          type="url"
-          id="url"
-          placeholder="Enter the url of your Jira instance"
-          required
-          ref={urlRef}
-        />
-      </div>
-      <button className="save-button" onClick={() => setHasData(true)}>
-        Save Jira Token
-      </button>
+      <label htmlFor="url">URL:</label>
+      <input
+        type="url"
+        id="url"
+        placeholder="Enter the url of your Jira instance"
+        required
+        ref={urlRef}
+      />
     </div>
+    <button className="save-button" type="submit"> 
+      Save Jira Token
+    </button>
+  </form>
+</div>
+
   );
 }
 
