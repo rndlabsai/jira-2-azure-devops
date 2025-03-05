@@ -20,19 +20,21 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    {setError('');
-
+    setError('');
+  
     try {
       const response = await api.post('/login', { username, password });
       console.log("Login exitoso:", response.data);
       alert("Inicio de sesión exitoso");
+  
+      // Store username in localStorage
+      localStorage.setItem('username', username);
+  
+      // Navigate to the migrate page
+      navigate("/migrate");
     } catch (err) {
       setError(err.response?.data?.message || "Error en el login");
-    }}
-
-    //Agregue solo esta linea andres, la agregas luego de tus verificaciones
-    navigate("/migrate");
-
+    }
   };
 
   return (
