@@ -5,17 +5,8 @@ import { getScreens } from './get_screens.js';
 import { getWorkflows } from './get_workflows.js';
 
 import fs from 'fs';
-import { configDotenv } from 'dotenv';
 
-configDotenv({ path: "../.env" });
-
-const URL = process.env.URL;
-const EMAIL = process.env.EMAIL;
-const API_TOKEN = process.env.API_TOKEN;
-
-export const retrieveAndWriteProjects = async (url, email, api_token) => {
-    const filepath = '../json/projects.json';
-
+export const retrieveAndWriteProjects = async (url, email, api_token, filepath) => {
     const projects = await getProjects(url, email, api_token);
 
     const data = {
@@ -25,9 +16,7 @@ export const retrieveAndWriteProjects = async (url, email, api_token) => {
     fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
 }
 
-export const retrieveAndWriteCustomFields = async (url, email, api_token) => {
-    const filepath = '../json/custom_fields.json';
-
+export const retrieveAndWriteCustomFields = async (url, email, api_token, filepath) => {
     const customFields = await getCustomFields(url, email, api_token);
 
     /*if (fs.existsSync(filepath)) {
@@ -45,9 +34,7 @@ export const retrieveAndWriteCustomFields = async (url, email, api_token) => {
     fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
 }
 
-export const retrieveAndWriteWorkflows = async (url, email, api_token) => {
-    const filepath = '../json/workflows.json';
-
+export const retrieveAndWriteWorkflows = async (url, email, api_token, filepath) => {
     const workflows = await getWorkflows(url, email, api_token);
 
     /*if (fs.existsSync(filepath)) {
@@ -65,9 +52,7 @@ export const retrieveAndWriteWorkflows = async (url, email, api_token) => {
     fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
 }
 
-export const retrieveAndWriteScreens = async (url, email, api_token) => {
-    const filepath = '../json/screens.json';
-
+export const retrieveAndWriteScreens = async (url, email, api_token, filepath) => {
     const screens = await getScreens(url, email, api_token);
 
     /*if (fs.existsSync(filepath)) {
@@ -85,9 +70,7 @@ export const retrieveAndWriteScreens = async (url, email, api_token) => {
     fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
 }
 
-export const retrieveAndWriteIssues = async (url, email, api_token, project_key, search_type = "All", search_obj = null) => {
-    const filepath = '../json/issues.json';
-
+export const retrieveAndWriteIssues = async (url, email, api_token, project_key, filepath, search_type = "All", search_obj = null) => {
     let issues = [];
 
     if (search_type === "All") {

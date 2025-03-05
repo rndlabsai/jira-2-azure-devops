@@ -14,14 +14,12 @@ app.use(function (_, res, next) {
 
 app.post('/api/jira/tokens', bodyParser.json(), async (req, res) => {
     const { api_token, email, url } = req.body;
-    console.log(req.body);
     // Here you can save the tokens in a file or database
 
     try {
-        await retrieveAndWriteProjects(url, email, api_token);
+        await retrieveAndWriteProjects(url, email, api_token, "./json/projects.json");
     }
     catch (e) {
-        console.log(`The error is ${e}`);
         if (e.cause && e.cause === 'invalid_token') {
             res.status(401).send({ message: "AUTHENTICATED_FAILED" });
             return;
