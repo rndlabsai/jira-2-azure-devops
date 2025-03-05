@@ -1,26 +1,30 @@
-import fetch from 'node-fetch';
+import { getHttpRequest } from '../utils/utils.js';
 
 export const getScreens = async (url, email, api_token) => {
-    const response = await fetch(`${url}/rest/api/3/screens?scope=PROJECT`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Basic ${Buffer.from(
-                `${email}:${api_token}`
-            ).toString('base64')}`,
-            'Accept': 'application/json'
+    let startAt = 0;
+    let isLast = false;
+    let values = [];
+    do {
+        const response = await getHttpRequest(
+            `${url}/rest/api/3/screens?scope=PROJECT`,
+            {
+                'Authorization': `Basic ${Buffer.from(
+                    `${email}:${api_token}`
+                ).toString('base64')}`,
+                'Accept': 'application/json'
+            }
+        );
+
+        const data = await response.json();
+
+        isLast = data.isLast;
+        if (!isLast) {
+            startAt += data.maxResults;
         }
-    });
-
-    if (!response.ok) {
-        throw new Error("Invalid information, try again...");
+        values = values.concat(data.values);
     }
+    while (!isLast);
 
-    const text = await response.text();
-
-    if (!text) {
-        throw new Error("No data was received...");
-    }
-
-    const data = JSON.parse(text);
-    console.log(data);
+    console.log(values);
+    return values;
 }
