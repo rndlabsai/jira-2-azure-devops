@@ -26,8 +26,7 @@ export const postJiraTokens = async (api_token, email, url) => {
         url
     });
 
-    console.dir(response, { depth: null });
-    if (response.status === 401 && response.data.body.message === "AUTHENTICATED_FAILED") {
+    if (response.status === 401 && response.data.message === "AUTHENTICATED_FAILED") {
         return false;
     }
 
