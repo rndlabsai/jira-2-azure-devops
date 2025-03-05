@@ -9,14 +9,15 @@ function JiraSection() {
   const [email, setEmail] = useState('');
   const [url, setUrl] = useState('');
 
-  const username = localStorage.getItem('username'); // Obtener username después del login
+  
 
   const handleSaveToken = async () => {
+    const username = localStorage.getItem('username');
     if (!apiToken || !username) {
       alert("Falta ingresar el API Token o el usuario no ha iniciado sesión.");
       return;
     }
-
+  
     try {
       const response = await axios.post('http://localhost:4000/api/save-token', {
         username,
@@ -24,7 +25,7 @@ function JiraSection() {
         email: email || null, // Enviar null si email no está definido
         url: url || null, // Enviar null si url no está definido
       });
-
+  
       if (response.data.success) {
         alert("Token guardado exitosamente!");
       } else {
@@ -32,7 +33,7 @@ function JiraSection() {
       }
     } catch (error) {
       console.error("Error al guardar el token:", error);
-      alert("No se pudo guardar el token");
+      alert("No se pudo guardar el token: " + (error.response?.data?.message || error.message));
     }
   };
 
@@ -46,7 +47,7 @@ function JiraSection() {
           id="api-token"
           placeholder="Enter your Jira API token"
           value={apiToken}
-          onChange={(e) => setApiToken(e.target.value)} // Almacena el valor en el estado
+          onChange={(e) => setApiToken(e.target.value)}
         />
 
         <label htmlFor="email">Email:</label>
@@ -55,7 +56,7 @@ function JiraSection() {
           id="email"
           placeholder="Enter the email you use in Jira"
           value={email}
-          onChange={(e) => setEmail(e.target.value)} // Almacena el valor en el estado
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <label htmlFor="url">URL:</label>
@@ -64,10 +65,9 @@ function JiraSection() {
           id="url"
           placeholder="Enter the URL of your Jira instance"
           value={url}
-          onChange={(e) => setUrl(e.target.value)} // Almacena el valor en el estado
+          onChange={(e) => setUrl(e.target.value)}
         />
       </div>
-
       <button className="save-button" onClick={handleSaveToken}>
         Save Jira Token
       </button>
