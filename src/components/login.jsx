@@ -20,7 +20,7 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    {/*setError('');
+    {setError('');
 
     try {
       const response = await api.post('/login', { username, password });
@@ -28,7 +28,7 @@ function Login() {
       alert("Inicio de sesión exitoso");
     } catch (err) {
       setError(err.response?.data?.message || "Error en el login");
-    }*/}
+    }}
 
     //Agregue solo esta linea andres, la agregas luego de tus verificaciones
     navigate("/migrate");
