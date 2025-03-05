@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { loginUser, registerUser } from './userService.js';
+import pool from './db.js';
 
 const app = express();
 app.use(express.json()); // Para manejar JSON en requests
@@ -47,14 +48,14 @@ app.post('/api/save-token', async (req, res) => {
 
         // Insertar el token en la tabla `token`
         const [tokenResult] = await pool.query(
-            'INSERT INTO token (number,app, email, url) VALUES (?, ?, ?, ?)',
-            [token,'Jira', email, url]
+            'INSERT INTO token (Number, Application, email, url) VALUES (?, ?, ?, ?)',
+            [token, 'Jira', email, url]
         );
 
-        const tokenNumber = tokenResult.insertId; // ID del token recién insertado
+        const tokenId = tokenResult.insertId; // ID del token recién insertado
 
-        // Registrar la relación en `tokenReg`
-        await pool.query('INSERT INTO tokenReg (userName, number) VALUES (?, ?)', [username, tokenNumber]);
+        // Registrar la relación en `tokenreg`
+        await pool.query('INSERT INTO tokenreg (username,id) VALUES (?, ?)', [username, tokenId]);
 
         res.json({ success: true, message: 'Token guardado con éxito' });
     } catch (error) {
@@ -62,6 +63,8 @@ app.post('/api/save-token', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
+console.log('Pool initialized:', pool);
 
 // Iniciar servidor
 const PORT = process.env.PORT || 4000;
