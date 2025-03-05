@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import "./login.css";
 import loginImage from "../assets/login-image.jpg";
-import {api} from "../../utils/api";
 import { useNavigate } from "react-router-dom";
-
 
 function Login() {
   const navigate = useNavigate();
@@ -14,9 +12,10 @@ function Login() {
     };
   }, []);
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  // const [error, setError] = useState("");
+  const error = "";
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -40,7 +39,11 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-header">
-        <img src={loginImage} alt="UPB Migration Tool" className="login-image" />
+        <img
+          src={loginImage}
+          alt="UPB Migration Tool"
+          className="login-image"
+        />
         <h1>UPB Migration Tool</h1>
       </div>
       <div className="login-box">
@@ -67,7 +70,9 @@ function Login() {
               required
             />
           </div>
-          <button type="submit" className="login-button">Entrar</button>
+          <button type="submit" className="login-button">
+            Entrar
+          </button>
         </form>
       </div>
     </div>

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState, useRef, useEffect }, { useState } from "react";
 import axios from 'axios';
-import './jira-section.css';
-import '../styles/global.css';
+import "./jira-section.css";
+import "../styles/global.css";
+import { postJiraTokens } from "../../utils/api.js";
 
 function JiraSection() {
   // Estados para almacenar los valores ingresados
@@ -43,12 +44,12 @@ function JiraSection() {
       <div className="input-group">
         <label htmlFor="api-token">API Token:</label>
         <input
-          type="text"
           id="api-token"
           placeholder="Enter your Jira API token"
           value={apiToken}
           onChange={(e) => setApiToken(e.target.value)}
         />
+
 
         <label htmlFor="email">Email:</label>
         <input
