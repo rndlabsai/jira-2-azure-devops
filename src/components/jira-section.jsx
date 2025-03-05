@@ -65,6 +65,8 @@ function JiraSection() {
         <input
           id="api-token"
           placeholder="Enter your Jira API token"
+          required
+          minLength={192}
           ref={apiTokenRef}
         />
 
@@ -73,6 +75,7 @@ function JiraSection() {
           type="email"
           id="email"
           placeholder="Enter the email you use in Jira"
+          required
           ref={emailRef}
         />
 
@@ -81,6 +84,7 @@ function JiraSection() {
           type="url"
           id="url"
           placeholder="Enter the url of your Jira instance"
+          required
           ref={urlRef}
         />
       </div>
