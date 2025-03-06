@@ -22,6 +22,13 @@ function Login() {
       // Store username in localStorage
       localStorage.setItem("username", username);
 
+       // Fetch tokens after successful login
+       const tokensResponse = await api.get(`/tokens?username=${username}`);
+       if (tokensResponse.data) {
+         // Store tokens in localStorage or state as needed
+         localStorage.setItem("tokens", JSON.stringify(tokensResponse.data));
+       }
+
       // Navigate to the migrate page
       navigate("/migrate");
     } catch (err) {
