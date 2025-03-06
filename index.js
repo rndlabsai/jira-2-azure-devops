@@ -64,6 +64,33 @@ app.post('/api/save-token', async (req, res) => {
     }
 });
 
+// Ruta para obtener tokens de un usuario
+app.get('/api/tokens', async (req, res) => {
+    try {
+        const { username } = req.query;
+
+        // Verificar si el usuario existe
+        const [userRows] = await pool.query('SELECT * FROM user WHERE username = ?', [username]);
+        if (userRows.length === 0) {
+            return res.status(400).json({ success: false, message: 'Usuario no encontrado' });
+        }
+
+        // Obtener los tokens asociados con el usuario
+        const [tokens] = await pool.query(`
+            SELECT t.Number, t.Application, t.email, t.url 
+            FROM token t
+            JOIN tokenreg tr ON t.id = tr.id
+            WHERE tr.username = ?
+        `, [username]);
+
+        res.json({ success: true, tokens });
+        console.log("Respuesta de la API:", tokens);
+    } catch (error) {
+        console.error('Error al obtener los tokens:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
+
 console.log('Pool initialized:', pool);
 
 // Iniciar servidor
