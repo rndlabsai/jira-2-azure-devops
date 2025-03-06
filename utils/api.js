@@ -37,8 +37,9 @@ export const postJiraTokens = async (api_token, email, url) => {
 
     if (response.status === 200) {
         return true;
-    } else {
-        return response.data.body.message;
+    }
+    else {
+        return response.data.message;
     }
 };
 
