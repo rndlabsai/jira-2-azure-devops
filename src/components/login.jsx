@@ -1,7 +1,8 @@
-import { useState } from "react";
+
 import "./login.css";
 import loginImage from "../assets/login-image.jpg";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { api } from "../../utils/api"; // Ensure this import is correct
 
 function Login() {
@@ -10,10 +11,18 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); // Manage error state using useState
 
+  useEffect(() => {
+    document.body.classList.add("login-page");
+    return () => {
+      document.body.classList.remove("login-page");
+    };
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(""); // Clear any previous errors
-
+    navigate("/migrate");
+/*
     try {
       const response = await api.post("/login", { username, password });
       console.log("Login exitoso:", response.data);
@@ -34,7 +43,7 @@ function Login() {
     } catch (err) {
       console.error("Error en el login:", err);
       setError(err.response?.data?.message || "Error en el login");
-    }
+    }*/
   };
 
   return (
