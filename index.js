@@ -91,6 +91,11 @@ app.get('/api/tokens', async (req, res) => {
     }
 });
 
+//Aqui tengo que crear un endpoint /api/migration-status, que devuelve el progreso total (int) y un arreglo de strings
+app.get('/api/migration', async (req, res) => {
+    res.status(200).json({ message: "Migration request received successfully." });
+});
+
 console.log('Pool initialized:', pool);
 
 // Iniciar servidor
@@ -98,3 +103,4 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
     console.log(`🚀 Backend corriendo en http://localhost:${PORT}`);
 });
+
