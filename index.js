@@ -91,9 +91,19 @@ app.get('/api/tokens', async (req, res) => {
     }
 });
 
-//Aqui tengo que crear un endpoint /api/migration-status, que devuelve el progreso total (int) y un arreglo de strings
-app.get('/api/migration', async (req, res) => {
-    res.status(200).json({ message: "Migration request received successfully." });
+
+app.post('/api/migration', async (req, res) => {
+    const { origin, destination, options } = req.body;
+
+    if (!origin || !destination || !options) {
+        return res.status(400).json({ message: "Missing required parameters." });
+    }
+
+    res.status(200).json({
+        message: "Migration request received successfully.",
+        receivedData: { origin, destination, options }
+    });
+    
 });
 
 console.log('Pool initialized:', pool);
