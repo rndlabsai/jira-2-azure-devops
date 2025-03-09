@@ -51,14 +51,26 @@ export const getJiraProjects = async () => {
         return response.data;
     }
 };
-//Boton de migrate ejecute esto y si mi respuesta es 200 me voy a progress (con navigate)
-export const startMigration = async () => {
-    const response = await api.get("/migration", {
-        start: true
-    });
 
-    if (response.status === 200) {
-        return true;
+export const startMigration = async (origin, destination, options) => {
+    
+    try {
+        const response = await postRequest("/migration", {
+            start: true,
+            origin,
+            destination,
+            options
+        });
+
+        if (response && response.status === 200) {
+            console.log("Success:", response.data);
+            return true;
+        } else {
+            console.error("Migration failed:", response);
+            return false;
+        }
+    } catch (error) {
+        console.error("Error in startMigration:", error);
+        return false;
     }
-    return false;
 };

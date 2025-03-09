@@ -3,22 +3,56 @@ import './migrate.css';
 import '../styles/global.css';
 import imageMigrate from "../assets/migrate-image.png";
 import { startMigration } from '../../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 const Migrate = () => {
+
+    const [jiraProject, setJiraProject] = useState("option1");
+    const [azureProject, setAzureProject] = useState("option1");
+    const [advancedOptions, setAdvancedOptions] = useState({
+        customFields: false,
+        issues: false,
+        screens: false
+    });
+
     const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
     const [migrationStatus, setMigrationStatus] = useState(null);
+    const navigate = useNavigate();
 
     const toggleAdvancedOptions = () => {
         setShowAdvancedOptions(!showAdvancedOptions);
     };
 
+    const handleJiraProjectChange = (e) => {
+        setJiraProject(e.target.value);
+    };
+
+    const handleAzureProjectChange = (e) => {
+        setAzureProject(e.target.value);
+    };
+
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setAdvancedOptions((prevOptions) => ({
+            ...prevOptions,
+            [name]: checked,
+        }));
+    };
+
     const handleMigrateClick = async () => {
-        console.log('Llamada a la funcion startMigration');
+
         setMigrationStatus('Migrating...');
         try {
-            const sucess = await startMigration();
-            if (sucess) {
+            
+            const success = await startMigration({
+                jiraProject,
+                azureProject,
+                advancedOptions,
+            });
+            if (success) {
                 setMigrationStatus('Successful');
+                
+                navigate('/progress');
             } else {
                 setMigrationStatus('Failed');
             }
