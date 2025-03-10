@@ -23,6 +23,7 @@ function Login() {
     navigate("/migrate");
 
     try {
+      /*
       const data = await postLoginCredentials(username, password);
 
       const success = data[0];

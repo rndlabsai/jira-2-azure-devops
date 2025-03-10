@@ -53,15 +53,11 @@ const Migrate = () => {
   const handleMigrateClick = async () => {
     setMigrationStatus("Migrating...");
     try {
-      const success = await startMigration({
-        jiraProject,
-        azureProject,
-        advancedOptions,
-      });
-      if (success) {
-        setMigrationStatus("Successful");
+        const success = await startMigration(jiraProject, azureProject, advancedOptions);
+        if (success) {
+            setMigrationStatus("Successful");
 
-        navigate("/progress");
+            navigate("/progress");
       } else {
         setMigrationStatus("Failed");
       }
@@ -79,12 +75,12 @@ const Migrate = () => {
 
       <div className="right-container">
         <label className="migrate-text">Jira Project:</label>
-        <select className="combo-box">
+        <select className="combo-box" value={jiraProject} onChange={handleJiraProjectChange}>
           <option value="option1">Option 1</option>
           <option value="option2">Option 2</option>
         </select>
         <label className="migrate-text">Azure Project:</label>
-        <select className="combo-box">
+        <select className="combo-box" value={azureProject} onChange={handleAzureProjectChange}>
           <option value="option1">Option 1</option>
           <option value="option2">Option 2</option>
         </select>
@@ -100,15 +96,15 @@ const Migrate = () => {
           className={`advanced-options ${showAdvancedOptions ? "show" : ""}`}
         >
           <label>
-            <input type="checkbox" />
+            <input type="checkbox" name="customFields" checked={advancedOptions.customFields} onChange={handleCheckboxChange}/>
             Custom Fields
           </label>
           <label>
-            <input type="checkbox" />
+            <input type="checkbox" name="issues" checked={advancedOptions.issues} onChange={handleCheckboxChange}/>
             Issues
           </label>
           <label>
-            <input type="checkbox" />
+            <input type="checkbox" name="screens" checked={advancedOptions.screens} onChange={handleCheckboxChange}/>
             Screens
           </label>
         </div>
