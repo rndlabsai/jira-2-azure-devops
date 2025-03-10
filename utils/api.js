@@ -20,24 +20,40 @@ const postRequest = async (path, body) => {
     }
 };
 
-// Export other functions
-export const postJiraTokens = async (api_token, email, url) => {
+export const postLoginCredentials = async (username, password) => {
+    const response = await postRequest("/login", { username, password });
+
+    if (response.status === 200) {
+        return [response.data.success, response.data.user];
+    }
+    else {
+        return [response.data.success, response.data.message];
+    }
+}
+
+// public functions for api requests
+// this is done with the purpose to not display the API url in the frontend
+export const postJiraTokens = async (username, api_token, email, url) => {
+
     const response = await postRequest("/jira/tokens", {
-        api_token,
+        username,
+        token: api_token,
         email,
         url
     });
 
     if (response.status === 401 && response.data.message === "AUTHENTICATED_FAILED") {
-        return false;
+        return response.data.success, "The provided Jira API token is invalid... Please try again...";
     }
 
+    /*
     if (response.status === 200) {
-        return true;
+        return response.data.success, response.data.message;
     }
     else {
-        return response.data.message;
-    }
+        return response.data.success, response.data.message;
+    }*/
+    return response.data.success, response.data.message;
 };
 
 export const getJiraProjects = async () => {
@@ -51,7 +67,7 @@ export const getJiraProjects = async () => {
 };
 
 export const startMigration = async (origin, destination, options) => {
-    
+
     try {
         const response = await postRequest("/migration", {
             start: true,

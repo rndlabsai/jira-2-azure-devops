@@ -1,8 +1,8 @@
+import { useState, useEffect } from "react";
 import "./login.css";
 import loginImage from "../assets/login-image.jpg";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { api } from "../../utils/api"; // Ensure this import is correct
+import { postLoginCredentials } from "../../utils/api"; // Ensure this import is correct
 
 function Login() {
   const navigate = useNavigate();
@@ -23,19 +23,26 @@ function Login() {
     navigate("/migrate");
 
     try {
-      const response = await api.post("/login", { username, password });
-      console.log("Login exitoso:", response.data);
-      alert("Inicio de sesión exitoso");
+      const data = await postLoginCredentials(username, password);
+
+      const success = data[0];
+
+      if (!success) {
+        throw new Error(data[1]);
+      }
+
+      alert(`Welcome ${data[1]}`);
 
       // Store username in localStorage
       localStorage.setItem("username", username);
 
       // Fetch tokens after successful login
-      const tokensResponse = await api.get(`/tokens?username=${username}`);
+      // FIX THIS REQUEST WITH AN api.js function
+      /* const tokensResponse = await api.get(`/tokens?username=${username}`);
       if (tokensResponse.data) {
         // Store tokens in localStorage or state as needed
         localStorage.setItem("tokens", JSON.stringify(tokensResponse.data));
-      }
+      }*/
 
       // Navigate to the migrate page
       navigate("/migrate");
@@ -57,7 +64,11 @@ function Login() {
       </div>
       <div className="login-box">
         <h2>Log in</h2>
-        {error && <p className="error-message">{error}</p>}{" "}
+        {error && (
+          <p className="error-message" style={{ color: "black" }}>
+            {error}
+          </p>
+        )}{" "}
         {/* Display error message if exists */}
         <form onSubmit={handleLogin}>
           <div className="input-group">

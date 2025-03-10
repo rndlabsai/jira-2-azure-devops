@@ -1,10 +1,16 @@
+<<<<<<< Updated upstream
 import { useState, useEffect } from "react"; // Importa useEffect
 import axios from 'axios';
+=======
+import { useState } from "react";
+>>>>>>> Stashed changes
 import "./jira-section.css";
 import "../styles/global.css";
+import { postJiraTokens } from "../../utils/api";
 
 function JiraSection() {
   // Estados para almacenar los valores ingresados
+<<<<<<< Updated upstream
   const [apiToken, setApiToken] = useState('');
   const [email, setEmail] = useState('');
   const [url, setUrl] = useState('');
@@ -41,17 +47,23 @@ function JiraSection() {
 
     fetchTokens();
   }, []); // El array vacío [] asegura que esto solo se ejecute una vez al montar el componente
+=======
+  const [apiToken, setApiToken] = useState("");
+  const [email, setEmail] = useState("");
+  const [url, setUrl] = useState("");
+>>>>>>> Stashed changes
 
   const handleSaveToken = async () => {
-    const username = localStorage.getItem('username');
+    const username = localStorage.getItem("username");
     if (!apiToken || !username) {
       alert("Falta ingresar el API Token o el usuario no ha iniciado sesión.");
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:4000/api/save-token', {
+      const [success, message] = await postJiraTokens(
         username,
+<<<<<<< Updated upstream
         token: apiToken,
         email: email || null, // Enviar null si email no está definido
         url: url || null, // Enviar null si url no está definido
@@ -59,12 +71,24 @@ function JiraSection() {
 
       if (response.data.success) {
         alert("Token guardado exitosamente!");
+=======
+        apiToken,
+        email || null,
+        url || null
+      );
+
+      if (success) {
+        alert(message);
+>>>>>>> Stashed changes
       } else {
-        alert("Error: " + response.data.message);
+        alert("Error: " + message);
       }
     } catch (error) {
-      console.error("Error al guardar el token:", error);
-      alert("No se pudo guardar el token: " + (error.response?.data?.message || error.message));
+      console.error("Error while saving credentials:", error);
+      alert(
+        "Unable to save your credentials: " +
+          (error.response?.data?.message || error.message)
+      );
     }
   };
 

@@ -1,12 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./migrate.css";
 import "../styles/global.css";
 import imageMigrate from "../assets/migrate-image.png";
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 import { getJiraProjects } from "../../utils/api";
+=======
+// import { getJiraProjects } from "../../utils/api";
+>>>>>>> Stashed changes
 
 const Migrate = () => {
-  const [projects, setProjects] = useState([]);
+  const projects = [];
+  /*const [projects, setProjects] = useState([]);
   useEffect(() => {
     async function retrieveProjects() {
       const data = await getJiraProjects();
@@ -32,7 +37,7 @@ const Migrate = () => {
 >>>>>>> 5e03404b929d16f16be70212ba99331981138eaf
 
     retrieveProjects();
-  }, []);
+  }, []);*/
 
 <<<<<<< HEAD
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
