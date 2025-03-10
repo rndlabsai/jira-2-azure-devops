@@ -152,7 +152,7 @@ const retrieveIssues = async (url, email, api_token, project_key) => {
 
     const data = await response.json();
 
-    console.log(data.issues);
+    // console.log(data.issues);
 
     return data.issues;
 }

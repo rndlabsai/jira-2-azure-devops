@@ -26,7 +26,7 @@ const retrieveCustomFields = async (url, email, api_token) => {
     }
     while (!isLast);
 
-    console.log(values);
+    // console.log(values);
     return values;
 }
 
