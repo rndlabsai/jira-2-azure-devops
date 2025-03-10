@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./migrate.css";
 import "../styles/global.css";
 import imageMigrate from "../assets/migrate-image.png";
 import { startMigration } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 
-// import { getJiraProjects } from "../../utils/api";
+import { getJiraProjects } from "../../utils/api";
 
 const Migrate = () => {
   const [jiraProject, setJiraProject] = useState("option1");
@@ -20,15 +20,14 @@ const Migrate = () => {
   const [migrationStatus, setMigrationStatus] = useState(null);
   const navigate = useNavigate();
 
-  const projects = [];
-  /*const [projects, setProjects] = useState([]);
-    useEffect(() => {
-      async function retrieveProjects() {
-        const data = await getJiraProjects();
-        setProjects(data.projects);
-      }
-        retrieveProjects();
-    }, []);*/
+  const [projects, setProjects] = useState([]);
+  useEffect(() => {
+    async function retrieveProjects() {
+      const data = await getJiraProjects();
+      setProjects(data.projects);
+    }
+    retrieveProjects();
+  }, []);
 
   const toggleAdvancedOptions = () => {
     setShowAdvancedOptions(!showAdvancedOptions);
