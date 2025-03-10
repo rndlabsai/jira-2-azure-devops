@@ -3,8 +3,15 @@ import { getCustomFields } from './get_fields.js';
 import { getIssues, getEpics, getStories, getTasks, getBugs, getSubTasks, getMultipleIssues } from './get_issues.js';
 import { getScreens } from './get_screens.js';
 import { getWorkflows } from './get_workflows.js';
+import dotenv from 'dotenv';
 
 import fs from 'fs';
+
+dotenv.config({ path: "../.env" });
+
+const URL = process.env.URL;
+const EMAIL = process.env.EMAIL;
+const API_TOKEN = process.env.API_TOKEN;
 
 export const retrieveAndWriteProjects = async (url, email, api_token, filepath) => {
     const projects = await getProjects(url, email, api_token);
@@ -13,61 +20,34 @@ export const retrieveAndWriteProjects = async (url, email, api_token, filepath) 
         projects
     }
 
+    console.log(projects);
+
     fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
+    return projects;
 }
 
 export const retrieveAndWriteCustomFields = async (url, email, api_token, filepath) => {
     const customFields = await getCustomFields(url, email, api_token);
 
-    /*if (fs.existsSync(filepath)) {
-        data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
-    }
-
-    if (!data.customFields) {
-        data.customFields = [];
-    }*/
-
-    const data = {
-        customFields
-    }
-
-    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
+    customFields.forEach(field => {
+        fs.writeFileSync(`${filepath}/${field.id}.json`, JSON.stringify(field, null, 2), 'utf8');
+    });
 }
 
-export const retrieveAndWriteWorkflows = async (url, email, api_token, filepath) => {
-    const workflows = await getWorkflows(url, email, api_token);
+export const retrieveAndWriteWorkflows = async (url, email, api_token, p_key, filepath) => {
+    const workflows = await getWorkflows(url, email, api_token, p_key);
 
-    /*if (fs.existsSync(filepath)) {
-        data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
-    }
-
-    if (!data.workflows) {
-        data.workflows = [];
-    }*/
-
-    const data = {
-        workflows
-    }
-
-    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
+    workflows.forEach(workflow => {
+        fs.writeFileSync(`${filepath}/${workflow.id}.json`, JSON.stringify(workflow, null, 2), 'utf8');
+    });
 }
 
-export const retrieveAndWriteScreens = async (url, email, api_token, filepath) => {
-    const screens = await getScreens(url, email, api_token);
+export const retrieveAndWriteScreens = async (url, email, api_token, p_id, filepath) => {
+    const screens = await getScreens(url, email, api_token, p_id);
 
-    /*if (fs.existsSync(filepath)) {
-        data = JSON.parse(fs.readFileSync(filepath, 'utf8'));
-    }
-
-    if (!data.screens) {
-        data.screens = [];
-    }*/
-
-    const data = {
-        screens
-    }
-
-    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
+    screens.forEach(screen => {
+        fs.writeFileSync(`${filepath}/${screen.id}.json`, JSON.stringify(screen, null, 2), 'utf8');
+    });
 }
 
 export const retrieveAndWriteIssues = async (url, email, api_token, project_key, filepath, search_type = "All", search_obj = null) => {
@@ -114,3 +94,9 @@ export const retrieveAndWriteIssues = async (url, email, api_token, project_key,
 
     fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
 }
+
+// retrieveAndWriteProjects(URL, EMAIL, API_TOKEN, "../json/projects.json");
+retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows");
+// retrieveAndWriteCustomFields(URL, EMAIL, API_TOKEN, "../json/custom_fields");
+// retrieveAndWriteIssues(URL, EMAIL, API_TOKEN, "GG", "../json/issues.json", "All");
+// retrieveAndWriteScreens(URL, EMAIL, API_TOKEN, "10001", "../json/screens");

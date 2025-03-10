@@ -1,6 +1,6 @@
 import { getHttpRequest } from '../utils/utils.js';
 
-export const getScreens = async (url, email, api_token) => {
+export const getScreens = async (url, email, api_token, p_id) => {
     let startAt = 0;
     let isLast = false;
     let values = [];
@@ -21,7 +21,7 @@ export const getScreens = async (url, email, api_token) => {
         if (!isLast) {
             startAt += data.maxResults;
         }
-        values = values.concat(data.values);
+        values = values.concat(data.values.filter(screen => screen.scope ? screen.scope.project.id === p_id : false));
     }
     while (!isLast);
 

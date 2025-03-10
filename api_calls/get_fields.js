@@ -35,6 +35,7 @@ const cleanCustomFields = async (customFields) => {
 
     customFields.forEach(field => {
         fields.push({
+            id: field.id,
             name: field.name,
             description: field.description,
             type: field.schema.type,

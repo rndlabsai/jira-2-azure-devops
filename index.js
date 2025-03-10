@@ -1,30 +1,67 @@
 import express from 'express';
-import cors from 'cors';
+// import cors from 'cors';
 import { loginUser, registerUser } from './userService.js';
 import pool from './db.js';
+import bodyParser from 'body-parser';
+
+// project's cache
+let projects = [];
 
 const app = express();
-app.use(express.json()); // Para manejar JSON en requests
-app.use(cors({ origin: 'http://localhost:5173', credentials: true })); // Permitir solicitudes desde el frontend
+// app.use(express.json()); // Para manejar JSON en requests
+// app.use(cors({ origin: 'http://localhost:5173', credentials: true })); // Permitir solicitudes desde el frontend
 
+// app.options('*', cors());
+
+app.use(function (_, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+app.use('/api/jira/tokens', bodyParser.json(), async (req, res, next) => {
+    try {
+        const { _, token, email, url } = req.body;
+        projects = await retrieveAndWriteProjects(url, email, token, "./json/projects.json");
+        console.log("Projects cache updated!");
+    }
+    catch (e) {
+        if (e.cause && e.cause === 'invalid_token') {
+            res.status(401).send({ message: "AUTHENTICATED_FAILED" });
+            return;
+        }
+    }
+
+    next();
+})
+
+/********* GET ENDPOINTS */
 // Ruta de prueba para verificar conexión
-app.get('/api/test', (req, res) => {
+app.get('/api/test', (_, res) => {
     res.json({ message: "Backend funcionando correctamente" });
 });
 
+app.get('/api/jira/projects', async (_, res) => {
+    res.status(200).send({ projects, status: "ok" });
+});
+
+/********* POST ENDPOINTS */
 // Ruta para login
-app.post('/api/login', async (req, res) => {
+app.post('/api/login', bodyParser.json(), async (req, res) => {
     try {
         const { username, password } = req.body;
         const user = await loginUser(username, password);
-        res.json({ success: true, user });
+        console.log('User:', user.username);
+        res.status(200).send({ success: true, user: user.username });
     } catch (error) {
-        res.status(401).json({ success: false, message: error.message });
+        console.log(error);
+        res.status(401).send({ success: false, message: "Unable to login" });
     }
 });
 
 // Ruta para registro
-app.post('/api/register', async (req, res) => {
+app.post('/api/register', bodyParser.json(), async (req, res) => {
     try {
         const { username, password } = req.body;
         await registerUser(username, password);
@@ -34,9 +71,8 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
-
 // Guardar token de Jira
-app.post('/api/save-token', async (req, res) => {
+app.post('/api/jira/tokens', bodyParser.json(), async (req, res) => {
     try {
         const { username, token, email, url } = req.body;
 
@@ -57,10 +93,11 @@ app.post('/api/save-token', async (req, res) => {
         // Registrar la relación en `tokenreg`
         await pool.query('INSERT INTO tokenreg (username,id) VALUES (?, ?)', [username, tokenId]);
 
-        res.json({ success: true, message: 'Token guardado con éxito' });
-    } catch (error) {
+        res.status(200).send({ message: "Jira credentials saved successfully!" });
+    }
+    catch (error) {
         console.error('Error al guardar el token:', error);
-        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 });
 
@@ -103,7 +140,7 @@ app.post('/api/migration', async (req, res) => {
         message: "Migration request received successfully.",
         receivedData: { origin, destination, options }
     });
-    
+
 });
 
 console.log('Pool initialized:', pool);
