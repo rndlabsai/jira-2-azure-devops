@@ -79,12 +79,21 @@ const Migrate = () => {
 
       <div className="right-container">
         <label className="migrate-text">Jira Project:</label>
-        <select className="combo-box">
-          <option value="option1">Option 1</option>
-          <option value="option2">Option 2</option>
+        <select className="combo-box" onSelect={handleJiraProjectChange}>
+          {projects.length === 0 ? (
+            projects.map((project) => (
+              <option key={project.id} value={project.id}>
+                {project.name}
+              </option>
+            ))
+          ) : (
+            <option value="option1">
+              Please register your Jira Credentials First
+            </option>
+          )}
         </select>
         <label className="migrate-text">Azure Project:</label>
-        <select className="combo-box">
+        <select className="combo-box" onSelect={handleAzureProjectChange}>
           <option value="option1">Option 1</option>
           <option value="option2">Option 2</option>
         </select>
@@ -100,15 +109,15 @@ const Migrate = () => {
           className={`advanced-options ${showAdvancedOptions ? "show" : ""}`}
         >
           <label>
-            <input type="checkbox" />
+            <input type="checkbox" onChange={handleCheckboxChange} />
             Custom Fields
           </label>
           <label>
-            <input type="checkbox" />
+            <input type="checkbox" onChange={handleCheckboxChange} />
             Issues
           </label>
           <label>
-            <input type="checkbox" />
+            <input type="checkbox" onChange={handleCheckboxChange} />
             Screens
           </label>
         </div>
