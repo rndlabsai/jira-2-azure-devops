@@ -81,15 +81,15 @@ const Migrate = () => {
         <label className="migrate-text">Jira Project:</label>
         <select className="combo-box" onSelect={handleJiraProjectChange}>
           {projects.length === 0 ? (
+            <option value="option1">
+              Please register your Jira Credentials First
+            </option>
+          ) : (
             projects.map((project) => (
               <option key={project.id} value={project.id}>
                 {project.name}
               </option>
             ))
-          ) : (
-            <option value="option1">
-              Please register your Jira Credentials First
-            </option>
           )}
         </select>
         <label className="migrate-text">Azure Project:</label>
