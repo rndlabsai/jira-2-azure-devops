@@ -1,17 +1,20 @@
 import { getProjects } from './get_projects.js';
 import { getCustomFields } from './get_fields.js';
-import { getIssues, getEpics, getStories, getTasks, getBugs, getSubTasks, getMultipleIssues } from './get_issues.js';
+import { getIssues, getEpics, getStories, getTasks, getBugs, getSubTasks, getMultipleIssues, setCustomFields } from './get_issues.js';
 import { getScreens } from './get_screens.js';
 import { getWorkflows } from './get_workflows.js';
 import dotenv from 'dotenv';
 
 import fs from 'fs';
+import { assert } from '../utils/utils.js';
 
 dotenv.config({ path: "../.env" });
 
 const URL = process.env.URL;
 const EMAIL = process.env.EMAIL;
 const API_TOKEN = process.env.API_TOKEN;
+
+let custom_fields_retrieved = false;
 
 export const retrieveAndWriteProjects = async (url, email, api_token, filepath) => {
     const projects = await getProjects(url, email, api_token);
@@ -28,6 +31,9 @@ export const retrieveAndWriteProjects = async (url, email, api_token, filepath) 
 
 export const retrieveAndWriteCustomFields = async (url, email, api_token, filepath) => {
     const customFields = await getCustomFields(url, email, api_token);
+
+    setCustomFields(customFields);
+    custom_fields_retrieved = true;
 
     customFields.forEach(field => {
         fs.writeFileSync(`${filepath}/${field.id}.json`, JSON.stringify(field, null, 2), 'utf8');
@@ -51,6 +57,8 @@ export const retrieveAndWriteScreens = async (url, email, api_token, p_id, filep
 }
 
 export const retrieveAndWriteIssues = async (url, email, api_token, project_key, filepath, search_type = "All", search_obj = null) => {
+    assert(custom_fields_retrieved, "Custom fields must be retrieved before issues can be retrieved...")
+
     let issues = [];
 
     if (search_type === "All") {
@@ -88,15 +96,13 @@ export const retrieveAndWriteIssues = async (url, email, api_token, project_key,
         throw new Error("Invalid search type...\n\nValid search types are:\n\t- All\n\t- Multiple\n\t- Specific", { cause: 'invalid_search' });
     }
 
-    const data = {
-        issues
-    }
-
-    fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf8');
+    issues.forEach(issue => {
+        fs.writeFileSync(`${filepath}/${issue.id}.json`, JSON.stringify(issue, null, 2), 'utf8');
+    });
 }
 
 // retrieveAndWriteProjects(URL, EMAIL, API_TOKEN, "../json/projects.json");
-retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows");
-// retrieveAndWriteCustomFields(URL, EMAIL, API_TOKEN, "../json/custom_fields");
-// retrieveAndWriteIssues(URL, EMAIL, API_TOKEN, "GG", "../json/issues.json", "All");
+// retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows");
+// await retrieveAndWriteCustomFields(URL, EMAIL, API_TOKEN, "../json/custom_fields");
+// await retrieveAndWriteIssues(URL, EMAIL, API_TOKEN, "GG", "../json/issues", "All");
 // retrieveAndWriteScreens(URL, EMAIL, API_TOKEN, "10001", "../json/screens");

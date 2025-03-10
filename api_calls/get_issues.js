@@ -1,10 +1,16 @@
 import { getHttpRequest } from '../utils/utils.js';
 
+let custom_fields = [];
+
+export const setCustomFields = (customFields) => {
+    custom_fields = customFields;
+}
+
 const cleanIssues = async (issues) => {
     let cleanedIssues = [];
 
     issues.forEach(issue => {
-        cleanedIssues.push({
+        let cleanedIssue = {
             id: issue.id,
             key: issue.key,
             fields: {
@@ -43,7 +49,18 @@ const cleanIssues = async (issues) => {
                 issuelinks: issue.fields.issuelinks,
                 comments: issue.fields.comment.comments
             }
-        });
+        };
+
+        Object.keys(issue.fields)
+            .filter(key => key.startsWith('customfield_'))
+            .forEach(key => {
+                cleanedIssue.fields[key] = {
+                    name: custom_fields.find(field => field.id === key).name,
+                    value: issue.fields[key]
+                };
+            });
+
+        cleanedIssues.push(cleanedIssue);
     });
 
     return cleanedIssues;

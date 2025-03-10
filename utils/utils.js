@@ -4,6 +4,12 @@ export const isEmptyString = (str) => {
     return str === null || str === undefined || str === '' || str.length === 0;
 }
 
+export const assert = (condition, message) => {
+    if (!condition) {
+        throw new Error(message || "Assertion failed...");
+    }
+}
+
 export const getHttpRequest = async (URL, headers) => {
     const response = await fetch(URL, {
         method: 'GET',
