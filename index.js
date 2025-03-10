@@ -132,8 +132,8 @@ app.post('/api/jira/tokens', bodyParser.json(), async (req, res) => {
 
 
 
-app.post('/api/migration', async (req, res) => {
-    const { origin, destination, options } = req.body;
+app.post('/api/migration', bodyParser.json(), async (req, res) => {
+    const { start, origin, destination, options } = req.body;
 
     if (!origin || !destination || !options) {
         return res.status(400).json({ message: "Missing required parameters." });
