@@ -52,11 +52,15 @@ const Migrate = () => {
   const handleMigrateClick = async () => {
     setMigrationStatus("Migrating...");
     try {
-        const success = await startMigration(jiraProject, azureProject, advancedOptions);
-        if (success) {
-            setMigrationStatus("Successful");
+      const success = await startMigration(
+        jiraProject,
+        azureProject,
+        advancedOptions
+      );
+      if (success) {
+        setMigrationStatus("Successful");
 
-            navigate("/progress");
+        navigate("/progress");
       } else {
         setMigrationStatus("Failed");
       }
@@ -68,40 +72,50 @@ const Migrate = () => {
 
   return (
     <div className="layout">
-  <div className="left-container">
-    <img src={imageMigrate} />
-  </div>
+      <div className="left-container">
+        <img src={imageMigrate} />
+      </div>
 
-  <div className="right-container">
-    <label className="migrate-text">Jira Project:</label>
-    <select className="combo-box" value={jiraProject} onChange={handleJiraProjectChange} onSelect={handleJiraProjectChange}>
-      {projects.length === 0 ? (
-        <option value="option1">
-          Please register your Jira Credentials First
-        </option>
-      ) : (
-        projects.map((project) => (
-          <option key={project.id} value={project.id}>
-            {project.name}
-          </option>
-        ))
-      )}
-    </select>
+      <div className="right-container">
+        <label className="migrate-text">Jira Project:</label>
+        <select
+          className="combo-box"
+          value={jiraProject}
+          onChange={handleJiraProjectChange}
+          onSelect={handleJiraProjectChange}
+        >
+          {projects.length === 0 ? (
+            <option value="option1">
+              Please register your Jira Credentials First
+            </option>
+          ) : (
+            projects.map((project) => (
+              <option key={project.id} value={project.id}>
+                {project.name}
+              </option>
+            ))
+          )}
+        </select>
 
-    <label className="migrate-text">Azure Project:</label>
-    <select className="combo-box" value={azureProject} onChange={handleAzureProjectChange} onSelect={handleAzureProjectChange}>
-      <option value="option1">Option 1</option>
-      <option value="option2">Option 2</option>
-    </select>
+        <label className="migrate-text">Azure Project:</label>
+        <select
+          className="combo-box"
+          value={azureProject}
+          onChange={handleAzureProjectChange}
+          onSelect={handleAzureProjectChange}
+        >
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+        </select>
 
-    <div className="button-container">
-      <button onClick={toggleAdvancedOptions} className="button-blue">
-        {showAdvancedOptions ? "Hide" : "Advanced"}
-      </button>
-      <button onClick={handleMigrateClick} className="button-blue">
-        Migrate
-      </button>
-    </div>
+        <div className="button-container">
+          <button onClick={toggleAdvancedOptions} className="button-blue">
+            {showAdvancedOptions ? "Hide" : "Advanced"}
+          </button>
+          <button onClick={handleMigrateClick} className="button-blue">
+            Migrate
+          </button>
+        </div>
 
     {showAdvancedOptions && (
   <div className={`advanced-options ${showAdvancedOptions ? "show" : ""}`}>
@@ -121,12 +135,11 @@ const Migrate = () => {
 )}
 
 
-    {migrationStatus && (
-      <p className="migration-status">{migrationStatus}</p>
-    )}
-  </div>
-</div>
-
+        {migrationStatus && (
+          <p className="migration-status">{migrationStatus}</p>
+        )}
+      </div>
+    </div>
   );
 };
 

@@ -22,7 +22,6 @@ function Login() {
     setError(""); // Clear any previous errors
 
     try {
-      /*
       const data = await postLoginCredentials(username, password);
 
       const success = data[0];
