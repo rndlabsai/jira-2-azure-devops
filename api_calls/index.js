@@ -44,10 +44,11 @@ export const retrieveAndWriteCustomFields = async (url, email, api_token, filepa
     if (fs.existsSync(total_filepath)) {
         const data = JSON.parse(fs.readFileSync(total_filepath, 'utf8'));
         data.fields = customFields.length;
+        data.total += customFields.length;
         fs.writeFileSync(total_filepath, JSON.stringify(data, null, 2), 'utf8');
     }
     else {
-        fs.writeFileSync(total_filepath, JSON.stringify({ fields: customFields.length }, null, 2), 'utf8');
+        fs.writeFileSync(total_filepath, JSON.stringify({ fields: customFields.length, total: customFields.length }, null, 2), 'utf8');
     }
 }
 
@@ -61,10 +62,11 @@ export const retrieveAndWriteWorkflows = async (url, email, api_token, p_key, fi
     if (fs.existsSync(total_filepath)) {
         const data = JSON.parse(fs.readFileSync(total_filepath, 'utf8'));
         data.workflows = workflows.length;
+        data.total += workflows.length;
         fs.writeFileSync(total_filepath, JSON.stringify(data, null, 2), 'utf8');
     }
     else {
-        fs.writeFileSync(total_filepath, JSON.stringify({ workflows: workflows.length }, null, 2), 'utf8');
+        fs.writeFileSync(total_filepath, JSON.stringify({ workflows: workflows.length, total: workflows.length }, null, 2), 'utf8');
     }
 }
 
@@ -78,10 +80,11 @@ export const retrieveAndWriteScreens = async (url, email, api_token, p_id, filep
     if (fs.existsSync(total_filepath)) {
         const data = JSON.parse(fs.readFileSync(total_filepath, 'utf8'));
         data.screens = screens.length;
+        data.total += screens.length;
         fs.writeFileSync(total_filepath, JSON.stringify(data, null, 2), 'utf8');
     }
     else {
-        fs.writeFileSync(total_filepath, JSON.stringify({ screens: screens.length }, null, 2), 'utf8');
+        fs.writeFileSync(total_filepath, JSON.stringify({ screens: screens.length, total: screens.length }, null, 2), 'utf8');
     }
 }
 
@@ -132,15 +135,16 @@ export const retrieveAndWriteIssues = async (url, email, api_token, project_key,
     if (fs.existsSync(total_filepath)) {
         const data = JSON.parse(fs.readFileSync(total_filepath, 'utf8'));
         data.issues = issues.length;
+        data.total += issues.length;
         fs.writeFileSync(total_filepath, JSON.stringify(data, null, 2), 'utf8');
     }
     else {
-        fs.writeFileSync(total_filepath, JSON.stringify({ issues: issues.length }, null, 2), 'utf8');
+        fs.writeFileSync(total_filepath, JSON.stringify({ issues: issues.length, total: issues.length }, null, 2), 'utf8');
     }
 }
 
-// retrieveAndWriteProjects(URL, EMAIL, API_TOKEN, "../json/projects.json");
-// retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows");
+// await retrieveAndWriteProjects(URL, EMAIL, API_TOKEN, "../json/projects.json");
+// await retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows");
 // await retrieveAndWriteCustomFields(URL, EMAIL, API_TOKEN, "../json/custom_fields");
 // await retrieveAndWriteIssues(URL, EMAIL, API_TOKEN, "GG", "../json/issues", "All");
-// retrieveAndWriteScreens(URL, EMAIL, API_TOKEN, "10001", "../json/screens");
+// await retrieveAndWriteScreens(URL, EMAIL, API_TOKEN, "10001", "../json/screens");
