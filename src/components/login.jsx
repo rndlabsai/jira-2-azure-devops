@@ -20,7 +20,6 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(""); // Clear any previous errors
-    navigate("/migrate");
 
     try {
       /*
@@ -29,6 +28,7 @@ function Login() {
       const success = data[0];
 
       if (!success) {
+        setError(data[1]);
         throw new Error(data[1]);
       }
 
@@ -49,7 +49,7 @@ function Login() {
       navigate("/migrate");
     } catch (err) {
       console.error("Error en el login:", err);
-      setError(err.response?.data?.message || "Error en el login");
+      setError(err.message || "Error en el login");
     }
   };
 
