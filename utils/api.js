@@ -20,9 +20,6 @@ const postRequest = async (path, body) => {
     }
 };
 
-// Export the api object
-export { api };
-
 // Export other functions
 export const postJiraTokens = async (api_token, email, url) => {
     const response = await postRequest("/jira/tokens", {
@@ -53,13 +50,25 @@ export const getJiraProjects = async () => {
     }
 };
 
-export const startMigration = async () => {
-    const response = await postRequest("/migration", {
-        start: true
-    });
+export const startMigration = async (origin, destination, options) => {
+    
+    try {
+        const response = await postRequest("/migration", {
+            start: true,
+            origin,
+            destination,
+            options
+        });
 
-    if (response.status === 200) {
-        return true;
+        if (response && response.status === 200) {
+            console.log("Success:", response.data);
+            return true;
+        } else {
+            console.error("Migration failed:", response);
+            return false;
+        }
+    } catch (error) {
+        console.error("Error in startMigration:", error);
+        return false;
     }
-    return false;
 };
