@@ -30,6 +30,10 @@ const Migrate = () => {
         retrieveProjects();
     }, []);*/
 
+  const toggleAdvancedOptions = () => {
+    setShowAdvancedOptions(!showAdvancedOptions);
+  };
+
   const handleJiraProjectChange = (e) => {
     setJiraProject(e.target.value);
   };
@@ -75,25 +79,17 @@ const Migrate = () => {
 
       <div className="right-container">
         <label className="migrate-text">Jira Project:</label>
-        <select className="combo-box" onChange={handleJiraProjectChange}>
-          {projects.map((project) => (
-            <option key={project.id} value={project.id}>
-              {project.name}
-            </option>
-          ))}
+        <select className="combo-box">
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
         </select>
         <label className="migrate-text">Azure Project:</label>
-        <select className="combo-box" onChange={handleAzureProjectChange}>
+        <select className="combo-box">
           <option value="option1">Option 1</option>
           <option value="option2">Option 2</option>
         </select>
         <div className="button-container">
-          <button
-            onClick={() => {
-              setShowAdvancedOptions(!showAdvancedOptions);
-            }}
-            className="button-blue"
-          >
+          <button onClick={toggleAdvancedOptions} className="button-blue">
             {showAdvancedOptions ? "Hide" : "Advanced"}
           </button>
           <button onClick={handleMigrateClick} className="button-blue">
@@ -104,15 +100,15 @@ const Migrate = () => {
           className={`advanced-options ${showAdvancedOptions ? "show" : ""}`}
         >
           <label>
-            <input type="checkbox" onChange={handleCheckboxChange} />
+            <input type="checkbox" />
             Custom Fields
           </label>
           <label>
-            <input type="checkbox" onChange={handleCheckboxChange} />
+            <input type="checkbox" />
             Issues
           </label>
           <label>
-            <input type="checkbox" onChange={handleCheckboxChange} />
+            <input type="checkbox" />
             Screens
           </label>
         </div>
