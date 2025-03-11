@@ -1,14 +1,9 @@
 {
   "projects": [
     {
-      "name": "Grupo Gamma",
-      "id": "10002",
-      "key": "GG"
-    },
-    {
-      "name": "Library",
-      "id": "10001",
-      "key": "LIB"
+      "name": "Mi proyecto",
+      "id": "10000",
+      "key": "SCRUM"
     }
   ]
 }

@@ -6,7 +6,7 @@ import { getWorkflows } from './get_workflows.js';
 import dotenv from 'dotenv';
 
 import fs from 'fs';
-import { assert } from '../utils/utils.js';
+import { appendToLogFile, assert } from '../utils/utils.js';
 
 dotenv.config({ path: "../.env" });
 
@@ -14,7 +14,7 @@ const URL = process.env.URL;
 const EMAIL = process.env.EMAIL;
 const API_TOKEN = process.env.API_TOKEN;
 
-const total_filepath = "../json/total.json";
+// const total_filepath = "../json/total.json";
 
 let custom_fields_retrieved = false;
 
@@ -31,7 +31,7 @@ export const retrieveAndWriteProjects = async (url, email, api_token, filepath) 
     return projects;
 }
 
-export const retrieveAndWriteCustomFields = async (url, email, api_token, filepath) => {
+export const retrieveAndWriteCustomFields = async (url, email, api_token, filepath, total_filepath) => {
     const customFields = await getCustomFields(url, email, api_token);
 
     setCustomFields(customFields);
@@ -52,7 +52,7 @@ export const retrieveAndWriteCustomFields = async (url, email, api_token, filepa
     }
 }
 
-export const retrieveAndWriteWorkflows = async (url, email, api_token, p_key, filepath) => {
+export const retrieveAndWriteWorkflows = async (url, email, api_token, p_key, filepath, total_filepath) => {
     const workflows = await getWorkflows(url, email, api_token, p_key);
 
     workflows.forEach(workflow => {
@@ -70,7 +70,7 @@ export const retrieveAndWriteWorkflows = async (url, email, api_token, p_key, fi
     }
 }
 
-export const retrieveAndWriteScreens = async (url, email, api_token, p_id, filepath) => {
+export const retrieveAndWriteScreens = async (url, email, api_token, p_id, filepath, total_filepath) => {
     const screens = await getScreens(url, email, api_token, p_id);
 
     screens.forEach(screen => {
@@ -88,7 +88,7 @@ export const retrieveAndWriteScreens = async (url, email, api_token, p_id, filep
     }
 }
 
-export const retrieveAndWriteIssues = async (url, email, api_token, project_key, filepath, search_type = "All", search_obj = null) => {
+export const retrieveAndWriteIssues = async (url, email, api_token, project_key, filepath, total_filepath, search_type = "All", search_obj = null) => {
     assert(custom_fields_retrieved, "Custom fields must be retrieved before issues can be retrieved...")
 
     let issues = [];
@@ -143,8 +143,28 @@ export const retrieveAndWriteIssues = async (url, email, api_token, project_key,
     }
 }
 
-// await retrieveAndWriteProjects(URL, EMAIL, API_TOKEN, "../json/projects.json");
+// const projects = await retrieveAndWriteProjects(URL, EMAIL, API_TOKEN, "../json/projects.json");
+// console.log(projects);
+
+/*await retrieveAndWriteCustomFields(URL, EMAIL, API_TOKEN, "../json/custom_fields", "../json/total.json")
+    .then(
+        () => { retrieveAndWriteIssues(URL, EMAIL, API_TOKEN, "SCRUM", "../json/issues", "../json/total.json", "All") }
+    );*/
 // await retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows");
-// await retrieveAndWriteCustomFields(URL, EMAIL, API_TOKEN, "../json/custom_fields");
-// await retrieveAndWriteIssues(URL, EMAIL, API_TOKEN, "GG", "../json/issues", "All");
 // await retrieveAndWriteScreens(URL, EMAIL, API_TOKEN, "10001", "../json/screens");
+
+export const migrate = async (url, email, api_token, p_key, log_filepath, total_filepath, json_filepaths = ["../json/custom_fields", "../json/workflows", "../json/issues"]) => {
+    let index = 0;
+    retrieveAndWriteCustomFields(url, email, api_token, json_filepaths[index++], total_filepath)
+        .then(() => {
+            appendToLogFile(log_filepath, "Custom fields retrieved successfully...");
+            return retrieveAndWriteWorkflows(url, email, api_token, p_key, json_filepaths[index++], total_filepath);
+        })
+        .then(() => {
+            appendToLogFile(log_filepath, "Workflows retrieved successfully...");
+            return retrieveAndWriteIssues(url, email, api_token, p_key, log_filepath[index++], total_filepath, "All");
+        })
+        .then(() => {
+            appendToLogFile(log_filepath, "Issues retrieved succesfully...");
+        });
+}

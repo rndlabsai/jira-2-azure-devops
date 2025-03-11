@@ -3,10 +3,17 @@ import express from 'express';
 import { loginUser, registerUser } from './userService.js';
 import pool from './db.js';
 import bodyParser from 'body-parser';
-import { readArrayFromFile } from './utils/utils.js';
+import { readArrayFromJSONFile } from './utils/utils.js';
+import { migrate } from './api_calls/index.js';
 
 // project's cache
 let projects = [];
+// url's cache
+let URL = null;
+// email's cache
+let EMAIL = null;
+// token's cache
+let API_TOKEN = null;
 
 const app = express();
 // app.use(express.json()); // Para manejar JSON en requests
@@ -24,6 +31,9 @@ app.use(function (_, res, next) {
 app.use('/api/jira/tokens', bodyParser.json(), async (req, res, next) => {
     try {
         const { _, token, email, url } = req.body;
+        URL = url;
+        EMAIL = email;
+        API_TOKEN = token;
         projects = await retrieveAndWriteProjects(url, email, token, "./json/projects.json");
         console.log("Projects cache updated!");
     }
@@ -62,6 +72,9 @@ app.get('/api/tokens', async (req, res) => {
             WHERE tr.username = ?
         `, [username]);
 
+        console.log("Retrieved tokens are:");
+        console.dir(tokens, { depth: null });
+
         res.json({ success: true, tokens });
         console.log("Respuesta de la API:", tokens);
     } catch (error) {
@@ -71,7 +84,7 @@ app.get('/api/tokens', async (req, res) => {
 });
 
 app.get('/api/jira/projects', async (_, res) => {
-    projects = projects.length === 0 ? readArrayFromFile("./json/projects.json", "projects") : projects;
+    projects = projects.length === 0 ? readArrayFromJSONFile("./json/projects.json", "projects") : projects;
     res.status(200).send({ projects, status: "ok" });
 });
 
@@ -139,11 +152,13 @@ app.post('/api/migration', bodyParser.json(), async (req, res) => {
         return res.status(400).json({ message: "Missing required parameters." });
     }
 
-    res.status(200).json({
-        message: "Migration request received successfully.",
-        receivedData: { origin, destination, options }
-    });
-
+    if (start) {
+        migrate(URL, EMAIL, API_TOKEN, origin, "./logfile.log", "./json/total.json", ["./json/custom_fields", "./json/workflows", "./json/issues"]);
+        res.status(200).json({
+            message: "Migration request received successfully.",
+            receivedData: { origin, destination, options }
+        });
+    }
 });
 
 console.log('Pool initialized:', pool);

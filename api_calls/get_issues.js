@@ -55,7 +55,7 @@ const cleanIssues = async (issues) => {
             .filter(key => key.startsWith('customfield_'))
             .forEach(key => {
                 cleanedIssue.fields[key] = {
-                    name: custom_fields.find(field => field.id === key).name,
+                    name: custom_fields.find(field => field.id === key)?.name,
                     value: issue.fields[key]
                 };
             });

@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 
 export const isEmptyString = (str) => {
     return str === null || str === undefined || str === '' || str.length === 0;
@@ -24,7 +24,20 @@ export const getHttpRequest = async (URL, headers) => {
     return response;
 }
 
-export const readArrayFromFile = (filepath, property) => {
+export const readArrayFromJSONFile = (filepath, property) => {
     const data = readFileSync(filepath);
     return JSON.parse(data)[property];
+}
+
+export const appendToLogFile = (filepath, text) => {
+    assert(!isEmptyString(filepath), "Invalid filepath...");
+    assert(!isEmptyString(text), "Invalid text...");
+
+    text += "\n" + "=" * 12 + "\n";
+    if (existsSync(filepath)) {
+        fs.appendFileSync(filepath, text, 'utf8');
+    }
+    else {
+        fs.writeFileSync(filepath, text, 'utf8');
+    }
 }
