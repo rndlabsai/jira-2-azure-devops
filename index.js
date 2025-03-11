@@ -3,6 +3,7 @@ import cors from 'cors';
 import { loginUser, registerUser } from './userService.js';
 import pool from './db.js';
 import bodyParser from 'body-parser';
+import { readArrayFromFile } from './utils/utils.js';
 import { decryptToken,encryptToken } from './tokenService.js';
 
 
@@ -83,6 +84,7 @@ app.get('/api/tokens', async (req, res) => {
 });
 
 app.get('/api/jira/projects', async (_, res) => {
+    projects = projects.length === 0 ? readArrayFromFile("./json/projects.json", "projects") : projects;
     res.status(200).send({ projects, status: "ok" });
 });
 

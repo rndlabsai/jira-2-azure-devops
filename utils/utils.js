@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { readFileSync } from 'fs';
 
 export const isEmptyString = (str) => {
     return str === null || str === undefined || str === '' || str.length === 0;
@@ -21,4 +22,9 @@ export const getHttpRequest = async (URL, headers) => {
     }
 
     return response;
+}
+
+export const readArrayFromFile = (filepath, property) => {
+    const data = readFileSync(filepath);
+    return JSON.parse(data)[property];
 }
