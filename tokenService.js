@@ -5,7 +5,7 @@ const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY.padEnd(32, '0'); // Llave de 3
 const IV_LENGTH = 16;
 
 //Cifrar token
-const encryptToken = (token) => {
+export const encryptToken = (token) => {
     let iv = crypto.randomBytes(IV_LENGTH);
     let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(ENCRYPTION_KEY), iv);
     let encrypted = Buffer.concat([cipher.update(token, 'utf8'), cipher.final()]);
@@ -13,7 +13,7 @@ const encryptToken = (token) => {
 };
 
 // Desencriptar token
-const decryptToken = (encryptedToken) => {
+export const decryptToken = (encryptedToken) => {
     let parts = encryptedToken.split(':');
     let iv = Buffer.from(parts[0], 'hex');
     let encryptedText = Buffer.from(parts[1], 'hex');
@@ -63,3 +63,4 @@ export const getUserTokens = async (username) => {
         url: row.url
     }));
 };
+
