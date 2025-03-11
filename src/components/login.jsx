@@ -22,7 +22,6 @@ function Login() {
     e.preventDefault();
     setError(""); // Clear any previous errors
     navigate("/migrate");
-/*
     try {
       const response = await api.post("/login", { username, password });
       console.log("Login exitoso:", response.data);
@@ -43,7 +42,7 @@ function Login() {
     } catch (err) {
       console.error("Error en el login:", err);
       setError(err.response?.data?.message || "Error en el login");
-    }*/
+    }
   };
 
   return (

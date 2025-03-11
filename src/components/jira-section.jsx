@@ -68,6 +68,48 @@ function JiraSection() {
     }
   };
 
+  const deleteToken = async () => {
+    const username = localStorage.getItem('username');
+    if (!username) {
+        alert("El usuario no ha iniciado sesión.");
+        return;
+    }
+
+    try {
+        // Obtener el ID del token de Jira del usuario
+        const response = await axios.get('http://localhost:4000/api/tokens', {
+            params: { username }
+        });
+
+        if (response.data.success && response.data.tokens) {
+            // Buscar el token de Jira
+            const jiraToken = response.data.tokens.find(token => token.Application === 'Jira');
+            if (!jiraToken) {
+                alert("No se encontró un token de Jira para este usuario.");
+                return;
+            }
+
+            // Enviar solicitud para eliminar el token
+            const deleteResponse = await axios.delete('http://localhost:4000/api/delete-token', {
+                data: { username, tokenId: jiraToken.id }
+            });
+
+            if (deleteResponse.data.success) {
+                alert("Token eliminado correctamente!");
+                // Limpiar los campos del formulario
+                setApiToken('');
+                setEmail('');
+                setUrl('');
+            } else {
+                alert("Error: " + deleteResponse.data.message);
+            }
+        }
+    } catch (error) {
+        console.error("Error al eliminar el token:", error);
+        alert("No se pudo eliminar el token: " + (error.response?.data?.message || error.message));
+    }
+};
+
   return (
     <div className="jira-section">
       <h2>Jira</h2>
@@ -101,6 +143,9 @@ function JiraSection() {
       </div>
       <button className="save-button" onClick={handleSaveToken}>
         Save Jira Token
+      </button>
+      <button className="save-button" onClick={deleteToken}>
+        Delete Jira Token
       </button>
     </div>
   );
