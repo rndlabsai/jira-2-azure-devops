@@ -45,34 +45,59 @@ function JiraSection() {
     fetchTokens();
   }, []); // El array vacío [] asegura que esto solo se ejecute una vez al montar el componente
 
+  const postJiraTokens = async (username, token, email, url) => {
+    try {
+        const response = await axios.post("http://localhost:4000/api/save-token", {
+            username,
+            token,
+            email,
+            url,
+        });
+
+        return response.data; // Ensure it returns an object, not an array
+    } catch (error) {
+        console.error("Error in postJiraTokens:", error);
+        return { success: false, message: error.response?.data?.message || "Request failed" };
+    }
+};
+
   const handleSaveToken = async () => {
     const username = localStorage.getItem("username");
     if (!apiToken || !username) {
-      alert("Falta ingresar el API Token o el usuario no ha iniciado sesión.");
-      return;
+        alert("Falta ingresar el API Token o el usuario no ha iniciado sesión.");
+        return;
     }
 
     try {
-      const [success, message] = await postJiraTokens(
-        username,
-        apiToken,
-        email || null,
-        url || null
-      );
+        const response = await postJiraTokens(
+            username,
+            apiToken,
+            email || null,
+            url || null
+        );
 
-      if (success) {
-        alert(message);
-      } else {
-        alert("Error: " + message);
-      }
+        console.log("Response from postJiraTokens:", response); // Debugging
+
+        // Ensure response is an object with expected properties
+        if (typeof response !== "object" || response === null) {
+            throw new Error("Invalid response format");
+        }
+
+        if (response.success) {
+            alert(response.message || "Token saved successfully!");
+        } else {
+            alert("Error: " + (response.message || "Unknown error"));
+        }
     } catch (error) {
-      console.error("Error while saving credentials:", error);
-      alert(
-        "Unable to save your credentials: " +
-          (error.response?.data?.message || error.message)
-      );
+        console.error("Error while saving credentials:", error);
+        alert(
+            "Unable to save your credentials: " +
+            (error.response?.data?.message || error.message)
+        );
     }
-  };
+};
+
+
 
   const deleteToken = async () => {
     const username = localStorage.getItem('username');
