@@ -50,7 +50,6 @@ app.get('/api/test', (_, res) => {
     res.json({ message: "Backend funcionando correctamente" });
 });
 
-// Ruta para obtener tokens de un usuario
 app.get('/api/tokens', async (req, res) => {
     try {
         const { username } = req.query;
@@ -63,25 +62,30 @@ app.get('/api/tokens', async (req, res) => {
 
         // Obtener los tokens asociados con el usuario
         const [tokens] = await pool.query(`
-            SELECT t.Number, t.Application, t.email, t.url 
+            SELECT t.id, t.Number, t.Application, t.email, t.url 
             FROM token t
             JOIN tokenreg tr ON t.id = tr.id
             WHERE tr.username = ?
         `, [username]);
 
+        console.log("Tokens devueltos en /api/tokens:", tokens); // Debug
+
         // Decrypt the tokens before sending them back
         const decryptedTokens = tokens.map(token => ({
-            ...token,
-            Number: decryptToken(token.Number) // Decrypt the token
+            id: token.id, // 🔹 Asegurar que el id se devuelve
+            Number: decryptToken(token.Number),
+            Application: token.Application,
+            email: token.email,
+            url: token.url
         }));
 
         res.json({ success: true, tokens: decryptedTokens });
-        console.log("Respuesta de la API:", decryptedTokens);
     } catch (error) {
         console.error('Error al obtener los tokens:', error);
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
 
 app.get('/api/jira/projects', async (_, res) => {
     projects = projects.length === 0 ? readArrayFromFile("./json/projects.json", "projects") : projects;
@@ -118,36 +122,43 @@ app.post('/api/save-token', bodyParser.json(), async (req, res) => {
     try {
         const { username, token, email, url } = req.body;
 
-        // Verificar si el usuario existe
+        // Check if user exists
         const [userRows] = await pool.query('SELECT * FROM user WHERE username = ?', [username]);
         if (userRows.length === 0) {
             return res.status(400).json({ success: false, message: 'Usuario no encontrado' });
         }
 
-        // Encrypt the token before saving it
+        // Encrypt token before saving
         const encryptedToken = encryptToken(token);
 
-        // Insertar el token en la tabla `token`
+        // Insert token
         const [tokenResult] = await pool.query(
             'INSERT INTO token (Number, Application, email, url) VALUES (?, ?, ?, ?)',
             [encryptedToken, 'Jira', email, url]
         );
 
-        const tokenId = tokenResult.insertId; // ID del token recién insertado
+        const tokenId = tokenResult.insertId; // New token ID
 
-        // Registrar la relación en `tokenreg`
+        // Register token ownership
         await pool.query('INSERT INTO tokenreg (username, id) VALUES (?, ?)', [username, tokenId]);
 
-        res.status(200).send({ message: "Jira credentials saved successfully!" });
+        res.status(200).json({ success: true, message: "Jira credentials saved successfully!" });
     } catch (error) {
-        console.error('Error al guardar el token:', error);
+        console.error('Error saving token:', error);
         res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 });
 
+
 app.delete('/api/delete-token', bodyParser.json(), async (req, res) => {
     try {
         const { username, tokenId } = req.body;
+
+        if (!username || !tokenId) {
+            return res.status(400).json({ success: false, message: 'Faltan parámetros requeridos.' });
+        }
+
+        console.log("Solicitud para eliminar token:", { username, tokenId }); // Debug
 
         // Verificar si el usuario existe
         const [userRows] = await pool.query('SELECT * FROM user WHERE username = ?', [username]);
@@ -155,14 +166,14 @@ app.delete('/api/delete-token', bodyParser.json(), async (req, res) => {
             return res.status(400).json({ success: false, message: 'Usuario no encontrado' });
         }
 
-        // Verificar si el token existe y pertenece al usuario
-        const [tokenRows] = await pool.query(
-            `SELECT t.id 
-             FROM token t
-             JOIN tokenreg tr ON t.id = tr.id
-             WHERE tr.username = ? AND t.id = ?`,
-            [username, tokenId]
-        );
+        // Verificar si el token pertenece al usuario
+        const [tokenRows] = await pool.query(`
+            SELECT t.id FROM token t
+            JOIN tokenreg tr ON t.id = tr.id
+            WHERE tr.username = ? AND t.id = ?
+        `, [username, tokenId]);
+
+        console.log("Resultados de la consulta en /api/delete-token:", tokenRows); // Debug
 
         if (tokenRows.length === 0) {
             return res.status(404).json({ success: false, message: 'Token no encontrado o no pertenece al usuario' });
@@ -180,6 +191,8 @@ app.delete('/api/delete-token', bodyParser.json(), async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
+
 
 
 
