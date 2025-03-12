@@ -20,7 +20,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(""); // Clear any previous errors
-    navigate("/migrate");
+    //navigate("/migrate");
     try {
       const data = await postLoginCredentials(username, password);
 

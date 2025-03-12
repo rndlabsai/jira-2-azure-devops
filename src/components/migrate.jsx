@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { getJiraProjects } from "../../utils/api";
 
 const Migrate = () => {
-  const [jiraProject, setJiraProject] = useState("option1");
+  const [jiraProject, setJiraProject] = useState("");
   const [azureProject, setAzureProject] = useState("option1");
   const [advancedOptions, setAdvancedOptions] = useState({
     customFields: false,
