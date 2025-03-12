@@ -8,6 +8,7 @@ import bodyParser from 'body-parser';
 let projects = [];
 
 const app = express();
+app.use(express.json());
 // app.use(express.json()); // Para manejar JSON en requests
 // app.use(cors({ origin: 'http://localhost:5173', credentials: true })); // Permitir solicitudes desde el frontend
 
@@ -131,6 +132,7 @@ app.post('/api/jira/tokens', bodyParser.json(), async (req, res) => {
 
 
 app.post('/api/migration', async (req, res) => {
+    console.log("El Request body es el siguiente:", req.body);
     const { origin, destination, options } = req.body;
 
     if (!origin || !destination || !options) {
