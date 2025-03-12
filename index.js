@@ -199,10 +199,6 @@ app.delete('/api/delete-token', bodyParser.json(), async (req, res) => {
     }
 });
 
-
-
-
-
 app.post('/api/migration', async (req, res) => {
     const { origin, destination, options } = req.body;
 
