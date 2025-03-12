@@ -87,13 +87,20 @@ function JiraSection() {
             params: { username }
         });
 
+        console.log("Respuesta del backend en deleteToken:", response.data); // Debug
+
         if (response.data.success && response.data.tokens) {
             // Buscar el token de Jira
             const jiraToken = response.data.tokens.find(token => token.Application === 'Jira');
-            if (!jiraToken) {
+            
+            console.log("Token encontrado en deleteToken:", jiraToken); // Debug
+
+            if (!jiraToken || !jiraToken.id) {
                 alert("No se encontró un token de Jira para este usuario.");
                 return;
             }
+
+            console.log("Intentando eliminar el token con ID:", jiraToken.id); // Debug
 
             // Enviar solicitud para eliminar el token
             const deleteResponse = await axios.delete('http://localhost:4000/api/delete-token', {

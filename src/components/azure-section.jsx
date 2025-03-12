@@ -69,6 +69,55 @@ function AzureSection() {
     }
   };
 
+  const deleteToken = async () => {
+    const username = localStorage.getItem('username');
+    if (!username) {
+        alert("El usuario no ha iniciado sesión.");
+        return;
+    }
+
+    try {
+        // Obtener el ID del token de Jira del usuario
+        const response = await axios.get('http://localhost:4000/api/tokens', {
+            params: { username }
+        });
+
+        console.log("Respuesta del backend en deleteToken:", response.data); // Debug
+
+        if (response.data.success && response.data.tokens) {
+            // Buscar el token de Jira
+            const jiraToken = response.data.tokens.find(token => token.Application === 'Jira');
+            
+            console.log("Token encontrado en deleteToken:", jiraToken); // Debug
+
+            if (!jiraToken || !jiraToken.id) {
+                alert("No se encontró un token de Jira para este usuario.");
+                return;
+            }
+
+            console.log("Intentando eliminar el token con ID:", jiraToken.id); // Debug
+
+            // Enviar solicitud para eliminar el token
+            const deleteResponse = await axios.delete('http://localhost:4000/api/delete-token', {
+                data: { username, tokenId: jiraToken.id }
+            });
+
+            if (deleteResponse.data.success) {
+                alert("Token eliminado correctamente!");
+                // Limpiar los campos del formulario
+                setApiToken('');
+                setEmail('');
+                setUrl('');
+            } else {
+                alert("Error: " + deleteResponse.data.message);
+            }
+        }
+    } catch (error) {
+        console.error("Error al eliminar el token:", error);
+        alert("No se pudo eliminar el token: " + (error.response?.data?.message || error.message));
+    }
+};
+
 
   return (
     <div className="azure-section">
@@ -84,6 +133,9 @@ function AzureSection() {
       </div>
       <button className="save-button" onClick={handleSaveToken}>
         Save Azure Token
+      </button>
+      <button className="save-button" onClick={deleteToken}>
+        Delete Azure Token
       </button>
     </div>
   );
