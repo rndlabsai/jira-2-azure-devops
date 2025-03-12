@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import "./jira-section.css";
 import "../styles/global.css";
-import { postJiraTokens } from "../../utils/api";
 import axios from "axios";
 
 function JiraSection() {
@@ -154,7 +153,7 @@ function JiraSection() {
       <div className="input-group">
         <label htmlFor="api-token">API Token:</label>
         <input
-          type="text"
+          type="password"
           id="api-token"
           placeholder="Enter your Jira API token"
           value={apiToken}

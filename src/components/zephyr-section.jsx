@@ -124,7 +124,7 @@ function ZephyrSection() {
       <div className="input-group">
         <label htmlFor="api-token">API Token:</label>
         <input
-          type="text"
+          type="password"
           id="api-token"
           placeholder="Enter your Zephyr API token"
         />
