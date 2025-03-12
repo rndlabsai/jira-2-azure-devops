@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"; // Importa useEffect
 import axios from 'axios';
-import "./jira-section.css";
+import "./azure-section.css";
 import "../styles/global.css";
 
 function AzureSection() {

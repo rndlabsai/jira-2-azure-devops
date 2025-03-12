@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"; 
 import axios from 'axios';
-import "./jira-section.css";
+import "./zephyr-section.css";
 import "../styles/global.css";
 
 function ZephyrSection() {
