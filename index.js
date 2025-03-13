@@ -18,6 +18,7 @@ let API_TOKEN = null;
 
 const app = express();
 // app.use(express.json()); // Para manejar JSON en requests
+// Habilitar CORS
 // app.use(cors({ origin: 'http://localhost:5173', credentials: true })); // Permitir solicitudes desde el frontend
 
 // app.options('*', cors());
@@ -29,10 +30,7 @@ app.use(function (_, res, next) {
     next();
 });
 
-// Habilitar CORS
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
-
-app.use('/api/jira/tokens', bodyParser.json(), async (req, res, next) => {
+app.use('/api/save-token', bodyParser.json(), async (req, res, next) => {
     try {
         const { _, token, email, url } = req.body;
         URL = url;
@@ -86,7 +84,12 @@ app.get('/api/tokens', async (req, res) => {
             url: token.url
         }));
 
-        res.json({ success: true, tokens: decryptedTokens });
+        const jiraToken = decryptedTokens.find(token => token.Application === 'Jira') || null;
+        API_TOKEN = jiraToken.Number || null;
+        EMAIL = jiraToken.email || null;
+        URL = jiraToken.url || null;
+
+        res.json({ success: true, tokens: decryptedTokens[-1] });
     } catch (error) {
         console.error('Error al obtener los tokens:', error);
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
