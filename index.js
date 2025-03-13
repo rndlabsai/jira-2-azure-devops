@@ -212,6 +212,9 @@ app.post('/api/migration', async (req, res) => {
 
 });
 
+//endpoint /api/migration-status (GET) lo que debo hacer es leer logfile.log, luego debo retornar un array de logs (siguiendo el formato en progress.jsx)
+// luego calcular el progreso [Log1, Log2, Log3]
+
 console.log('Pool initialized:', pool);
 
 // Iniciar servidor
