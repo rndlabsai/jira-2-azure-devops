@@ -3,18 +3,23 @@ import cors from 'cors';
 import { loginUser, registerUser } from './userService.js';
 import pool from './db.js';
 import bodyParser from 'body-parser';
-import { readArrayFromFile } from './utils/utils.js';
-import { decryptToken,encryptToken } from './tokenService.js';
-
-
-
+import { readArrayFromJSONFile } from './utils/utils.js';
+import { migrate } from './api_calls/index.js';
+import { decryptToken, encryptToken } from './tokenService.js';
 
 // project's cache
 let projects = [];
+// url's cache
+let URL = null;
+// email's cache
+let EMAIL = null;
+// token's cache
+let API_TOKEN = null;
 
 const app = express();
 app.use(express.json());
 // app.use(express.json()); // Para manejar JSON en requests
+// Habilitar CORS
 // app.use(cors({ origin: 'http://localhost:5173', credentials: true })); // Permitir solicitudes desde el frontend
 
 // app.options('*', cors());
@@ -26,12 +31,12 @@ app.use(function (_, res, next) {
     next();
 });
 
-// Habilitar CORS
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
-
-app.use('/api/jira/tokens', bodyParser.json(), async (req, res, next) => {
+app.use('/api/save-token', bodyParser.json(), async (req, res, next) => {
     try {
         const { _, token, email, url } = req.body;
+        URL = url;
+        EMAIL = email;
+        API_TOKEN = token;
         projects = await retrieveAndWriteProjects(url, email, token, "./json/projects.json");
         console.log("Projects cache updated!");
     }
@@ -80,7 +85,12 @@ app.get('/api/tokens', async (req, res) => {
             url: token.url
         }));
 
-        res.json({ success: true, tokens: decryptedTokens });
+        const jiraToken = decryptedTokens.find(token => token.Application === 'Jira') || null;
+        API_TOKEN = jiraToken.Number || null;
+        EMAIL = jiraToken.email || null;
+        URL = jiraToken.url || null;
+
+        res.json({ success: true, tokens: decryptedTokens[-1] });
     } catch (error) {
         console.error('Error al obtener los tokens:', error);
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
@@ -89,7 +99,7 @@ app.get('/api/tokens', async (req, res) => {
 
 
 app.get('/api/jira/projects', async (_, res) => {
-    projects = projects.length === 0 ? readArrayFromFile("./json/projects.json", "projects") : projects;
+    projects = projects.length === 0 ? readArrayFromJSONFile("./json/projects.json", "projects") : projects;
     res.status(200).send({ projects, status: "ok" });
 });
 
@@ -193,10 +203,6 @@ app.delete('/api/delete-token', bodyParser.json(), async (req, res) => {
     }
 });
 
-
-
-
-
 app.post('/api/migration', async (req, res) => {
     console.log("El Request body es el siguiente:", req.body);
     const { origin, destination, options } = req.body;
@@ -205,11 +211,13 @@ app.post('/api/migration', async (req, res) => {
         return res.status(400).json({ message: "Missing required parameters." });
     }
 
-    res.status(200).json({
-        message: "Migration request received successfully.",
-        receivedData: { origin, destination, options }
-    });
-
+    if (start) {
+        migrate(URL, EMAIL, API_TOKEN, origin, "./logfile.log", "./json/total.json", ["./json/custom_fields", "./json/workflows", "./json/issues"]);
+        res.status(200).json({
+            message: "Migration request received successfully.",
+            receivedData: { origin, destination, options }
+        });
+    }
 });
 
 //endpoint /api/migration-status (GET) lo que debo hacer es leer logfile.log, luego debo retornar un array de logs (siguiendo el formato en progress.jsx)
