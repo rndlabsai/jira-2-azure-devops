@@ -1,6 +1,9 @@
 {
+  "test-cycles": 1,
+  "test-cases": 1,
   "fields": 37,
-  "total": 780,
+  "migrated": 200,
+  "total": 394,
   "workflows": 1,
   "issues": 50
 }
