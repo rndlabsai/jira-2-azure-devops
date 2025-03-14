@@ -159,14 +159,16 @@ export const retrieveAndWriteIssues = async (url, email, api_token, project_key,
 
 export const migrate = async (url, email, api_token, p_key, log_filepath, total_filepath, json_filepaths = ["../json/custom_fields", "../json/workflows", "../json/issues"]) => {
     let index = 0;
-    retrieveAndWriteCustomFields(url, email, api_token, json_filepaths[index++], total_filepath)
+    retrieveAndWriteCustomFields(url, email, api_token, json_filepaths[index], total_filepath)
         .then(() => {
             appendToLogFile(log_filepath, "Custom fields retrieved successfully...");
-            return retrieveAndWriteWorkflows(url, email, api_token, p_key, json_filepaths[index++], total_filepath);
+            index++;
+            return retrieveAndWriteWorkflows(url, email, api_token, p_key, json_filepaths[index], total_filepath);
         })
         .then(() => {
             appendToLogFile(log_filepath, "Workflows retrieved successfully...");
-            return retrieveAndWriteIssues(url, email, api_token, p_key, log_filepath[index++], total_filepath, "All");
+            index++;
+            return retrieveAndWriteIssues(url, email, api_token, p_key, json_filepaths[index], total_filepath, "All");
         })
         .then(() => {
             appendToLogFile(log_filepath, "Issues retrieved succesfully...");

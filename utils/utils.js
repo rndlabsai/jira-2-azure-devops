@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { existsSync, readFileSync } from 'fs';
+import fs from 'fs';
 
 export const isEmptyString = (str) => {
     return str === null || str === undefined || str === '' || str.length === 0;
@@ -25,10 +25,10 @@ export const getHttpRequest = async (URL, headers) => {
 }
 
 export const readArrayFromJSONFile = (filepath, property) => {
-    if (!existsSync(filepath)) {
+    if (!fs.existsSync(filepath)) {
         throw new Error("File does not exist...");
     }
-    const data = readFileSync(filepath);
+    const data = fs.readFileSync(filepath);
     const array = JSON.parse(data)[property];
     return array ? array : [];
 }
@@ -38,7 +38,7 @@ export const appendToLogFile = (filepath, text) => {
     assert(!isEmptyString(text), "Invalid text...");
 
     text += "\n" + "=" * 12 + "\n";
-    if (existsSync(filepath)) {
+    if (fs.existsSync(filepath)) {
         fs.appendFileSync(filepath, text, 'utf8');
     }
     else {

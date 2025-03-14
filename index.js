@@ -221,7 +221,7 @@ app.post('/api/migration', bodyParser.json(), async (req, res) => {
     }
 
     if (start) {
-        // migrate(URL, EMAIL, API_TOKEN, origin, "./logfile.log", "./json/total.json", ["./json/custom_fields", "./json/workflows", "./json/issues"]);
+        migrate(URL, EMAIL, API_TOKEN, origin, "./logfile.log", "./json/total.json", ["./json/custom_fields", "./json/workflows", "./json/issues"]);
         res.status(200).json({
             message: "Migration request received successfully.",
             receivedData: { origin, destination, options }
