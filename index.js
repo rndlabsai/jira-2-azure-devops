@@ -4,8 +4,9 @@ import { loginUser, registerUser } from './userService.js';
 import pool from './db.js';
 import bodyParser from 'body-parser';
 import { readArrayFromJSONFile } from './utils/utils.js';
-import { migrate } from './api_calls/index.js';
+import { migrate, retrieveAndWriteProjects } from './api_calls/index.js';
 import { decryptToken, encryptToken } from './tokenService.js';
+// import { assert } from './utils/utils.js';
 
 // project's cache
 let projects = [];
@@ -16,6 +17,10 @@ let EMAIL = null;
 // token's cache
 let API_TOKEN = null;
 
+/*const { message } = await registerUser("fredant", "pass123");
+
+assert(message === 'Usuario registrado con éxito', 'Error en la función registerUser');*/
+
 const app = express();
 // app.use(express.json()); // Para manejar JSON en requests
 // Habilitar CORS
@@ -25,14 +30,18 @@ const app = express();
 
 app.use(function (_, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST");
+    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 
 app.use('/api/save-token', bodyParser.json(), async (req, res, next) => {
     try {
-        const { _, token, email, url } = req.body;
+        const { _, token, application, email, url } = req.body;
+        console.log("app", application);
+        if (application !== "Jira") {
+            next();
+        }
         URL = url;
         EMAIL = email;
         API_TOKEN = token;
@@ -89,7 +98,7 @@ app.get('/api/tokens', async (req, res) => {
         EMAIL = jiraToken.email || null;
         URL = jiraToken.url || null;
 
-        res.json({ success: true, tokens: decryptedTokens[-1] });
+        res.json({ success: true, tokens: decryptedTokens });
     } catch (error) {
         console.error('Error al obtener los tokens:', error);
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
@@ -99,7 +108,7 @@ app.get('/api/tokens', async (req, res) => {
 
 app.get('/api/jira/projects', async (_, res) => {
     projects = projects.length === 0 ? readArrayFromJSONFile("./json/projects.json", "projects") : projects;
-    res.status(200).send({ projects, status: "ok" });
+    res.status(200).send({ projects });
 });
 
 /********* POST ENDPOINTS */
@@ -130,7 +139,7 @@ app.post('/api/register', bodyParser.json(), async (req, res) => {
 // Guardar token
 app.post('/api/save-token', bodyParser.json(), async (req, res) => {
     try {
-        const { username, token, email, url } = req.body;
+        const { username, token, application, email, url } = req.body;
 
         // Check if user exists
         const [userRows] = await pool.query('SELECT * FROM user WHERE username = ?', [username]);
@@ -144,7 +153,7 @@ app.post('/api/save-token', bodyParser.json(), async (req, res) => {
         // Insert token
         const [tokenResult] = await pool.query(
             'INSERT INTO token (Number, Application, email, url) VALUES (?, ?, ?, ?)',
-            [encryptedToken, 'Jira', email, url]
+            [encryptedToken, application, email, url]
         );
 
         const tokenId = tokenResult.insertId; // New token ID
@@ -152,7 +161,7 @@ app.post('/api/save-token', bodyParser.json(), async (req, res) => {
         // Register token ownership
         await pool.query('INSERT INTO tokenreg (username, id) VALUES (?, ?)', [username, tokenId]);
 
-        res.status(200).json({ success: true, message: "Jira credentials saved successfully!" });
+        res.status(200).json({ success: true, message: `${application} credentials saved successfully!` });
     } catch (error) {
         console.error('Error saving token:', error);
         res.status(500).json({ success: false, message: 'Internal Server Error' });
@@ -202,15 +211,16 @@ app.delete('/api/delete-token', bodyParser.json(), async (req, res) => {
     }
 });
 
-app.post('/api/migration', async (req, res) => {
-    const { origin, destination, options } = req.body;
+app.post('/api/migration', bodyParser.json(), async (req, res) => {
+    console.dir(req.body, { depth: null });
+    const { start, origin, destination, options } = req.body;
 
     if (!origin || !destination || !options) {
         return res.status(400).json({ message: "Missing required parameters." });
     }
 
     if (start) {
-        migrate(URL, EMAIL, API_TOKEN, origin, "./logfile.log", "./json/total.json", ["./json/custom_fields", "./json/workflows", "./json/issues"]);
+        // migrate(URL, EMAIL, API_TOKEN, origin, "./logfile.log", "./json/total.json", ["./json/custom_fields", "./json/workflows", "./json/issues"]);
         res.status(200).json({
             message: "Migration request received successfully.",
             receivedData: { origin, destination, options }

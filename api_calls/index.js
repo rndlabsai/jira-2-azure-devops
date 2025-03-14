@@ -146,9 +146,13 @@ export const retrieveAndWriteIssues = async (url, email, api_token, project_key,
 // const projects = await retrieveAndWriteProjects(URL, EMAIL, API_TOKEN, "../json/projects.json");
 // console.log(projects);
 
-/*await retrieveAndWriteCustomFields(URL, EMAIL, API_TOKEN, "../json/custom_fields", "../json/total.json")
+// await retrieveAndWriteCustomFields(URL, EMAIL, API_TOKEN, "../json/custom_fields", "../json/total.json");
+// await retrieveAndWriteIssues(URL, EMAIL, API_TOKEN, "GG", "../json/issues", "../json/total.json", "All");
+// await retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows", "../json/total.json");
+// await retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows");
+/* await retrieveAndWriteCustomFields(URL, EMAIL, API_TOKEN, "../json/custom_fields", "../json/total.json")
     .then(
-        () => { retrieveAndWriteIssues(URL, EMAIL, API_TOKEN, "SCRUM", "../json/issues", "../json/total.json", "All") }
+        () => { retrieveAndWriteIssues(URL, EMAIL, API_TOKEN, "GG", "../json/issues", "../json/total.json", "All") }
     );*/
 // await retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows");
 // await retrieveAndWriteScreens(URL, EMAIL, API_TOKEN, "10001", "../json/screens");

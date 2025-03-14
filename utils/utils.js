@@ -25,8 +25,12 @@ export const getHttpRequest = async (URL, headers) => {
 }
 
 export const readArrayFromJSONFile = (filepath, property) => {
+    if (!existsSync(filepath)) {
+        throw new Error("File does not exist...");
+    }
     const data = readFileSync(filepath);
-    return JSON.parse(data)[property];
+    const array = JSON.parse(data)[property];
+    return array ? array : [];
 }
 
 export const appendToLogFile = (filepath, text) => {
