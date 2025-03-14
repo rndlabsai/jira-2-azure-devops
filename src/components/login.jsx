@@ -20,7 +20,6 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(""); // Clear any previous errors
-    //navigate("/migrate");
     try {
       const data = await postLoginCredentials(username, password);
 
@@ -48,7 +47,7 @@ function Login() {
       navigate("/migrate");
     } catch (err) {
       console.error("Error en el login:", err);
-      setError(err.response?.data?.message || "Error en el login");
+      setError(err.message || "Error en el login");
     }
   };
 

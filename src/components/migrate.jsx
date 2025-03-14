@@ -117,23 +117,39 @@ const Migrate = () => {
           </button>
         </div>
 
-    {showAdvancedOptions && (
-  <div className={`advanced-options ${showAdvancedOptions ? "show" : ""}`}>
-    <label>
-      <input type="checkbox" name="customFields" checked={advancedOptions.customFields} onChange={handleCheckboxChange} />
-      Custom Fields
-    </label>
-    <label>
-      <input type="checkbox" name="issues" checked={advancedOptions.issues} onChange={handleCheckboxChange} />
-      Issues
-    </label>
-    <label>
-      <input type="checkbox" name="screens" checked={advancedOptions.screens} onChange={handleCheckboxChange} />
-      Screens
-    </label>
-  </div>
-)}
-
+        {showAdvancedOptions && (
+          <div
+            className={`advanced-options ${showAdvancedOptions ? "show" : ""}`}
+          >
+            <label>
+              <input
+                type="checkbox"
+                name="customFields"
+                checked={advancedOptions.customFields}
+                onChange={handleCheckboxChange}
+              />
+              Custom Fields
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="issues"
+                checked={advancedOptions.issues}
+                onChange={handleCheckboxChange}
+              />
+              Issues
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="workflows"
+                checked={advancedOptions.screens}
+                onChange={handleCheckboxChange}
+              />
+              workflows
+            </label>
+          </div>
+        )}
 
         {migrationStatus && (
           <p className="migration-status">{migrationStatus}</p>
