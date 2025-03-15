@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import { readArrayFromJSONFile } from './utils/utils.js';
 import { migrate, retrieveAndWriteProjects } from './api_calls/index.js';
 import { decryptToken, encryptToken } from './tokenService.js';
+import fs from 'fs';
 // import { assert } from './utils/utils.js';
 
 // project's cache
@@ -231,20 +232,20 @@ app.post('/api/migration', bodyParser.json(), async (req, res) => {
 
 //endpoint /api/migration-status (GET) lo que debo hacer es leer logfile.log, luego debo retornar un array de logs (siguiendo el formato en progress.jsx)
 // luego calcular el progreso [Log1, Log2, Log3]
-app.get('/api/migration-status', async (req, res) => {
+app.get('/api/migration-status', async (_, res) => {
     try {
         const logData = await fs.promises.readFile('./logfile.log', 'utf-8');
 
-        const logs = logData.split('===============\n').map(log => log.trim()).filter(log => log);
+        const logs = logData.split('============\n').map(log => log.trim()).filter(log => log);
 
         const totalJsonData = await fs.promises.readFile('./json/total.json', 'utf-8');
         const totalData = JSON.parse(totalJsonData);
 
         const progress = (totalData.migrated / totalData.total) * 100;
 
-        res.json({ progress, logs });
+        res.status(200).json({ progress, logs });
 
-    } catch {
+    } catch (error) {
         console.error('Error while reading logfile.log:', error);
         res.status(500).json({ error: 'There was an error while reading the status. Could not get the migration status' });
     }

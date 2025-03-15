@@ -6,8 +6,14 @@ export const setCustomFields = (customFields) => {
     custom_fields = customFields;
 }
 
-const cleanIssues = async (issues, log_filepath) => {
+const cleanIssues = async (issues, log_filepath, email, api_token) => {
     let cleanedIssues = [];
+    const headers = email && api_token ? {
+        'Authorization': `Basic ${Buffer.from(
+            `${email}:${api_token}`
+        ).toString('base64')}`,
+        'Accept': 'application/json'
+    } : {};
 
     issues.forEach(issue => {
         appendToLogFile(log_filepath, `Retrieving issue ${issue.key}...`);
@@ -48,7 +54,7 @@ const cleanIssues = async (issues, log_filepath) => {
                 attachment: issue.fields.attachment ? issue.fields.attachment.map(attachment => {
                     if (attachment.content) {
                         const extension = attachment.filename.split('.')[1];
-                        downloadFile(attachment.content, `./attachments/${attachment.id}.${extension}`, true, log_filepath);
+                        downloadFile(attachment.content, `./attachments/${attachment.id}.${extension}`, headers, true, log_filepath);
                     }
                     return {
                         id: attachment.id,
@@ -106,27 +112,27 @@ const getSpecificIssue = async (url, email, api_token, project_key, issue_type) 
 
 export const getEpics = async (url, email, api_token, project_key, log_filepath) => {
     const epics = await getSpecificIssue(url, email, api_token, project_key, "Epic");
-    return await cleanIssues(epics, log_filepath);
+    return await cleanIssues(epics, log_filepath, email, api_token);
 }
 
 export const getStories = async (url, email, api_token, project_key, log_filepath) => {
     const stories = await getSpecificIssue(url, email, api_token, project_key, "Story");
-    return await cleanIssues(stories, log_filepath);
+    return await cleanIssues(stories, log_filepath, email, api_token);
 }
 
 export const getTasks = async (url, email, api_token, project_key, log_filepath) => {
     const tasks = await getSpecificIssue(url, email, api_token, project_key, "Task");
-    return await cleanIssues(tasks, log_filepath);
+    return await cleanIssues(tasks, log_filepath, email, api_token);
 }
 
 export const getBugs = async (url, email, api_token, project_key, log_filepath) => {
     const bugs = await getSpecificIssue(url, email, api_token, project_key, "Bug");
-    return await cleanIssues(bugs, log_filepath);
+    return await cleanIssues(bugs, log_filepath, email, api_token);
 }
 
 export const getSubTasks = async (url, email, api_token, project_key, log_filepath) => {
     const subtasks = await getSpecificIssue(url, email, api_token, project_key, "Sub-task");
-    return await cleanIssues(subtasks, log_filepath);
+    return await cleanIssues(subtasks, log_filepath, email, api_token);
 }
 
 const retrieveMultipleIssues = async (url, email, api_token, project_key, issue_types) => {
@@ -166,7 +172,7 @@ const retrieveMultipleIssues = async (url, email, api_token, project_key, issue_
 
 export const getMultipleIssues = async (url, email, api_token, project_key, issue_types, log_filepath) => {
     const issues = await retrieveMultipleIssues(url, email, api_token, project_key, issue_types);
-    return await cleanIssues(issues, log_filepath);
+    return await cleanIssues(issues, log_filepath, email, api_token);
 }
 
 const retrieveIssues = async (url, email, api_token, project_key) => {
@@ -195,5 +201,5 @@ const retrieveIssues = async (url, email, api_token, project_key) => {
 
 export const getIssues = async (url, email, api_token, project_key, log_filepath) => {
     const issues = await retrieveIssues(url, email, api_token, project_key);
-    return await cleanIssues(issues, log_filepath);
+    return await cleanIssues(issues, log_filepath, email, api_token);
 }

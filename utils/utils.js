@@ -1,5 +1,9 @@
 import fetch from 'node-fetch';
 import fs from 'fs';
+import { pipeline } from 'stream';
+import { promisify } from 'util';
+
+const pipelineAsync = promisify(pipeline);
 
 export const isEmptyString = (str) => {
     return str === null || str === undefined || str === '' || str.length === 0;
@@ -57,7 +61,7 @@ export const appendToLogFile = (filepath, text) => {
     });
     const date = formatter.formatToParts().map(obj => obj.value).join('');
 
-    text += date + "\n" + repeatString("=", 12) + "\n";
+    text += " " + date + "\n" + repeatString("=", 12) + "\n";
     if (fs.existsSync(filepath)) {
         fs.appendFileSync(filepath, text, 'utf8');
     }
@@ -66,11 +70,18 @@ export const appendToLogFile = (filepath, text) => {
     }
 }
 
-export const downloadFile = async (download_url, destiny_file, log_download = false, log_file = null) => {
+export const downloadFile = async (download_url, destiny_file, headers = null, log_download = false, log_file = null) => {
     if (log_download && log_file) {
         appendToLogFile(log_file, `Downloading file from ${download_url} to ${destiny_file}`);
     }
-    const ws = fs.createWriteStream(destiny_file);
-    ws.write(await (await fetch(download_url)).chunk());
-    ws.end();
+    const response = await getHttpRequest(download_url, headers);
+
+    if (!response.ok) {
+        throw new Error(`Failed to download file from ${download_url}`);
+    }
+
+    const flags = fs.existsSync(destiny_file) ? { flags: 'w' } : { flags: 'wx' };
+
+    const ws = fs.createWriteStream(destiny_file, flags);
+    await pipelineAsync(response.body, ws);
 }
