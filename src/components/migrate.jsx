@@ -13,7 +13,7 @@ const Migrate = () => {
   const [advancedOptions, setAdvancedOptions] = useState({
     customFields: false,
     issues: false,
-    screens: false,
+    workflows: false,
   });
 
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
@@ -24,7 +24,9 @@ const Migrate = () => {
   useEffect(() => {
     async function retrieveProjects() {
       const data = await getJiraProjects();
+      console.log("Projects:", data.projects);
       setProjects(data.projects);
+      setJiraProject(data.projects[0].key);
     }
     retrieveProjects();
   }, []);
@@ -89,6 +91,7 @@ const Migrate = () => {
               Please register your Jira Credentials First
             </option>
           ) : (
+            <option value="">Select a Jira Project:</option> &&
             projects.map((project) => (
               <option key={project.id} value={project.key}>
                 {project.name}
@@ -143,10 +146,10 @@ const Migrate = () => {
               <input
                 type="checkbox"
                 name="workflows"
-                checked={advancedOptions.screens}
+                checked={advancedOptions.workflows}
                 onChange={handleCheckboxChange}
               />
-              workflows
+              Workflows
             </label>
           </div>
         )}

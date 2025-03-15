@@ -88,3 +88,14 @@ export const startMigration = async (origin, destination, options) => {
         return false;
     }
 };
+
+export const getMigrationStatus = async () => {
+    const response = await api.get("/migration-status");
+
+    if (response.status === 200) {
+        return response.data;
+    }
+    else {
+        throw new Error("Error fetching migration status...");
+    }
+}
