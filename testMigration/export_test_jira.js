@@ -5,12 +5,12 @@ const zephyrToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2
 
 async function fetchZephyrData(endpoint, projectKey) {
     const baseUrl = 'https://api.zephyrscale.smartbear.com/v2/';
-    const fullUrl = ${baseUrl}${endpoint};
+    const fullUrl = `${baseUrl}${endpoint}`;
 
     try {
         const response = await axios.get(fullUrl, {
             headers: {
-                Authorization: Bearer ${zephyrToken}
+                Authorization: `Bearer ${zephyrToken}`
             },
             params: {
                 projectKey: projectKey,
@@ -19,7 +19,7 @@ async function fetchZephyrData(endpoint, projectKey) {
 
         return response.data;
     } catch (error) {
-        console.error(❌ Error al obtener los datos de ${endpoint}:, error?.response?.data || error.message);
+        console.error(`❌ Error al obtener los datos de ${endpoint}:`, error?.response?.data || error.message);
         return null;
     }
 }
@@ -54,13 +54,13 @@ async function extractField(endpoint, projectKey) {
     const zephyrData = await fetchZephyrData(endpoint, projectKey);
     if (zephyrData) {
         const transformedData = transformDataForAzure(endpoint, zephyrData);
-        fs.writeFileSync(${endpoint}.json, JSON.stringify(transformedData, null, 2));
-        console.log(✅ JSON formateado guardado en ${endpoint}.json);
+        fs.writeFileSync(`${endpoint}.json`, JSON.stringify(transformedData, null, 2));
+        console.log(`✅ JSON formateado guardado en ${endpoint}.json`);
     }
 }
 
 async function fetchTestSteps(testCaseKey, projectKey) {
-    const endpoint = testcases/${testCaseKey}/teststeps;
+    const endpoint = `testcases/${testCaseKey}/teststeps`;
     const testStepsData = await fetchZephyrData(endpoint, projectKey);
     
     if (!testStepsData || !testStepsData.values) {
@@ -68,10 +68,10 @@ async function fetchTestSteps(testCaseKey, projectKey) {
     }
     
     const stepsXml = testStepsData.values.map((step, index) => {
-        return <step id=\"${index + 1}\" type=\"Action\"><description>${step.inline.description}</description><expectedresult>${step.inline.expectedResult || ''}</expectedresult></step>;
+        return `<step id=\"${index + 1}\" type=\"Action\"><description>${step.inline.description}</description><expectedresult>${step.inline.expectedResult || ''}</expectedresult></step>`;
     }).join('');
     
-    return <?xml version=\"1.0\" encoding=\"utf-16\"?><steps>${stepsXml}</steps>;
+    return `<?xml version=\"1.0\" encoding=\"utf-16\"?><steps>${stepsXml}</steps>`;
 }
 
 async function fetchAndTransformTestCases(projectKey) {
