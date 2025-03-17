@@ -63,15 +63,15 @@ class AzureDevOpsTests {
         if (!suiteData.name) throw new Error('Suite name is required');
         if (!suiteData.type) throw new Error('Suite type is required');
 
-        const url = `https://dev.azure.com/${this.organization}/${this.project}/_apis/test/Plans/${suiteData.planId}/suites?api-version=7.1`;
-
+        const url = `https://dev.azure.com/${this.organization}/${this.project}/_apis/testplan/Plans/${suiteData.planId}/suites?api-version=7.1`;
+        
         const payload = {
             name: suiteData.name,
             suiteType: suiteData.type
         };
 
         if (suiteData.parentSuiteId) {
-            payload.parentSuite = { id: suiteData.parentSuiteId };
+            payload.parentSuite = suiteData.parentSuiteId;
         }
 
         switch (suiteData.type) {
@@ -95,6 +95,51 @@ class AzureDevOpsTests {
             return result;
         } catch (error) {
             console.error('Failed to create test suite:', error.message);
+            throw error;
+        }
+    }
+
+    // Create Test Case
+    async  CreatetestCase(testCaseData, testCaseSteps) {
+        if (!testCaseData.opp) 
+            testCaseData.opp = 'add';
+        if (!testCaseData.path)
+            testCaseData.path =  '/fields/System.Title';
+
+        if (!testCaseData.value) throw new Error('Test cases value is required');
+
+        if (!testCaseSteps.opp)
+            testCaseSteps.opp = 'add';
+        if (!testCaseSteps.path)
+            testCaseSteps.path = '/fields/Microsoft.VSTS.TCM.Steps';
+
+        //if (!testCaseSteps.value) throw new Error('Test case steps are required');
+
+        const url =`https://dev.azure.com/${this.organization}/${this.project}/_apis/wit/workitems/$Test%20Case?api-version=7.1`;
+
+        const payload = [testCaseData, testCaseSteps];
+
+        try {
+            const result = await this.makeApiRequest(url, payload);
+            console.log('Test Case Created:', result);
+            return result;
+        }
+        catch (error) {
+            console.error('Failed to create test case:', error.message);
+            throw error;
+        }    
+    }
+    
+    
+    //
+    async  MapTestcaseToTestSuite(testPlanId, testSuiteId, testCaseIds) {
+        const url = `https://dev.azure.com/${this.organization}/${this.project}/_apis/test/Plans/${testPlanId}/suites/${testSuiteId}/testcases/${testCaseIds}?api-version=7.1`; 
+        try {
+            const result = await this.makeApiRequest(url, {});
+            console.log('Test Case Mapped:', result);
+            return result;
+        } catch (error) {
+            console.error('Failed to map test case to test suite:', error.message);
             throw error;
         }
     }
