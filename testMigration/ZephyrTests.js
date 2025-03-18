@@ -49,6 +49,7 @@ class ZephyrTests {
     transformTestCycles(zephyrData) {
         return zephyrData.values.map(cycle => ({
             id: cycle.id,
+            testPlanIds: cycle.links?.testPlans?.map(plan => plan.testPlanId) || [],
             name: cycle.name,
             description: cycle.objective || "Sin descripción",
             suiteType: "StaticTestSuite",
@@ -58,9 +59,11 @@ class ZephyrTests {
     async extractField(endpoint) {
         const zephyrData = await this.fetchZephyrData(endpoint);
         if (zephyrData) {
-            const transformedData = this.transformDataForAzure(endpoint, zephyrData);
-            fs.writeFileSync(`${endpoint}.json`, JSON.stringify(transformedData, null, 2));
-            console.log(`✅ JSON formateado guardado en ${endpoint}.json`);
+            var aux = this.transformDataForAzure(endpoint, zephyrData);
+            //console.log(aux);
+            return aux;
+            //fs.writeFileSync(`${endpoint}.json`, JSON.stringify(transformedData, null, 2));
+            //console.log(`✅ JSON formateado guardado en ${endpoint}.json`);
         }
     }
 
@@ -107,10 +110,14 @@ class ZephyrTests {
                 }
             ];
         }));
+        //console.log(transformedTestCases);
         return transformedTestCases;
         //fs.writeFileSync('testcases.json', JSON.stringify(transformedTestCases, null, 2));
-        //console.log('✅ JSON formateado guardado en testcases.json');
     }
 }
 
 module.exports = ZephyrTests;
+//const aux = new ZephyrTests('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2VVcmwiOiJodHRwczovL2RhbmllbHRvcnJpY29iLmF0bGFzc2lhbi5uZXQiLCJ1c2VyIjp7ImFjY291bnRJZCI6IjcxMjAyMDplNGZiNGU5OC0yNTczLTQ4ZjYtYmQ0ZS01NWI3NTEyNzAwNDAiLCJ0b2tlbklkIjoiM2RmZGE4NGYtZTI0MS00YTUyLTk2OWEtNDZiMmJhOGIwYjM4In19LCJpc3MiOiJjb20ua2Fub2FoLnRlc3QtbWFuYWdlciIsInN1YiI6IjU3NWMyY2Q4LWI1MWUtMzU2NS1iN2U1LTRmOGU3NTJkODFjNCIsImV4cCI6MTc3MTAyMDcxNiwiaWF0IjoxNzM5NDg0NzE2fQ.BbrBWYp3pontZl3Kj5VpMfAp9tZtWvkaBRzYS_4cLig', 'PZ');
+//console.log(aux.fetchAndTransformTestCases());
+//console.log(aux.extractField('testplans'));
+//console.log(aux.extractField('testcycles'));
