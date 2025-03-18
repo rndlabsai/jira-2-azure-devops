@@ -1,4 +1,6 @@
 const axios = require('axios');
+const fs = require("fs");
+const { json } = require('stream/consumers');
 
 class AzureDevOpsTests {
     constructor(pat, organization, project) {
@@ -30,7 +32,9 @@ class AzureDevOpsTests {
             const response = await axios.post(url, data, { headers: this.authHeaders });
             return response.data;
         } catch (error) {
+             fs.writeFileSync("output.txt", JSON.stringify(error.response ? error.response.data : error.message), "utf8");
             console.error('API Request Failed:', error.response ? error.response.data : error.message);
+            
             throw error;
         }
     }
@@ -100,7 +104,8 @@ class AzureDevOpsTests {
     }
 
     // Create Test Case
-    async  CreatetestCase(testCaseData, testCaseSteps) {
+    async  createTestCase(testCaseData) {
+        /*
         if (!testCaseData.opp) 
             testCaseData.opp = 'add';
         if (!testCaseData.path)
@@ -114,7 +119,7 @@ class AzureDevOpsTests {
             testCaseSteps.path = '/fields/Microsoft.VSTS.TCM.Steps';
 
         //if (!testCaseSteps.value) throw new Error('Test case steps are required');
-
+        */
         const url =`https://dev.azure.com/${this.organization}/${this.project}/_apis/wit/workitems/$Test%20Case?api-version=7.1`;
 
         const payload = [testCaseData, testCaseSteps];
@@ -132,7 +137,7 @@ class AzureDevOpsTests {
     
     
     //
-    async  MapTestcaseToTestSuite(testPlanId, testSuiteId, testCaseIds) {
+    async  mapTestcaseToTestSuite(testPlanId, testSuiteId, testCaseIds) {
         const url = `https://dev.azure.com/${this.organization}/${this.project}/_apis/test/Plans/${testPlanId}/suites/${testSuiteId}/testcases/${testCaseIds}?api-version=7.1`; 
         try {
             const result = await this.makeApiRequest(url, {});
@@ -145,4 +150,4 @@ class AzureDevOpsTests {
     }
 }
 
-module.exports = AzureDevOps;
+module.exports = AzureDevOpsTests;

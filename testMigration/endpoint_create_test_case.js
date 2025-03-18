@@ -62,7 +62,7 @@ async function postdata(json_data, token) {
 
 
 
-
+//
 async function settestcase(id_test_plan, id_test_suit, id_test_case, token) {
     const urlpostset = `https://dev.azure.com/sin-chamba-team/TestProject/_apis/test/Plans/${id_test_plan}/suites/${id_test_suit}/testcases/${id_test_case}?api-version=7.1`; 
     try {
