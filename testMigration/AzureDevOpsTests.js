@@ -134,6 +134,17 @@ class AzureDevOpsTests {
             throw error;
         }    
     }
+
+    async createTestCases(testCasesList){
+        for(const testCase of testCasesList){
+            try{
+                await this.createTestCase(testCase);
+            }
+            catch(error){
+                console.error('Failed to create test case:', error.message);
+            }
+        }
+    }
     
     
     //

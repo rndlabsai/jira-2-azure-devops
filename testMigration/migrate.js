@@ -8,15 +8,6 @@ function migrateTestCases(jiraToken, jiraProject, azureToken, azureOrganization,
     const azureHandler = new AzureDevOpsTests(azureToken, azureOrganization, azureProject);
     const zephyrHandler = new ZephyrTests(jiraToken, jiraProject);
 
-    const testcasesInfo = zephyrHandler.fetchAndTransformTestCases();
-    console.log(testcasesInfo);
-    
-    
+    const testcasesList = zephyrHandler.fetchAndTransformTestCases();
+    azureHandler.createTestCases(testcasesList);
 }
-const jiraToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2VVcmwiOiJodHRwczovL3Npbi1jaGFtYmEtdGVhbS5hdGxhc3NpYW4ubmV0IiwidXNlciI6eyJhY2NvdW50SWQiOiI2MzFiM2ZkOTM3NzhhN2FhZGYxYWFiYWMiLCJ0b2tlbklkIjoiNTczYmM3YmMtZDQyOC00MzEzLWI1NTQtMDE1ZDhlYWYzN2Y5In19LCJpc3MiOiJjb20ua2Fub2FoLnRlc3QtbWFuYWdlciIsInN1YiI6IjhhODA0OTBmLWE2N2EtMzQyZi05ZWNjLWNmOTQ5YmUxM2ZkYiIsImV4cCI6MTc3Mzg0OTc2MywiaWF0IjoxNzQyMzEzNzYzfQ.re2rBMKv2N94XD_P55Ews_Sgx51HH29uRgK2_ggbeLY';
-const jiraProject = 'SCT';
-const azureToken = '859b1IgQnlhjrspx3srMdQvHoGTUPeHf86UYXTzQdIGKfcRc02IyJQQJ99BBACAAAAAcetVYAAASAZDOxuFl';
-const azureOrganization = 'sin-chamba-team';
-const azureProject = 'TestProject';
-
-migrateTestCases(jiraToken, jiraProject, azureToken, azureOrganization, azureProject);
