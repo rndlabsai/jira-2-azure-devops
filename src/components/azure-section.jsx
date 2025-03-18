@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"; // Importa useEffect
 import axios from "axios";
 import "./azure-section.css";
 import "../styles/global.css";
+import { postTokens } from "../../utils/api";
 
 function AzureSection() {
   // Estados para almacenar los valores ingresados
@@ -25,15 +26,15 @@ function AzureSection() {
         });
 
         if (response.data.success && response.data.tokens) {
-          // Buscar el token de Jira
-          const jiraToken = response.data.tokens.find(
-            (token) => token.Application === "Jira"
+          // Buscar el token de Zephyr
+          const zephyrToken = response.data.tokens.find(
+            (token) => token.Application === "Azure Devops"
           );
-          if (jiraToken) {
-            // Llenar los campos con los datos del token de Jira
-            setApiToken(jiraToken.Number);
-            setEmail(jiraToken.email);
-            setUrl(jiraToken.url);
+          if (zephyrToken) {
+            // Llenar los campos con los datos del token de Zephyr
+            setApiToken(zephyrToken.Number);
+            setEmail(zephyrToken.email);
+            setUrl(zephyrToken.url);
           }
         }
       } catch (error) {
@@ -52,26 +53,23 @@ function AzureSection() {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/save-token",
-        {
-          username,
-          token: apiToken,
-          application: "Azure DevOps",
-          email: email || null, // Enviar null si email no está definido
-          url: url || null, // Enviar null si url no está definido
-        }
+      const data = await postTokens(
+        username,
+        apiToken,
+        "Azure Devops",
+        email || null,
+        url || null
       );
 
-      if (response.data.success) {
-        alert("Token guardado exitosamente!");
+      if (data[0]) {
+        alert(data[1] || "Token saved successfully!");
       } else {
-        alert("Error: " + response.data.message);
+        alert("Error: " + (data[1] || "Unknown error"));
       }
     } catch (error) {
-      console.error("Error al guardar el token:", error);
+      console.error("Error while saving credentials:", error);
       alert(
-        "No se pudo guardar el token: " +
+        "Unable to save your credentials: " +
           (error.response?.data?.message || error.message)
       );
     }
@@ -85,7 +83,7 @@ function AzureSection() {
     }
 
     try {
-      // Obtener el ID del token de Jira del usuario
+      // Obtener el ID del token de Zephyr del usuario
       const response = await axios.get("http://localhost:4000/api/tokens", {
         params: { username },
       });
@@ -93,25 +91,25 @@ function AzureSection() {
       console.log("Respuesta del backend en deleteToken:", response.data); // Debug
 
       if (response.data.success && response.data.tokens) {
-        // Buscar el token de Jira
-        const jiraToken = response.data.tokens.find(
-          (token) => token.Application === "Jira"
+        // Buscar el token de Zephyr
+        const zephyrToken = response.data.tokens.find(
+          (token) => token.Application === "Azure Devops"
         );
 
-        console.log("Token encontrado en deleteToken:", jiraToken); // Debug
+        console.log("Token encontrado en deleteToken:", zephyrToken); // Debug
 
-        if (!jiraToken || !jiraToken.id) {
-          alert("No se encontró un token de Jira para este usuario.");
+        if (!zephyrToken || !zephyrToken.id) {
+          alert("No se encontró un token de Zephyr para este usuario.");
           return;
         }
 
-        console.log("Intentando eliminar el token con ID:", jiraToken.id); // Debug
+        console.log("Intentando eliminar el token con ID:", zephyrToken.id); // Debug
 
         // Enviar solicitud para eliminar el token
         const deleteResponse = await axios.delete(
           "http://localhost:4000/api/delete-token",
           {
-            data: { username, tokenId: jiraToken.id },
+            data: { username, tokenId: zephyrToken.id },
           }
         );
 

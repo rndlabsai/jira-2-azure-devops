@@ -57,7 +57,7 @@ const Migrate = () => {
       const success = await startMigration(
         jiraProject,
         azureProject,
-        advancedOptions
+        showAdvancedOptions ? advancedOptions : null
       );
       if (success) {
         setMigrationStatus("Successful");
@@ -133,15 +133,17 @@ const Migrate = () => {
               />
               Custom Fields
             </label>
-            <label>
-              <input
-                type="checkbox"
-                name="issues"
-                checked={advancedOptions.issues}
-                onChange={handleCheckboxChange}
-              />
-              Issues
-            </label>
+            {!!advancedOptions.customFields && (
+              <label>
+                <input
+                  type="checkbox"
+                  name="issues"
+                  checked={advancedOptions.issues}
+                  onChange={handleCheckboxChange}
+                />
+                Issues
+              </label>
+            )}
             <label>
               <input
                 type="checkbox"
