@@ -1,13 +1,13 @@
 import express from 'express';
-import cors from 'cors';
+// import cors from 'cors';
 import { loginUser, registerUser } from './userService.js';
 import pool from './db.js';
 import bodyParser from 'body-parser';
-import { readArrayFromJSONFile } from './utils/utils.js';
-import { migrate, retrieveAndWriteProjects } from './api_calls/index.js';
+import { readArrayFromJSONFile, getSelectionPaths, emptyArrayFromJSONFile } from './utils/utils.js';
+import { retrieveAndWriteProjects } from './api_calls/index.js';
 import { decryptToken, encryptToken } from './tokenService.js';
 import fs from 'fs';
-// import { assert } from './utils/utils.js';
+import { migrate } from './migrations/jiraMigrations.js';
 
 // project's cache
 let projects = [];
@@ -18,17 +18,11 @@ let EMAIL = null;
 // token's cache
 let API_TOKEN = null;
 
-/*const { message } = await registerUser("fredant", "pass123");
-
-assert(message === 'Usuario registrado con éxito', 'Error en la función registerUser');*/
-
 const app = express();
 app.use(express.json());
 // app.use(express.json()); // Para manejar JSON en requests
 // Habilitar CORS
 // app.use(cors({ origin: 'http://localhost:5173', credentials: true })); // Permitir solicitudes desde el frontend
-
-// app.options('*', cors());
 
 app.use(function (_, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -206,6 +200,9 @@ app.delete('/api/delete-token', bodyParser.json(), async (req, res) => {
         // Eliminar el token de la tabla `token`
         await pool.query('DELETE FROM token WHERE id = ?', [tokenId]);
 
+        projects = [];
+        emptyArrayFromJSONFile("./json/projects.json", "projects");
+
         res.status(200).json({ success: true, message: 'Token eliminado correctamente' });
     } catch (error) {
         console.error('Error al eliminar el token:', error);
@@ -214,15 +211,28 @@ app.delete('/api/delete-token', bodyParser.json(), async (req, res) => {
 });
 
 app.post('/api/migration', bodyParser.json(), async (req, res) => {
-    console.dir(req.body, { depth: null });
+    // console.dir(req.body, { depth: null });
     const { start, origin, destination, options } = req.body;
 
-    if (!origin || !destination || !options) {
+    // console.dir(options, { depth: null });
+
+    if (!origin || !destination) {
         return res.status(400).json({ message: "Missing required parameters." });
     }
 
     if (start) {
-        migrate(URL, EMAIL, API_TOKEN, origin, "./logfile.log", "./json/total.json", ["./json/custom_fields", "./json/workflows", "./json/issues"]);
+        let new_options = options;
+        if (options === null) {
+            new_options = {
+                customFields: true,
+                issues: true,
+                workflows: true
+            };
+        }
+        const options_paths = getSelectionPaths(new_options, "./json");
+        // console.dir(options_paths, { depth: null });
+        migrate(URL, EMAIL, API_TOKEN, origin, "./logfile.log", "./json/total.json", new_options, options_paths);
+
         res.status(200).json({
             message: "Migration request received successfully.",
             receivedData: { origin, destination, options }

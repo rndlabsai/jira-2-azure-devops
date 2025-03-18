@@ -68,6 +68,7 @@ export const retrieveAndWriteWorkflows = async (url, email, api_token, p_key, fi
     }
 
     workflows.forEach(workflow => {
+        console.log(`writing to ${workflow.id}.json...`);
         fs.writeFileSync(`${filepath}/${workflow.id}.json`, JSON.stringify(workflow, null, 2), 'utf8');
     });
 
@@ -184,21 +185,3 @@ export const retrieveAndWriteIssues = async (url, email, api_token, project_key,
     );*/
 // await retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows");
 // await retrieveAndWriteScreens(URL, EMAIL, API_TOKEN, "10001", "../json/screens");
-
-export const migrate = async (url, email, api_token, p_key, log_filepath, total_filepath, json_filepaths = ["../json/custom_fields", "../json/workflows", "../json/issues"]) => {
-    let index = 0;
-    retrieveAndWriteCustomFields(url, email, api_token, json_filepaths[index], total_filepath)
-        .then(() => {
-            appendToLogFile(log_filepath, "Custom fields retrieved successfully...");
-            index++;
-            return retrieveAndWriteWorkflows(url, email, api_token, p_key, json_filepaths[index], total_filepath);
-        })
-        .then(() => {
-            appendToLogFile(log_filepath, "Workflows retrieved successfully...");
-            index++;
-            return retrieveAndWriteIssues(url, email, api_token, p_key, json_filepaths[index], total_filepath, log_filepath, "All");
-        })
-        .then(() => {
-            appendToLogFile(log_filepath, "Issues retrieved succesfully...");
-        });
-}

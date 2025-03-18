@@ -51,6 +51,14 @@ export const readArrayFromJSONFile = (filepath, property) => {
     return array ? array : [];
 }
 
+export const emptyArrayFromJSONFile = (filepath, property) => {
+    if (!fs.existsSync(filepath)) {
+        throw new Error("File does not exist...");
+    }
+
+    fs.writeFileSync(filepath, JSON.stringify({ [property]: [] }, null, 2), 'utf8');
+}
+
 export const appendToLogFile = (filepath, text) => {
     assert(!isEmptyString(filepath), "Invalid filepath...");
     assert(!isEmptyString(text), "Invalid text...");
@@ -84,4 +92,29 @@ export const downloadFile = async (download_url, destiny_file, headers = null, l
 
     const ws = fs.createWriteStream(destiny_file, flags);
     await pipelineAsync(response.body, ws);
+}
+
+const isUpercase = (character) => {
+    return character === character.toUpperCase();
+}
+
+
+export const getSelectionPaths = (migrate_data, base_dir, file_type = null) => {
+    assert(typeof migrate_data === 'object', "Invalid migrate_data...");
+
+    if (!file_type) {
+        file_type = "";
+    }
+    else if (file_type[0] !== ".") {
+        file_type = "." + file_type;
+    }
+
+    let paths = [];
+    Object.keys(migrate_data).forEach(key => {
+        if (migrate_data[key]) {
+            paths.push(base_dir + "/" + Array.from(key).map((char) => isUpercase(char) ? "_" + char : char).join("").toLowerCase() + file_type);
+        }
+    });
+
+    return paths;
 }
