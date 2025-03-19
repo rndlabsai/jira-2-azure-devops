@@ -221,6 +221,19 @@ app.post('/api/end-migration', async (req, res) => {
     }
 });
 
+app.post('/api/end-migration', bodyParser.json(), async (req, res) => {
+    const { finish } = req.body;
+
+    if (finish) {
+        emptyLogFile("./logfile.log");
+        emptyJSONFile("./json/total.json");
+        res.status(200).json({ message: "Migration ended successfully..." });
+    }
+    else {
+        res.status(400).json({ message: "Tried to end migration forcefully..." });
+    }
+});
+
 //endpoint /api/migration-status (GET) lo que debo hacer es leer logfile.log, luego debo retornar un array de logs (siguiendo el formato en progress.jsx)
 // luego calcular el progreso [Log1, Log2, Log3]
 app.get('/api/migration-status', async (_, res) => {
