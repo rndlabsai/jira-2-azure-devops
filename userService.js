@@ -28,9 +28,6 @@ export const loginUser = async (username, password) => {
 
     const user = rows[0];
 
-    // console.log("Contraseña ingresada:", password);
-    // console.log("Contraseña almacenada (hash):", user.password);
-
     if (!password) {
         throw new Error("Contraseña no proporcionada");
     }
