@@ -31,6 +31,29 @@ app.use((req, _, next) => {
     next();
 });
 
+// verify the validity of the jira token
+app.use('/api/save-token', async (req, res, next) => {
+    try {
+        const { _, token, email, url, application } = req.body;
+        if (application !== "Jira") {
+            next();
+        }
+
+        URL = url;
+        EMAIL = email;
+        API_TOKEN = token;
+        projects = await retrieveAndWriteProjects(url, email, token, "./json/projects.json");
+    }
+    catch (e) {
+        if (e.cause && e.cause === 'invalid_token') {
+            res.status(401).send({ message: "AUTHENTICATED_FAILED" });
+            return;
+        }
+    }
+
+    next();
+});
+
 // ruta de test
 app.get('/api/test', (_, res) => {
     res.json({ message: "✅ Backend funcionando correctamente" });
