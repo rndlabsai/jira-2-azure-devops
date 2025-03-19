@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import fs from 'fs';
 import { loginUser, registerUser } from './userService.js';
 import pool from './db.js';
-import { readArrayFromJSONFile, getSelectionPaths, emptyArrayFromJSONFile, emptyLogFile, emptyJSONFile, deleteFile } from './utils/utils.js';
+import { readArrayFromJSONFile, getSelectionPaths, emptyArrayFromJSONFile, emptyLogFile, emptyJSONFile } from './utils/utils.js';
 import { retrieveAndWriteProjects } from './api_calls/index.js';
 import { decryptToken, encryptToken } from './tokenService.js';
 import { migrate } from './migrations/jiraMigrations.js';
@@ -237,10 +237,10 @@ app.post('/api/migration', async (req, res) => {
 
         migrate(URL, EMAIL, API_TOKEN, origin, "./logfile.log", "./json/total.json", new_options, options_paths);
 
-res.status(200).json({
-    message: "Migration request received successfully.",
-    receivedData: { origin, destination, options }
-});
+        res.status(200).json({
+            message: "Migration request received successfully.",
+            receivedData: { origin, destination, options }
+        });
     }
 });
 
