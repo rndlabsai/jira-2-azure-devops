@@ -6,7 +6,6 @@ import { loginUser, registerUser } from './userService.js';
 import pool from './db.js';
 import { readArrayFromJSONFile, getSelectionPaths, emptyArrayFromJSONFile, emptyLogFile, emptyJSONFile, deleteFile } from './utils/utils.js';
 import { retrieveAndWriteProjects } from './api_calls/index.js';
-import { readArrayFromJSONFile, emptyArrayFromJSONFile } from './utils/utils.js';
 import { decryptToken, encryptToken } from './tokenService.js';
 
 // Project's cache
