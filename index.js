@@ -4,11 +4,10 @@ import bodyParser from 'body-parser';
 import fs from 'fs';
 import { loginUser, registerUser } from './userService.js';
 import pool from './db.js';
-import bodyParser from 'body-parser';
 import { readArrayFromJSONFile, getSelectionPaths, emptyArrayFromJSONFile, emptyLogFile, emptyJSONFile, deleteFile } from './utils/utils.js';
 import { retrieveAndWriteProjects } from './api_calls/index.js';
-import { readArrayFromJSONFile, emptyArrayFromJSONFile } from './utils/utils.js';
 import { decryptToken, encryptToken } from './tokenService.js';
+import { migrate } from './migrations/jiraMigrations.js';
 
 // Project's cache
 let projects = [];
@@ -225,10 +224,24 @@ app.post('/api/migration', async (req, res) => {
         return res.status(400).json({ message: "Missing required parameters." });
     }
 
-    res.status(200).json({
-        message: "Migration request received successfully.",
-        receivedData: { origin, destination, options }
-    });
+    if (start) {
+        let new_options = options;
+        if (options === null) {
+            new_options = {
+                customFields: true,
+                issues: true,
+                workflows: true
+            };
+        }
+        const options_paths = getSelectionPaths(new_options, "./json");
+
+        migrate(URL, EMAIL, API_TOKEN, origin, "./logfile.log", "./json/total.json", new_options, options_paths);
+
+res.status(200).json({
+    message: "Migration request received successfully.",
+    receivedData: { origin, destination, options }
+});
+    }
 });
 
 app.post('/api/end-migration', async (req, res) => {
