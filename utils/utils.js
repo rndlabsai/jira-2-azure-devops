@@ -42,6 +42,22 @@ export const createDirectory = (dirpath) => {
     }
 }
 
+export const deleteFile = (filepath) => {
+    assert(fs.existsSync(filepath), "File does not exist...");
+    fs.unlinkSync(filepath);
+}
+
+export const emptyLogFile = (filepath) => {
+    assert(fs.existsSync(filepath), "File does not exist...");
+    fs.writeFileSync(filepath, '', 'utf8');
+}
+
+export const emptyJSONFile = (filepath, default_value = null) => {
+    assert(fs.existsSync(filepath), "File does not exist...");
+    fs.writeFileSync
+        (filepath, JSON.stringify(default_value ? default_value : {}, null, 2), 'utf8');
+}
+
 export const readArrayFromJSONFile = (filepath, property) => {
     if (!fs.existsSync(filepath)) {
         throw new Error("File does not exist...");

@@ -3,7 +3,7 @@ import express from 'express';
 import { loginUser, registerUser } from './userService.js';
 import pool from './db.js';
 import bodyParser from 'body-parser';
-import { readArrayFromJSONFile, getSelectionPaths, emptyArrayFromJSONFile } from './utils/utils.js';
+import { readArrayFromJSONFile, getSelectionPaths, emptyArrayFromJSONFile, emptyLogFile, emptyJSONFile, deleteFile } from './utils/utils.js';
 import { retrieveAndWriteProjects } from './api_calls/index.js';
 import { decryptToken, encryptToken } from './tokenService.js';
 import fs from 'fs';
@@ -200,7 +200,11 @@ app.delete('/api/delete-token', bodyParser.json(), async (req, res) => {
         // Eliminar el token de la tabla `token`
         await pool.query('DELETE FROM token WHERE id = ?', [tokenId]);
 
+        // Limpiar la caché
         projects = [];
+        URL = null;
+        EMAIL = null;
+        API_TOKEN = null;
         emptyArrayFromJSONFile("./json/projects.json", "projects");
 
         res.status(200).json({ success: true, message: 'Token eliminado correctamente' });
@@ -237,6 +241,19 @@ app.post('/api/migration', bodyParser.json(), async (req, res) => {
             message: "Migration request received successfully.",
             receivedData: { origin, destination, options }
         });
+    }
+});
+
+app.post('/api/end-migration', bodyParser.json(), async (req, res) => {
+    const { finish } = req.body;
+
+    if (finish) {
+        emptyLogFile("./logfile.log");
+        emptyJSONFile("./json/total.json");
+        res.status(200).json({ message: "Migration ended successfully..." });
+    }
+    else {
+        res.status(400).json({ message: "Tried to end migration forcefully..." });
     }
 });
 

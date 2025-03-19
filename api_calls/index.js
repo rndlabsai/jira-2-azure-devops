@@ -3,16 +3,11 @@ import { getCustomFields } from './get_fields.js';
 import { getIssues, getEpics, getStories, getTasks, getBugs, getSubTasks, getMultipleIssues, setCustomFields } from './get_issues.js';
 import { getScreens } from './get_screens.js';
 import { getWorkflows } from './get_workflows.js';
-import dotenv from 'dotenv';
 
 import fs from 'fs';
-import { appendToLogFile, assert, createDirectory } from '../utils/utils.js';
-
-dotenv.config({ path: "../.env" });
-
-const URL = process.env.URL;
-const EMAIL = process.env.EMAIL;
-const API_TOKEN = process.env.API_TOKEN;
+import {
+    assert, createDirectory
+} from '../utils/utils.js';
 
 let custom_fields_retrieved = false;
 
@@ -47,12 +42,17 @@ export const retrieveAndWriteCustomFields = async (url, email, api_token, filepa
 
     if (fs.existsSync(total_filepath)) {
         const data = JSON.parse(fs.readFileSync(total_filepath, 'utf8'));
+
+        data.migrated = data.migrated || 0; // Ensure migrated is initialized
         data.fields = customFields.length;
-        data.total += customFields.length;
+        data.total = (data.total || 0) + customFields.length; // Initialize total if missing
+
         fs.writeFileSync(total_filepath, JSON.stringify(data, null, 2), 'utf8');
     }
     else {
-        fs.writeFileSync(total_filepath, JSON.stringify({ fields: customFields.length, total: customFields.length }, null, 2), 'utf8');
+        const data = { fields: customFields.length, total: customFields.length, migrated: 0 };
+
+        fs.writeFileSync(total_filepath, JSON.stringify(data, null, 2), 'utf8');
     }
 }
 
@@ -68,18 +68,18 @@ export const retrieveAndWriteWorkflows = async (url, email, api_token, p_key, fi
     }
 
     workflows.forEach(workflow => {
-        console.log(`writing to ${workflow.id}.json...`);
         fs.writeFileSync(`${filepath}/${workflow.id}.json`, JSON.stringify(workflow, null, 2), 'utf8');
     });
 
     if (fs.existsSync(total_filepath)) {
         const data = JSON.parse(fs.readFileSync(total_filepath, 'utf8'));
+        data.migrated = data.migrated || 0;
         data.workflows = workflows.length;
-        data.total += workflows.length;
+        data.total = (data.total || 0) + workflows.length;
         fs.writeFileSync(total_filepath, JSON.stringify(data, null, 2), 'utf8');
     }
     else {
-        fs.writeFileSync(total_filepath, JSON.stringify({ workflows: workflows.length, total: workflows.length }, null, 2), 'utf8');
+        fs.writeFileSync(total_filepath, JSON.stringify({ workflows: workflows.length, total: workflows.length, migrated: 0 }, null, 2), 'utf8');
     }
 }
 
@@ -101,16 +101,17 @@ export const retrieveAndWriteScreens = async (url, email, api_token, p_id, filep
     if (fs.existsSync(total_filepath)) {
         const data = JSON.parse(fs.readFileSync(total_filepath, 'utf8'));
         data.screens = screens.length;
-        data.total += screens.length;
+        data.total = (data.total || 0) + screens.length;
+        data.migrated = data.migrated || 0;
         fs.writeFileSync(total_filepath, JSON.stringify(data, null, 2), 'utf8');
     }
     else {
-        fs.writeFileSync(total_filepath, JSON.stringify({ screens: screens.length, total: screens.length }, null, 2), 'utf8');
+        fs.writeFileSync(total_filepath, JSON.stringify({ screens: screens.length, total: screens.length, migrated: 0 }, null, 2), 'utf8');
     }
 }
 
 export const retrieveAndWriteIssues = async (url, email, api_token, project_key, filepath, total_filepath, log_filepath, search_type = "All", search_obj = null) => {
-    assert(custom_fields_retrieved, "Custom fields must be retrieved before issues can be retrieved...")
+    assert(custom_fields_retrieved, "Custom fields must be retrieved before issues can be retrieved...");
 
     let issues = [];
 
@@ -163,25 +164,16 @@ export const retrieveAndWriteIssues = async (url, email, api_token, project_key,
 
     if (fs.existsSync(total_filepath)) {
         const data = JSON.parse(fs.readFileSync(total_filepath, 'utf8'));
+
+        data.migrated = data.migrated || 0; // Ensure migrated is initialized
         data.issues = issues.length;
-        data.total += issues.length;
+        data.total = (data.total || 0) + issues.length; // Initialize total if missing
+
         fs.writeFileSync(total_filepath, JSON.stringify(data, null, 2), 'utf8');
     }
     else {
-        fs.writeFileSync(total_filepath, JSON.stringify({ issues: issues.length, total: issues.length }, null, 2), 'utf8');
+        const data = { issues: issues.length, total: issues.length, migrated: 0 };
+
+        fs.writeFileSync(total_filepath, JSON.stringify(data, null, 2), 'utf8');
     }
 }
-
-// const projects = await retrieveAndWriteProjects(URL, EMAIL, API_TOKEN, "../json/projects.json");
-// console.log(projects);
-
-// await retrieveAndWriteCustomFields(URL, EMAIL, API_TOKEN, "../json/custom_fields", "../json/total.json");
-// await retrieveAndWriteIssues(URL, EMAIL, API_TOKEN, "GG", "../json/issues", "../json/total.json", "All");
-// await retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows", "../json/total.json");
-// await retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows");
-/* await retrieveAndWriteCustomFields(URL, EMAIL, API_TOKEN, "../json/custom_fields", "../json/total.json")
-    .then(
-        () => { retrieveAndWriteIssues(URL, EMAIL, API_TOKEN, "GG", "../json/issues", "../json/total.json", "All") }
-    );*/
-// await retrieveAndWriteWorkflows(URL, EMAIL, API_TOKEN, "GG", "../json/workflows");
-// await retrieveAndWriteScreens(URL, EMAIL, API_TOKEN, "10001", "../json/screens");
