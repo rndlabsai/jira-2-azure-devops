@@ -18,19 +18,40 @@ function CreateUser() {
       };
     }, []);
 
-  const handleCreateUser = (e) => {
-    e.preventDefault();
-    setError("");
-
-    if (password1 !== password2) {
-      setError("Passwords do not match.");
-      return;
-    }
-
-    // Logica Backend (Creacion de los usuarios por debajo)
-    navigate('/login');
-    alert(`User ${username} registered successfully!`);
-  };
+    const handleCreateUser = async (e) => {
+      e.preventDefault();
+      setError("");
+    
+      if (password1 !== password2) {
+        setError("Passwords do not match.");
+        return;
+      }
+    
+      try {
+        const response = await fetch("http://localhost:4000/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password: password1,
+          }),
+        });
+    
+        const data = await response.json();
+    
+        if (!response.ok) {
+          throw new Error(data.message || "Error registering user.");
+        }
+    
+        alert(`User ${username} registered successfully!`);
+        navigate("/login");
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    
 
   return (
     <div className="login-container">
