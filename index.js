@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import fs from 'fs';
 import { loginUser, registerUser } from './userService.js';
 import pool from './db.js';
-import { readArrayFromFile, emptyArrayFromJSONFile } from './utils/utils.js';
+import { readArrayFromJSONFile, emptyArrayFromJSONFile } from './utils/utils.js';
 import { decryptToken, encryptToken } from './tokenService.js';
 
 // Project's cache
@@ -18,23 +18,22 @@ let API_TOKEN = null;
 
 const app = express();
 
-// ✅ Middleware must be applied BEFORE defining routes
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(express.json());
 app.use(bodyParser.json());
 
-// ✅ Debugging: Log requests
+// debug
 app.use((req, res, next) => {
     console.log(`📌 Request received: ${req.method} ${req.url}`);
     next();
 });
 
-// ✅ Test route to check if server is running
+// ruta de test
 app.get('/api/test', (_, res) => {
     res.json({ message: "✅ Backend funcionando correctamente" });
 });
 
-// ✅ Check if routes are being registered
+// chequeando que las rutas carguen
 console.log("🔍 Loaded API routes:");
 app._router.stack.forEach((r) => {
     if (r.route && r.route.path) {
@@ -42,7 +41,7 @@ app._router.stack.forEach((r) => {
     }
 });
 
-// ✅ User Registration Route (Fixed)
+// ruta para registro del usuario 
 app.post('/api/register', async (req, res) => {
     console.log("📩 Received POST request at /api/register");
 
@@ -61,7 +60,7 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
-// ✅ User Login Route
+// ruta para login del user
 app.post('/api/login', async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -73,7 +72,7 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-// ✅ Fetch Tokens Route
+// ruta para obtener tokens
 app.get('/api/tokens', async (req, res) => {
     try {
         const { username } = req.query;
@@ -97,7 +96,6 @@ app.get('/api/tokens', async (req, res) => {
             url: token.url
         }));
 
-        // Handle possible missing Jira token
         const jiraToken = decryptedTokens.find(token => token.Application === 'Jira');
         if (jiraToken) {
             API_TOKEN = jiraToken.Number;
@@ -116,7 +114,7 @@ app.get('/api/tokens', async (req, res) => {
     }
 });
 
-// ✅ Save Token Route (Fixed undefined `application`)
+// ruta para guardar token
 app.post('/api/save-token', async (req, res) => {
     try {
         const { username, token, email, url, application } = req.body;
@@ -147,7 +145,7 @@ app.post('/api/save-token', async (req, res) => {
     }
 });
 
-// ✅ Delete Token Route
+// ruta para eliminar el token
 app.delete('/api/delete-token', async (req, res) => {
     try {
         const { username, tokenId } = req.body;
@@ -183,13 +181,13 @@ app.delete('/api/delete-token', async (req, res) => {
     }
 });
 
-// ✅ Fixed /api/jira/projects
+// ruta para obtener proyectos
 app.get('/api/jira/projects', async (_, res) => {
-    projects = projects.length === 0 ? readArrayFromFile("./json/projects.json", "projects") : projects;
+    projects = projects.length === 0 ? readArrayFromJSONFile("./json/projects.json", "projects") : projects;
     res.status(200).send({ projects, status: "ok" });
 });
 
-// ✅ Migration Route
+// ruta de migracion
 app.post('/api/migration', async (req, res) => {
     const { origin, destination, options } = req.body;
 
