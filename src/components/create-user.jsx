@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./create-user.css";
 import loginImage from "../assets/login-image.jpg";
 
@@ -7,6 +7,13 @@ function CreateUser() {
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+      document.body.classList.add("create-user-page");
+      return () => {
+        document.body.classList.remove("create-user-page");
+      };
+    }, []);
 
   const handleCreateUser = (e) => {
     e.preventDefault();
