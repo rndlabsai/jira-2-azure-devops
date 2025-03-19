@@ -9,7 +9,16 @@
     gap: 200px;
       
   }
+
+  .title {
+    color: black;
+  }
   
+  .label {
+    font-size: var(--font-size-small);
+    color: black;
+  }
+
   .login-header {
     text-align: center;
   }
@@ -52,9 +61,9 @@
   }
     
   .register-button {
-    width: 100px;
+    width: 200px;
     border-radius: 5px;
-    background-color: var(--color-one);
+    background-color: var(--color-two);
     font-size: var(--font-size-small);
     cursor: pointer;
     display: block;
@@ -62,7 +71,7 @@
   }
   
   .register-button:hover {
-    background-color: var(--color-one);
+    background-color: var(--color-three);
   }
 
   p{

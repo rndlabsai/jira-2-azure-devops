@@ -64,7 +64,7 @@ function CreateUser() {
         <h1>UPB Migration Tool</h1>
       </div>
       <div className="login-box">
-        <h2>Create Account</h2>
+        <h2 className="title">Create Account</h2>
         {error && (
           <p className="error-message" style={{ color: "black" }}>
             {error}
@@ -72,30 +72,30 @@ function CreateUser() {
         )}
         <form onSubmit={handleCreateUser}>
           <div className="input-group">
+          <label className="label">Username:</label>
             <input
               type="text"
               id="username"
-              placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
           <div className="input-group">
+            <label className="label">Password:</label>
             <input
               type="password"
               id="password"
-              placeholder="Password"
               value={password1}
               onChange={(e) => setPassword1(e.target.value)}
               required
             />
           </div>
           <div className="input-group">
+          <label className="label">Confirm Password:</label>
             <input
               type="password"
               id="confirm-password"
-              placeholder="Confirm Password"
               value={password2}
               onChange={(e) => setPassword2(e.target.value)}
               required
