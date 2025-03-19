@@ -218,7 +218,7 @@ app.get('/api/jira/projects', async (_, res) => {
 
 // ruta de migracion
 app.post('/api/migration', async (req, res) => {
-    const { origin, destination, options } = req.body;
+    const { start, origin, destination, options } = req.body;
 
     if (!origin || !destination) {
         return res.status(400).json({ message: "Missing required parameters." });
