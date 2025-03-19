@@ -4,7 +4,6 @@ import bodyParser from 'body-parser';
 import fs from 'fs';
 import { loginUser, registerUser } from './userService.js';
 import pool from './db.js';
-import bodyParser from 'body-parser';
 import { readArrayFromJSONFile, getSelectionPaths, emptyArrayFromJSONFile, emptyLogFile, emptyJSONFile, deleteFile } from './utils/utils.js';
 import { retrieveAndWriteProjects } from './api_calls/index.js';
 import { readArrayFromJSONFile, emptyArrayFromJSONFile } from './utils/utils.js';
