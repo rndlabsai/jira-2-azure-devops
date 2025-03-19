@@ -64,3 +64,9 @@
   .register-button:hover {
     background-color: var(--color-one);
   }
+
+  p{
+    text-align: center;
+    cursor: pointer;
+    color: var(--color-one)
+  }

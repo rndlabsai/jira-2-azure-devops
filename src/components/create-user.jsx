@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./create-user.css";
 import loginImage from "../assets/login-image.jpg";
+import { Link } from 'react-router-dom';
 
 function CreateUser() {
   const [username, setUsername] = useState("");
@@ -80,6 +81,7 @@ function CreateUser() {
             Register
           </button>
         </form>
+        <p onClick={() => navigate('/')}> Already have an account </p>
       </div>
     </div>
   );
