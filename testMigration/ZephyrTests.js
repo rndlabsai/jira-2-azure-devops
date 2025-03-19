@@ -51,7 +51,7 @@ class ZephyrTests {
             testPlanIds: cycle.links?.testPlans?.map(plan => plan.testPlanId) || [],
             name: cycle.name,
             description: cycle.objective || "Sin descripción",
-            suiteType: "StaticTestSuite",
+            suiteType: "staticTestSuite",
         }));
     }
 

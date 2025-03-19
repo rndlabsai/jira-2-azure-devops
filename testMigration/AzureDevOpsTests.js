@@ -31,8 +31,7 @@ class AzureDevOpsTests {
             const response = await axios.post(url, data, { headers: headers });
             return response.data;
         } catch (error) {
-             fs.writeFileSync("output.txt", JSON.stringify(error.response ? error.response.data : error.message), "utf8");
-            console.error('API Request Failed:', error.response ? error.response.data : error.message);
+            console.error('API Request Failed:', error.message);
             throw error;
         }
     }
@@ -59,6 +58,7 @@ class AzureDevOpsTests {
 
     
     async createTestSuite(suiteData) {
+        console.log('Creating test suite:', suiteData);
         if (!suiteData.planId) throw new Error('Plan ID is required');
         if (!suiteData.name) throw new Error('Suite name is required');
         if (!suiteData.type) throw new Error('Suite type is required');
@@ -67,12 +67,9 @@ class AzureDevOpsTests {
         
         const payload = {
             name: suiteData.name,
-            suiteType: suiteData.type
+            suiteType: suiteData.type,
+            parentSuite: { id: (suiteData.parentSuiteId || null)}
         };
-
-        if (suiteData.parentSuiteId) {
-            payload.parentSuite = suiteData.parentSuiteId;
-        }
 
         switch (suiteData.type) {
             case 'staticTestSuite':
@@ -90,11 +87,10 @@ class AzureDevOpsTests {
         }
 
         try {
+           
             return await this.makeApiRequest(url, payload, this.createAuthHeaders('application/json'));
-        } 
-        catch (error) 
-        {
-            console.error('Failed to create test suite:', error.message);
+        } catch (error) {
+            console.error('Failed to create test suite');
             throw error;
         }
     }

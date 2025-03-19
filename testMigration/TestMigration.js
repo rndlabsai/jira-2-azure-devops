@@ -26,22 +26,32 @@ class TestsMigration{
             const createdTestPlan = await this.azureHandler.createTestPlan(testPlanData);
             this.testPlanMapping[(testPlan.id)] = createdTestPlan.id;
         }
-        return mapping;
+    
+        return this.testPlanMapping
     }
 
-    async migrateTestSuites(){
-        const  testCycles = await this.zephyrHandler.extractField('testcycles');
-     
+    async migrateTestSuites() {
+        const testCycles = await this.zephyrHandler.extractField('testcycles');
+    
         for (const testCycle of testCycles) {
+            const testPlanId = this.testPlanMapping[testCycle.testPlanIds[0]];
+    
             const testCycleData = {
                 name: testCycle.name,
                 type: testCycle.suiteType,
-                planId: this.testPlanMapping[testCycle.testPlanIds[0]],
-                parentSuiteId: this.testPlanMapping[testCycle.testPlanIds[0]] + 1
+                planId: testPlanId,
+                parentSuiteId: testPlanId + 1
             };
-            const createdTestSuite = await this.azureHandler.createTestSuite(testCycleData);
-            this.testCyclesMapping[(testCycle.id)] = createdTestSuite.id;
+            try{
+                const createdTestSuite = await this.azureHandler.createTestSuite(testCycleData);
+                this.testCyclesMapping[(testCycle.id)] = createdTestSuite.id;
+            } catch(error){
+                console.error('Failed to create test suite');
+            }   
+           
         }
     }
 }
+
+module.exports = TestsMigration;
 
