@@ -1,32 +1,46 @@
 {
-  "id": "10292",
-  "key": "GG-289",
+  "id": "10000",
+  "key": "LIB-1",
   "fields": {
-    "summary": "Add the route to the component azure-section",
-    "description": null,
+    "summary": "2020 Scrum Guide",
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "jsadhkajfdwqieundw"
+            }
+          ]
+        }
+      ]
+    },
     "issuetype": {
-      "id": "10017",
-      "name": "Sub-task"
+      "id": "10012",
+      "name": "Book"
     },
     "status": {
-      "name": "Completed"
+      "name": "IN THE LIBRARY"
     },
     "priority": {
       "name": "Medium"
     },
     "creator": {
-      "displayName": "Adrián Montaño",
+      "displayName": "andres gottlieb",
       "emailAddress": ""
     },
     "reporter": {
-      "displayName": "Adrián Montaño",
+      "displayName": "andres gottlieb",
       "emailAddress": ""
     },
     "assignee": {
-      "displayName": "Adrián Montaño"
+      "displayName": "andres gottlieb"
     },
-    "created": "2025-02-24T20:00:05.427-0400",
-    "updated": "2025-02-27T11:26:25.856-0400",
+    "created": "2025-02-06T09:56:36.852-0400",
+    "updated": "2025-02-06T10:04:48.880-0400",
     "duedate": null,
     "labels": [],
     "components": [],
@@ -55,6 +69,12 @@
       "name": "Project overview status",
       "value": null
     },
+    "customfield_10036": {
+      "value": "Ken Schwaber & Jeff Sutherland"
+    },
+    "customfield_10037": {
+      "value": null
+    },
     "customfield_10027": {
       "name": "[CHART] Time in Status",
       "value": null
@@ -69,18 +89,7 @@
     },
     "customfield_10020": {
       "name": "Sprint",
-      "value": [
-        {
-          "id": 6,
-          "name": "Sprint 09",
-          "state": "closed",
-          "boardId": 3,
-          "goal": "",
-          "startDate": "2025-02-25T17:33:07.063Z",
-          "endDate": "2025-03-04T17:33:45.000Z",
-          "completeDate": "2025-03-05T15:17:13.255Z"
-        }
-      ]
+      "value": null
     },
     "customfield_10021": {
       "name": "Flagged",
@@ -120,14 +129,14 @@
         "hasEpicLinkFieldDependency": false,
         "showField": false,
         "nonEditableReason": {
-          "reason": "SUBTASK_LINK_SHOULD_BE_USED",
-          "message": "To set the parent for a sub-task, use the sub-task link."
+          "reason": "EPIC_LINK_SHOULD_BE_USED",
+          "message": "To set an epic as the parent, use the epic link instead"
         }
       }
     },
     "customfield_10019": {
       "name": "Rank",
-      "value": "0|i001qz:"
+      "value": "0|hzzzzz:"
     },
     "customfield_10010": {
       "name": "Request Type",
@@ -175,6 +184,9 @@
     },
     "customfield_10004": {
       "name": "Impact",
+      "value": null
+    },
+    "customfield_10038": {
       "value": null
     }
   }
