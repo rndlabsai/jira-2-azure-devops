@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import "./create-user.css";
 import loginImage from "../assets/login-image.jpg";
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 function CreateUser() {
   const [username, setUsername] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
       document.body.classList.add("create-user-page");
@@ -25,7 +27,8 @@ function CreateUser() {
       return;
     }
 
-    // Logica Backend
+    // Logica Backend (Creacion de los usuarios por debajo)
+    navigate('/login');
     alert(`User ${username} registered successfully!`);
   };
 
@@ -81,7 +84,7 @@ function CreateUser() {
             Register
           </button>
         </form>
-        <p onClick={() => navigate('/')}> Already have an account </p>
+        <p onClick={() => navigate('/login')}> Already have an account </p>
       </div>
     </div>
   );
