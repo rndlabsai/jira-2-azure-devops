@@ -92,10 +92,25 @@ export const startMigration = async (origin, destination, options) => {
 export const getMigrationStatus = async () => {
     const response = await api.get("/migration-status");
 
+    console.dir(response, { depth: null });
+
     if (response.status === 200) {
         return response.data;
     }
     else {
-        throw new Error("Error fetching migration status...");
+        return "migration not started...";//throw new Error("Error fetching migration status...");
+    }
+}
+
+export const endMigration = async () => {
+    const response = await postRequest("/end-migration", {
+        finish: true
+    });
+
+    if (response.status === 200) {
+        return response.data;
+    }
+    else {
+        throw new Error("Error ending migration...");
     }
 }

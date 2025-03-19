@@ -1,11 +1,28 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import "./progress.css";
-import { getMigrationStatus } from "../../utils/api";
+import { endMigration, getMigrationStatus } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 export default function MigrationProgress() {
+  const [isCompleted, setIsCompleted] = useState(false);
   const [progress, setProgress] = useState(0);
   const [logs, setLogs] = useState(["Iniciando migración..."]);
+  const navigate = useNavigate();
+
+  const handleEndMigration = async () => {
+    try {
+      const data = await endMigration();
+      alert(data.message);
+    } catch (error) {
+      console.error("Error ending migration:", error);
+    }
+
+    setIsCompleted(false);
+    setProgress(0);
+
+    navigate("/migrate");
+  };
 
   useEffect(() => {
     const fetchMigrationStatus = async () => {
@@ -13,6 +30,17 @@ export default function MigrationProgress() {
         const response = await getMigrationStatus();
 
         // console.dir(response, { depth: null });
+
+        if (response === "migration not started...") {
+          return;
+        }
+
+        if (response?.progress.toFixed(2) === "100.00") {
+          setIsCompleted(true);
+        } else if (response?.progress.toFixed(2) < "100.00") {
+          setIsCompleted(false);
+        }
+
         setProgress(response.progress.toFixed(2));
         setLogs(response.logs);
       } catch (error) {
@@ -31,8 +59,6 @@ export default function MigrationProgress() {
     // Cleanup function to stop polling when unmounting
     return () => clearInterval(interval);
   }, []);
-
-  const isCompleted = progress === 100;
 
   return (
     <div className="layout">
@@ -54,7 +80,14 @@ export default function MigrationProgress() {
 
         <div className="button-container">
           {isCompleted ? (
-            <button className="finish-button">Finalizar Migración</button>
+            <button
+              className="finish-button"
+              onClick={() => {
+                handleEndMigration();
+              }}
+            >
+              Finalizar Migración
+            </button>
           ) : (
             <p className="progress-text">Progress: {progress}%</p>
           )}
