@@ -7,14 +7,13 @@ class AzureDevOpsTests {
         this.pat = pat;
         this.organization = organization;
         this.project = project;
-        this.authHeaders = this.createAuthHeaders(pat);
         this.validateProjectInfo();
     }
 
-    createAuthHeaders(pat) {
-        const auth = Buffer.from(`:${pat}`).toString('base64');
+    createAuthHeaders(contentType) {
+        const auth = Buffer.from(`:${this.pat}`).toString('base64');
         return {
-            'Content-Type': 'application/json',
+            'Content-Type': contentType || 'application/json',
             'Authorization': `Basic ${auth}`
         };
     }
@@ -27,14 +26,12 @@ class AzureDevOpsTests {
 
   
     // Utility
-    async makeApiRequest(url, data) {
+    async makeApiRequest(url, data, headers) {
         try {
-            const response = await axios.post(url, data, { headers: this.authHeaders });
+            const response = await axios.post(url, data, { headers: headers });
             return response.data;
         } catch (error) {
-             fs.writeFileSync("output.txt", JSON.stringify(error.response ? error.response.data : error.message), "utf8");
-            console.error('API Request Failed:', error.response ? error.response.data : error.message);
-            
+            console.error('API Request Failed:', error.message);
             throw error;
         }
     }
@@ -52,9 +49,7 @@ class AzureDevOpsTests {
       const url = `https://dev.azure.com/${this.organization}/${this.project}/_apis/testplan/plans?api-version=5.0`;
  
       try {
-        const result = await this.makeApiRequest(url, testPlanData);
-        console.log('Test Plan Created:', result);
-        return result;
+        return await this.makeApiRequest(url, testPlanData, this.createAuthHeaders('application/json'));
       } catch (error) {
         console.error('Failed to create test plan:', error.message);
         throw error;
@@ -63,6 +58,7 @@ class AzureDevOpsTests {
 
     
     async createTestSuite(suiteData) {
+        console.log('Creating test suite:', suiteData);
         if (!suiteData.planId) throw new Error('Plan ID is required');
         if (!suiteData.name) throw new Error('Suite name is required');
         if (!suiteData.type) throw new Error('Suite type is required');
@@ -71,12 +67,9 @@ class AzureDevOpsTests {
         
         const payload = {
             name: suiteData.name,
-            suiteType: suiteData.type
+            suiteType: suiteData.type,
+            parentSuite: { id: (suiteData.parentSuiteId || null)}
         };
-
-        if (suiteData.parentSuiteId) {
-            payload.parentSuite = suiteData.parentSuiteId;
-        }
 
         switch (suiteData.type) {
             case 'staticTestSuite':
@@ -94,11 +87,10 @@ class AzureDevOpsTests {
         }
 
         try {
-            const result = await this.makeApiRequest(url, payload);
-            console.log('Test Suite Created:', result);
-            return result;
+           
+            return await this.makeApiRequest(url, payload, this.createAuthHeaders('application/json'));
         } catch (error) {
-            console.error('Failed to create test suite:', error.message);
+            console.error('Failed to create test suite');
             throw error;
         }
     }
@@ -125,7 +117,7 @@ class AzureDevOpsTests {
         const payload = [testCaseData, testCaseSteps];
 
         try {
-            const result = await this.makeApiRequest(url, payload);
+            const result = await this.makeApiRequest(url, payload, this.createAuthHeaders('application/json-patch+json'));
             console.log('Test Case Created:', result);
             return result;
         }
@@ -135,17 +127,6 @@ class AzureDevOpsTests {
         }    
     }
 
-    async createTestCases(testCasesList){
-        for(const testCase of testCasesList){
-            try{
-                await this.createTestCase(testCase);
-            }
-            catch(error){
-                console.error('Failed to create test case:', error.message);
-            }
-        }
-    }
-    
     
     //
     async  mapTestcaseToTestSuite(testPlanId, testSuiteId, testCaseIds) {
