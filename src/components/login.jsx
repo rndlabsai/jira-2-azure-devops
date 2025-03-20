@@ -94,6 +94,7 @@ function Login() {
             Entrar
           </button>
         </form>
+        <p onClick={() => navigate('/')}> Need to create and account </p>
       </div>
     </div>
   );
