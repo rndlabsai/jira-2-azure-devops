@@ -109,7 +109,7 @@ class ZephyrTests {
                 }
             ];
         }));
-        //console.log(transformedTestCases);
+       // console.log(transformedTestCases);
         return transformedTestCases;
         //fs.writeFileSync('testcases.json', JSON.stringify(transformedTestCases, null, 2));
     }
