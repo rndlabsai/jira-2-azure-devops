@@ -5,11 +5,10 @@ class ZephyrTests {
     constructor(token, project) {
         this.token = token;
         this.projectKey = project;
+        this.baseUrl = 'https://api.zephyrscale.smartbear.com/v2/'
     }
 
-    async fetchZephyrData(endpoint) {
-        const baseUrl = 'https://api.zephyrscale.smartbear.com/v2/';
-        const fullUrl = `${baseUrl}${endpoint}`;
+    async fetchZephyrData(fullUrl) {
 
         try {
             const response = await axios.get(fullUrl, {
@@ -56,18 +55,16 @@ class ZephyrTests {
     }
 
     async extractField(endpoint) {
-        const zephyrData = await this.fetchZephyrData(endpoint);
+        const zephyrData = await this.fetchZephyrData(`${this.baseUrl}${endpoint}`);
         if (zephyrData) {
             var aux = this.transformDataForAzure(endpoint, zephyrData);
             //console.log(aux);
             return aux;
-            //fs.writeFileSync(`${endpoint}.json`, JSON.stringify(transformedData, null, 2));
-            //console.log(`✅ JSON formateado guardado en ${endpoint}.json`);
         }
     }
 
     async fetchTestSteps(testCaseKey) {
-        const endpoint = `testcases/${testCaseKey}/teststeps`;
+        const endpoint = `${this.baseUrl}testcases/${testCaseKey}/teststeps`;
         const testStepsData = await this.fetchZephyrData(endpoint);
 
         if (!testStepsData || !testStepsData.values) {
@@ -75,14 +72,20 @@ class ZephyrTests {
         }
 
         const stepsXml = testStepsData.values.map((step, index) => {
-            return `<step id=\"${index + 1}\" type=\"Action\"><description>${step.inline.description}</description><expectedresult>${step.inline.expectedResult || ''}</expectedresult></step>`;
+            return `<step id=\"${index + 1}\" type=\"ActionStep\"> <parameterizedString isformatted=\"true\">${step.inline.description}</parameterizedString> <parameterizedString isformatted=\"true\">${step.inline.expectedResult}</parameterizedString> </step>`;
         }).join('');
 
-        return `<?xml version=\"1.0\" encoding=\"utf-16\"?><steps>${stepsXml}</steps>`;
+        return `<steps id=\"0\" last=\"${testStepsData.total}\"> ${stepsXml}</steps>`;
+    }
+
+    async fetchNameFromFullUrl(fullUrl){
+        const testData = await this.fetchZephyrData(fullUrl);
+        //console.log(testData);
+        return testData && testData.name ? testData.name : '';
     }
 
     async fetchAndTransformTestCases() {
-        const testCasesData = await this.fetchZephyrData('testcases');
+        const testCasesData = await this.fetchZephyrData(`${this.baseUrl}testcases`);
         if (!testCasesData || !testCasesData.values) {
             console.error('❌ No se pudieron obtener los test cases.');
             return;
@@ -90,6 +93,8 @@ class ZephyrTests {
 
         const transformedTestCases = await Promise.all(testCasesData.values.map(async (testCase) => {
             const testStepsXml = await this.fetchTestSteps(testCase.key);
+            const priority = await this.fetchNameFromFullUrl(testCase.priority.self);
+            const status = await this.fetchNameFromFullUrl(testCase.status.self); 
 
             return [
                 {
@@ -99,24 +104,33 @@ class ZephyrTests {
                 },
                 {
                     "op": "add",
-                    "path": "/fields/Microsoft.VSTS.TCM.Steps",
-                    "value": testStepsXml
+                    "path": "/fields/System.Description",
+                    "value": testCase.objective || "Sin descripción."
                 },
                 {
                     "op": "add",
-                    "path": "/fields/System.Description",
-                    "value": testCase.objective || "Sin descripción."
-                }
+                    "path": "/fields/System.State",
+                    "value": status
+                },
+                {
+                    "op": "add",
+                    "path": "/fields/Microsoft.VSTS.Common.Priority",
+                    "value": priority
+                },
+                {
+                    "op": "add",
+                    "path": "/fields/Microsoft.VSTS.TCM.Steps",
+                    "value": testStepsXml
+                },
             ];
         }));
         //console.log(transformedTestCases);
         return transformedTestCases;
-        //fs.writeFileSync('testcases.json', JSON.stringify(transformedTestCases, null, 2));
     }
 }
 
 module.exports = ZephyrTests;
-//const aux = new ZephyrTests('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2VVcmwiOiJodHRwczovL2RhbmllbHRvcnJpY29iLmF0bGFzc2lhbi5uZXQiLCJ1c2VyIjp7ImFjY291bnRJZCI6IjcxMjAyMDplNGZiNGU5OC0yNTczLTQ4ZjYtYmQ0ZS01NWI3NTEyNzAwNDAiLCJ0b2tlbklkIjoiM2RmZGE4NGYtZTI0MS00YTUyLTk2OWEtNDZiMmJhOGIwYjM4In19LCJpc3MiOiJjb20ua2Fub2FoLnRlc3QtbWFuYWdlciIsInN1YiI6IjU3NWMyY2Q4LWI1MWUtMzU2NS1iN2U1LTRmOGU3NTJkODFjNCIsImV4cCI6MTc3MTAyMDcxNiwiaWF0IjoxNzM5NDg0NzE2fQ.BbrBWYp3pontZl3Kj5VpMfAp9tZtWvkaBRzYS_4cLig', 'PZ');
+const aux = new ZephyrTests('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2VVcmwiOiJodHRwczovL2RhbmllbHRvcnJpY29iLmF0bGFzc2lhbi5uZXQiLCJ1c2VyIjp7ImFjY291bnRJZCI6IjcxMjAyMDplNGZiNGU5OC0yNTczLTQ4ZjYtYmQ0ZS01NWI3NTEyNzAwNDAiLCJ0b2tlbklkIjoiM2RmZGE4NGYtZTI0MS00YTUyLTk2OWEtNDZiMmJhOGIwYjM4In19LCJpc3MiOiJjb20ua2Fub2FoLnRlc3QtbWFuYWdlciIsInN1YiI6IjU3NWMyY2Q4LWI1MWUtMzU2NS1iN2U1LTRmOGU3NTJkODFjNCIsImV4cCI6MTc3MTAyMDcxNiwiaWF0IjoxNzM5NDg0NzE2fQ.BbrBWYp3pontZl3Kj5VpMfAp9tZtWvkaBRzYS_4cLig', 'PZ');
 //console.log(aux.fetchAndTransformTestCases());
 //console.log(aux.extractField('testplans'));
 //console.log(aux.extractField('testcycles'));
