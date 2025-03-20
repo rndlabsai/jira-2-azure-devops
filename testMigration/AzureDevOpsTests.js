@@ -24,18 +24,18 @@ class AzureDevOpsTests {
         if (!this.project) throw new Error('Project is required');
     }
 
-  
     // Utility
     async makeApiRequest(url, data, headers) {
         try {
             const response = await axios.post(url, data, { headers: headers });
             return response.data;
         } catch (error) {
+            fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
+            fs.writeFileSync('error.json', JSON.stringify(error.response.data, null, 2));
             console.error('API Request Failed:', error.message);
             throw error;
         }
     }
-
 
     async  createTestPlan(testPlanData) {
       
@@ -114,7 +114,7 @@ class AzureDevOpsTests {
         */
         const url =`https://dev.azure.com/${this.organization}/${this.project}/_apis/wit/workitems/$Test%20Case?api-version=7.1`;
 
-        const payload = [testCaseData, testCaseSteps];
+        const payload = testCaseData;
 
         try {
             const result = await this.makeApiRequest(url, payload, this.createAuthHeaders('application/json-patch+json'));
