@@ -95,8 +95,10 @@ class ZephyrTests {
             const testStepsXml = await this.fetchTestSteps(testCase.key);
             const priority = await this.fetchNameFromFullUrl(testCase.priority.self);
             const status = await this.fetchNameFromFullUrl(testCase.status.self); 
+            const issueIds = testCase.links.issues.map(issue => issue.issueId);
 
             return [
+                {"issueIds": issueIds},
                 {
                     "op": "add",
                     "path": "/fields/System.Title",
@@ -124,13 +126,13 @@ class ZephyrTests {
                 },
             ];
         }));
-        //console.log(transformedTestCases);
+        console.log(transformedTestCases);
         return transformedTestCases;
     }
 }
 
 module.exports = ZephyrTests;
-const aux = new ZephyrTests('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2VVcmwiOiJodHRwczovL2RhbmllbHRvcnJpY29iLmF0bGFzc2lhbi5uZXQiLCJ1c2VyIjp7ImFjY291bnRJZCI6IjcxMjAyMDplNGZiNGU5OC0yNTczLTQ4ZjYtYmQ0ZS01NWI3NTEyNzAwNDAiLCJ0b2tlbklkIjoiM2RmZGE4NGYtZTI0MS00YTUyLTk2OWEtNDZiMmJhOGIwYjM4In19LCJpc3MiOiJjb20ua2Fub2FoLnRlc3QtbWFuYWdlciIsInN1YiI6IjU3NWMyY2Q4LWI1MWUtMzU2NS1iN2U1LTRmOGU3NTJkODFjNCIsImV4cCI6MTc3MTAyMDcxNiwiaWF0IjoxNzM5NDg0NzE2fQ.BbrBWYp3pontZl3Kj5VpMfAp9tZtWvkaBRzYS_4cLig', 'PZ');
+//const aux = new ZephyrTests('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2VVcmwiOiJodHRwczovL2RhbmllbHRvcnJpY29iLmF0bGFzc2lhbi5uZXQiLCJ1c2VyIjp7ImFjY291bnRJZCI6IjcxMjAyMDplNGZiNGU5OC0yNTczLTQ4ZjYtYmQ0ZS01NWI3NTEyNzAwNDAiLCJ0b2tlbklkIjoiM2RmZGE4NGYtZTI0MS00YTUyLTk2OWEtNDZiMmJhOGIwYjM4In19LCJpc3MiOiJjb20ua2Fub2FoLnRlc3QtbWFuYWdlciIsInN1YiI6IjU3NWMyY2Q4LWI1MWUtMzU2NS1iN2U1LTRmOGU3NTJkODFjNCIsImV4cCI6MTc3MTAyMDcxNiwiaWF0IjoxNzM5NDg0NzE2fQ.BbrBWYp3pontZl3Kj5VpMfAp9tZtWvkaBRzYS_4cLig', 'PZ');
 //console.log(aux.fetchAndTransformTestCases());
 //console.log(aux.extractField('testplans'));
 //console.log(aux.extractField('testcycles'));
