@@ -51,6 +51,21 @@ class TestsMigration{
            
         }
     }
+    async migrateTestCases(){
+        const testCases = await this.zephyrHandler.fetchAndTransformTestCases();
+        try{
+            await this.azureHandler.createTestCases(testCases);
+            /*
+            wait this.azureHandler. mapTestcaseToTestSuite(testPlanId, testSuiteId, testCaseIds); 
+            Just the creation of test cases is implemented, the mapping of test cases to test suites is pending 
+            due to the the problem exporting. There is no information about the realtion between a test case and a test suite
+            */
+            
+        }
+        catch(error){
+            console.error('Failed to create test cases');
+        }
+    }
 }
 
 module.exports = TestsMigration;
