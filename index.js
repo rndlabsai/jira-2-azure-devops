@@ -8,6 +8,7 @@ import { readArrayFromJSONFile, getSelectionPaths, emptyArrayFromJSONFile, empty
 import { retrieveAndWriteProjects } from './api_calls/index.js';
 import { decryptToken, encryptToken } from './tokenService.js';
 import { migrate } from './migrations/jiraMigrations.js';
+import { fetchAllProjects } from './azure_functions/projects.js';
 
 // Project's cache
 let projects = [];
@@ -17,6 +18,8 @@ let URL = null;
 let EMAIL = null;
 // Token's cache
 let API_TOKEN = null;
+// Azure Devops Token's cache
+let AZURE_TOKEN = null;
 
 const app = express();
 
@@ -34,19 +37,32 @@ app.use((req, _, next) => {
 app.use('/api/save-token', async (req, res, next) => {
     try {
         const { _, token, email, url, application } = req.body;
-        console.log(`application is ${application}`);
-        if (application !== "Jira") {
+
+        if (!token || !application) {
+            return res.status(400).json({ success: false, message: 'Missing required parameters: token or application.' });
+        }
+
+        if (application === "Azure Devops") {
+            AZURE_TOKEN = token;
+            console.log(`projects before concatenation: ${projects}`);
+            projects = projects.concat(await fetchAllProjects(token, "./json/projects.json"));
+            console.log(`projects after concatenation: ${projects}`);
+            return next();
+        }
+
+        if (application === "Jira") {
+            if (!token || !email || !url || !application) {
+                return res.status(400).json({ success: false, message: 'Faltan parámetros requeridos.' });
+            }
+
+            URL = url;
+            EMAIL = email;
+            API_TOKEN = token;
+            projects = projects.concat(await retrieveAndWriteProjects(url, email, token, "./json/projects.json"));
             return next(); // Ensure we return here to avoid further execution
         }
 
-        if (!token || !email || !url || !application) {
-            return res.status(400).json({ success: false, message: 'Faltan parámetros requeridos.' });
-        }
-
-        URL = url;
-        EMAIL = email;
-        API_TOKEN = token;
-        projects = await retrieveAndWriteProjects(url, email, token, "./json/projects.json");
+        return next();
     } catch (e) {
         if (e.cause && e.cause === 'invalid_token') {
             return res.status(401).send({ message: "AUTHENTICATED_FAILED" }); // Ensure we return here
@@ -125,11 +141,25 @@ app.get('/api/tokens', async (req, res) => {
             url: token.url
         }));
 
+        const azureToken = decryptedTokens.find(token => token.Application === 'Azure Devops');
+
         const jiraToken = decryptedTokens.find(token => token.Application === 'Jira');
         if (jiraToken) {
             API_TOKEN = jiraToken.Number;
             EMAIL = jiraToken.email;
             URL = jiraToken.url;
+
+            // Read projects from JSON file if cache is empty
+            if (projects.length === 0) {
+                projects = readArrayFromJSONFile("./json/projects.json", "projects");
+            }
+
+            // If still empty, retrieve Jira and Azure projects
+            if (projects.length === 0) {
+                const jiraProjects = await retrieveAndWriteProjects(URL, EMAIL, API_TOKEN, "./json/projects.json");
+                const azureProjects = azureToken ? await fetchAllProjects(azureToken.Number, "./json/projects.json") : [];
+                projects = jiraProjects.concat(azureProjects);
+            }
         } else {
             API_TOKEN = null;
             EMAIL = null;
