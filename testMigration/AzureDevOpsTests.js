@@ -1,8 +1,8 @@
-const axios = require('axios');
-const fs = require("fs");
-const { json } = require('stream/consumers');
+import axios from 'axios';
+import fs from "fs";
 
-class AzureDevOpsTests {
+
+export class AzureDevOpsTests {
     constructor(pat, organization, project) {
         this.pat = pat;
         this.organization = organization;
@@ -142,4 +142,3 @@ s
     }
 }
 
-module.exports = AzureDevOpsTests;
