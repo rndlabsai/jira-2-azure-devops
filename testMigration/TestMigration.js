@@ -54,10 +54,13 @@ class TestsMigration{
     async migrateTestCases(){
         const testCases = await this.zephyrHandler.fetchAndTransformTestCases();
         try{
-            for(const testCase of testCases){
-                const createdTestCase = this.azureHandler.createTestCase(testCase);
-            }
+
             
+            
+            for (const testcase of testCases){
+                console.log("---------------------Creating test case-------------------\n");
+                const id_test_casse = await this.azureHandler.createTestCase(testcase);
+            }
             /*
             wait this.azureHandler. mapTestcaseToTestSuite(testPlanId, testSuiteId, testCaseIds); 
             Just the creation of test cases is implemented, the mapping of test cases to test suites is pending 
@@ -66,7 +69,7 @@ class TestsMigration{
             
         }
         catch(error){
-            console.error('Failed to create test cases');
+            console.error('Failed to create test cases aaqui 2', error.message);
         }
     }
 }

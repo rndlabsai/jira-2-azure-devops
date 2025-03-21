@@ -4,19 +4,19 @@ const zephyrToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2
 const zephyrId = 'TP';
 const azureToken = '859b1IgQnlhjrspx3srMdQvHoGTUPeHf86UYXTzQdIGKfcRc02IyJQQJ99BBACAAAAAcetVYAAASAZDOxuFl';
 const azureOrganization = 'sin-chamba-team';
-const azureProject = 'TestProject1';
+const azureProject = 'TestProject';
 
 (async () => {
 const testMigration = new TestsMigration(zephyrToken, zephyrId, azureToken, azureOrganization, azureProject);
-await testMigration.migrateTestPlans();
-await testMigration.migrateTestSuites();
+//await testMigration.migrateTestPlans();
+//await testMigration.migrateTestSuites();
 
-
-await testMigration.migrateTestCases(); //este es el migrador de todos los test cases
 /*
-await testMigration.zephyrHandler.fetchAndTransformTestCases();
+
 este llama a la funcion fetchAndTransformTestCases de ZephyrTests.js
 esta para hacer pruebas del get solamente
 */
+//await testMigration.zephyrHandler.fetchAndTransformTestCases();
+await testMigration.migrateTestCases(); //este es el migrador de todos los test cases
 
 })();
