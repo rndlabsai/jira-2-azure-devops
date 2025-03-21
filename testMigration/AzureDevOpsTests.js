@@ -96,7 +96,7 @@ class AzureDevOpsTests {
     }
 
     // Create Test Case
-    async  createTestCase(testCaseData) {
+    async createTestCase(testCaseData) {
         /*
         if (!testCaseData.opp) 
             testCaseData.opp = 'add';
@@ -109,16 +109,16 @@ class AzureDevOpsTests {
             testCaseSteps.opp = 'add';
         if (!testCaseSteps.path)
             testCaseSteps.path = '/fields/Microsoft.VSTS.TCM.Steps';
-
+s
         //if (!testCaseSteps.value) throw new Error('Test case steps are required');
         */
         const url =`https://dev.azure.com/${this.organization}/${this.project}/_apis/wit/workitems/$Test%20Case?api-version=7.1`;
 
-        const payload = [testCaseData, testCaseSteps];
+        //const payload = [testCaseData, testCaseSteps];
 
         try {
-            const result = await this.makeApiRequest(url, payload, this.createAuthHeaders('application/json-patch+json'));
-            console.log('Test Case Created:', result);
+            const result = await this.makeApiRequest(url, testCaseData, this.createAuthHeaders('application/json-patch+json'));
+            console.log('Test Case Created:', result.id);
             return result;
         }
         catch (error) {
@@ -136,7 +136,7 @@ class AzureDevOpsTests {
             console.log('Test Case Mapped:', result);
             return result;
         } catch (error) {
-            console.error('Failed to map test case to test suite:', error.message);
+            console.error('Failed to map test case to test suite: aqui', error.message);
             throw error;
         }
     }
