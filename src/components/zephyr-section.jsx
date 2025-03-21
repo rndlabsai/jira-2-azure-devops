@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./zephyr-section.css";
 import "../styles/global.css";
-import { postTokens } from "../../utils/api";
+import { getTokens, postTokens } from "../../utils/api";
 
 function ZephyrSection() {
   // Estados para almacenar los valores ingresados
@@ -19,15 +19,29 @@ function ZephyrSection() {
         return;
       }
 
+      const tokens = localStorage.getItem("tokens");
+      if (tokens) {
+        // Buscar el token de Jira
+        const parsedTokens = JSON.parse(tokens);
+        const zephyrToken = parsedTokens.find(
+          (token) => token.Application === "Zephyr"
+        );
+        if (zephyrToken) {
+          // Llenar los campos con los datos del token de Jira
+          setApiToken(zephyrToken.Number);
+          setEmail(zephyrToken.email);
+          setUrl(zephyrToken.url);
+        }
+        return;
+      }
+
       try {
         // Hacer la solicitud para obtener los tokens
-        const response = await axios.get("http://localhost:4000/api/tokens", {
-          params: { username },
-        });
+        const response = await getTokens(username);
 
-        if (response.data.success && response.data.tokens) {
+        if (response.success && response.tokens) {
           // Buscar el token de Zephyr
-          const zephyrToken = response.data.tokens.find(
+          const zephyrToken = response.tokens.find(
             (token) => token.Application === "Zephyr"
           );
           if (zephyrToken) {

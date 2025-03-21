@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"; // Importa useEffect
 import axios from "axios";
 import "./azure-section.css";
 import "../styles/global.css";
-import { postTokens } from "../../utils/api";
+import { getTokens, postTokens } from "../../utils/api";
 
 function AzureSection() {
   // Estados para almacenar los valores ingresados
@@ -19,15 +19,29 @@ function AzureSection() {
         return;
       }
 
+      const tokens = localStorage.getItem("tokens");
+      if (tokens) {
+        // Buscar el token de Jira
+        const parsedTokens = JSON.parse(tokens);
+        const azureToken = parsedTokens.find(
+          (token) => token.Application === "Azure Devops"
+        );
+        if (azureToken) {
+          // Llenar los campos con los datos del token de Jira
+          setApiToken(azureToken.Number);
+          setEmail(azureToken.email);
+          setUrl(azureToken.url);
+        }
+        return;
+      }
+
       try {
         // Hacer la solicitud para obtener los tokens
-        const response = await axios.get("http://localhost:4000/api/tokens", {
-          params: { username },
-        });
+        const response = await getTokens(username);
 
-        if (response.data.success && response.data.tokens) {
+        if (response.success && response.tokens) {
           // Buscar el token de Azure
-          const azureToken = response.data.tokens.find(
+          const azureToken = response.tokens.find(
             (token) => token.Application === "Azure Devops"
           );
           if (azureToken) {

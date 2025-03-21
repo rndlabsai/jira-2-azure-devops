@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import "./login.css";
 import loginImage from "../assets/login-image.jpg";
 import { useNavigate } from "react-router-dom";
-import { postLoginCredentials } from "../../utils/api"; // Ensure this import is correct
+import {
+  getJiraProjects,
+  getTokens,
+  postLoginCredentials,
+} from "../../utils/api"; // Ensure this import is correct
 
 function Login() {
   const navigate = useNavigate();
@@ -37,13 +41,27 @@ function Login() {
       // Store username in localStorage
       localStorage.setItem("username", username);
 
-      // Fetch tokens after successful login
-      // FIX THIS REQUEST WITH AN api.js function
-      /* const tokensResponse = await api.get(`/tokens?username=${username}`);
-      if (tokensResponse.data) {
-        // Store tokens in localStorage or state as needed
-        localStorage.setItem("tokens", JSON.stringify(tokensResponse.data));
-      }*/
+      try {
+        // Fetch tokens after successful login
+        const tokensResponse = await getTokens(username);
+
+        if (tokensResponse.success) {
+          // Store tokens in localStorage or state as needed
+          localStorage.setItem("tokens", JSON.stringify(tokensResponse.tokens));
+
+          // Fetch Jira projects after tokens are successfully retrieved
+          const projectsData = await getJiraProjects();
+
+          if (projectsData.length > 0) {
+            localStorage.setItem(
+              "projects",
+              JSON.stringify(projectsData.projects)
+            );
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
 
       // Navigate to the migrate page
       navigate("/migrate");

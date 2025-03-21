@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./jira-section.css";
 import "../styles/global.css";
 import axios from "axios";
-import { postTokens } from "../../utils/api";
+import { getTokens, postTokens } from "../../utils/api";
 
 function JiraSection() {
   // Estados para almacenar los valores ingresados
@@ -19,15 +19,27 @@ function JiraSection() {
         return;
       }
 
+      const tokens = localStorage.getItem("tokens");
+      if (tokens) {
+        // Buscar el token de Jira
+        const parsedTokens = JSON.parse(tokens);
+        const jiraToken = parsedTokens.find((token) => token.Application === "Jira");
+        if (jiraToken) {
+          // Llenar los campos con los datos del token de Jira
+          setApiToken(jiraToken.Number);
+          setEmail(jiraToken.email);
+          setUrl(jiraToken.url);
+        }
+        return;
+      }
+
       try {
         // Hacer la solicitud para obtener los tokens
-        const response = await axios.get("http://localhost:4000/api/tokens", {
-          params: { username },
-        });
+        const response = await getTokens(username);
 
-        if (response.data.success && response.data.tokens) {
+        if (response.success && response.tokens) {
           // Buscar el token de Jira
-          const jiraToken = response.data.tokens.find(
+          const jiraToken = response.tokens.find(
             (token) => token.Application === "Jira"
           );
           if (jiraToken) {
@@ -60,13 +72,6 @@ function JiraSection() {
         email || null,
         url || null
       );
-
-      // console.log("Response from postJiraTokens:", data[1]); // Debugging
-
-      /* Ensure response is an object with expected properties
-      if (typeof response !== "object" || response === null) {
-        throw new Error("Invalid response format");
-      }*/
 
       if (data[0]) {
         alert(data[1] || "Token saved successfully!");

@@ -10,6 +10,11 @@ const api = axios.create({
     }
 });
 
+export const getTokens = async (username) => {
+    const tokensResponse = await api.get(`/tokens?username=${username}`);
+    return tokensResponse.data;
+}
+
 // Helper function for POST requests
 const postRequest = async (path, body) => {
     try {

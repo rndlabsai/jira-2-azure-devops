@@ -23,6 +23,15 @@ const Migrate = () => {
   const [projects, setProjects] = useState([]);
   useEffect(() => {
     async function retrieveProjects() {
+      const projects = localStorage.getItem("projects");
+      if (projects) {
+        console.log(`got projects: ${projects}`);
+        const parsedProjects = JSON.parse(projects);
+        setProjects(parsedProjects);
+        setJiraProject(parsedProjects[0].key);
+        return;
+      }
+
       const data = await getJiraProjects();
       console.log("Projects:", data.projects);
       setProjects(data.projects);
@@ -92,11 +101,13 @@ const Migrate = () => {
             </option>
           ) : (
             <option value="">Select a Jira Project:</option> &&
-            projects.map((project) => (
-              <option key={project.id} value={project.key}>
-                {project.name}
-              </option>
-            ))
+            projects
+              .filter((project) => project.key)
+              .map((project) => (
+                <option key={project.id} value={project.key}>
+                  {project.name}
+                </option>
+              ))
           )}
         </select>
 
@@ -107,8 +118,23 @@ const Migrate = () => {
           onChange={handleAzureProjectChange}
           onSelect={handleAzureProjectChange}
         >
-          <option value="option1">Option 1</option>
-          <option value="option2">Option 2</option>
+          {projects.length === 0 ? (
+            <option value="option1">
+              Please register your Azure Devops Credentials First
+            </option>
+          ) : (
+            <option value="">Select an Azure Devops Project:</option> &&
+            projects
+              .filter((project) => project.organization)
+              .map((project) => (
+                <option
+                  key={project.project}
+                  value={`${project.organization}/${project.project}`}
+                >
+                  {`${project.organization}/${project.project}`}
+                </option>
+              ))
+          )}
         </select>
 
         <div className="button-container">
