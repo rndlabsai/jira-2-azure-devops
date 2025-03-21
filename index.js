@@ -9,6 +9,8 @@ import { retrieveAndWriteProjects } from './api_calls/index.js';
 import { decryptToken, encryptToken } from './tokenService.js';
 import { migrate } from './migrations/jiraMigrations.js';
 import { fetchAllProjects } from './azure_functions/projects.js';
+import { TestsMigration } from './testMigration/TestMigration.js';
+
 
 // Project's cache
 let projects = [];
@@ -20,6 +22,8 @@ let EMAIL = null;
 let API_TOKEN = null;
 // Azure Devops Token's cache
 let AZURE_TOKEN = null;
+
+
 
 const app = express();
 
@@ -271,8 +275,20 @@ app.post('/api/migration', async (req, res) => {
             };
         }
         const options_paths = getSelectionPaths(new_options, "./json");
+        const logFilePath = "./logfile.log";
+        const {azure_org, azure_proj} = destination.split('/');
 
-        migrate(URL, EMAIL, API_TOKEN, origin, "./logfile.log", "./json/total.json", new_options, options_paths);
+
+        migrate(URL, EMAIL, API_TOKEN, origin, logFilePath, "./json/total.json", new_options, options_paths)
+            //LUCHO - EYSE AQUI MIGRA?
+            .then(() => {
+                const testMigration = new TestsMigration(API_TOKEN, origin, AZURE_TOKEN, azure_org, azure_proj, logFilePath);
+                testMigration.migrateTestPlans();
+                testMigration.migrateTestSuites();
+                testMigration.migrateTestCases();
+            });
+
+
 
         res.status(200).json({
             message: "Migration request received successfully.",
