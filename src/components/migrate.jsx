@@ -24,18 +24,30 @@ const Migrate = () => {
   useEffect(() => {
     async function retrieveProjects() {
       const projects = localStorage.getItem("projects");
+
       if (projects) {
-        console.log(`got projects: ${projects}`);
         const parsedProjects = JSON.parse(projects);
         setProjects(parsedProjects);
-        setJiraProject(parsedProjects[0].key);
+        setJiraProject(parsedProjects.filter((project) => project.key)[0].key);
+
+        const azure_p = parsedProjects.filter(
+          (project) => project.organization
+        )[0];
+
+        setAzureProject(`${azure_p.organization}/${azure_p.project}`);
         return;
       }
 
       const data = await getJiraProjects();
-      console.log("Projects:", data.projects);
+
       setProjects(data.projects);
-      setJiraProject(data.projects[0].key);
+      setJiraProject(data.projects.filter((project) => project.key)[0].key);
+
+      const azure_p = data.projects.filter(
+        (project) => project.organization
+      )[0];
+
+      setAzureProject(`${azure_p.organization}/${azure_p.project}`);
     }
     retrieveProjects();
   }, []);
