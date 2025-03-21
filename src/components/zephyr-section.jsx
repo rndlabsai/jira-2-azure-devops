@@ -141,6 +141,8 @@ function ZephyrSection() {
           type="password"
           id="api-token"
           placeholder="Enter your Zephyr API token"
+          value={apiToken}
+          onChange={(e) => setApiToken(e.target.value)}
         />
       </div>
       <button className="save-button" onClick={handleSaveToken}>

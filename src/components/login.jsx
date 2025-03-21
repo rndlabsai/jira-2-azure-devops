@@ -23,6 +23,8 @@ function Login() {
     try {
       const data = await postLoginCredentials(username, password);
 
+      console.dir(data, { depth: null });
+
       const success = data[0];
 
       if (!success) {
@@ -94,7 +96,7 @@ function Login() {
             Entrar
           </button>
         </form>
-        <p onClick={() => navigate('/')}> Need to create and account </p>
+        <p onClick={() => navigate("/")}> Need to create and account </p>
       </div>
     </div>
   );

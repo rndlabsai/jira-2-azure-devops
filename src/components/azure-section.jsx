@@ -26,15 +26,15 @@ function AzureSection() {
         });
 
         if (response.data.success && response.data.tokens) {
-          // Buscar el token de Zephyr
-          const zephyrToken = response.data.tokens.find(
+          // Buscar el token de Azure
+          const azureToken = response.data.tokens.find(
             (token) => token.Application === "Azure Devops"
           );
-          if (zephyrToken) {
-            // Llenar los campos con los datos del token de Zephyr
-            setApiToken(zephyrToken.Number);
-            setEmail(zephyrToken.email);
-            setUrl(zephyrToken.url);
+          if (azureToken) {
+            // Llenar los campos con los datos del token de Azure
+            setApiToken(azureToken.Number);
+            setEmail(azureToken.email);
+            setUrl(azureToken.url);
           }
         }
       } catch (error) {
@@ -48,7 +48,7 @@ function AzureSection() {
   const handleSaveToken = async () => {
     const username = localStorage.getItem("username");
     if (!apiToken || !username) {
-      alert("Falta ingresar el API Token o el usuario no ha iniciado sesión.");
+      alert("API Token is missing or the user is not logged in.");
       return;
     }
 
@@ -83,7 +83,7 @@ function AzureSection() {
     }
 
     try {
-      // Obtener el ID del token de Zephyr del usuario
+      // Obtener el ID del token de Azure del usuario
       const response = await axios.get("http://localhost:4000/api/tokens", {
         params: { username },
       });
@@ -91,25 +91,25 @@ function AzureSection() {
       console.log("Respuesta del backend en deleteToken:", response.data); // Debug
 
       if (response.data.success && response.data.tokens) {
-        // Buscar el token de Zephyr
-        const zephyrToken = response.data.tokens.find(
+        // Buscar el token de Azure
+        const azureToken = response.data.tokens.find(
           (token) => token.Application === "Azure Devops"
         );
 
-        console.log("Token encontrado en deleteToken:", zephyrToken); // Debug
+        console.log("Token encontrado en deleteToken:", azureToken); // Debug
 
-        if (!zephyrToken || !zephyrToken.id) {
-          alert("No se encontró un token de Zephyr para este usuario.");
+        if (!azureToken || !azureToken.id) {
+          alert("No se encontró un token de Azure para este usuario.");
           return;
         }
 
-        console.log("Intentando eliminar el token con ID:", zephyrToken.id); // Debug
+        console.log("Intentando eliminar el token con ID:", azureToken.id); // Debug
 
         // Enviar solicitud para eliminar el token
         const deleteResponse = await axios.delete(
           "http://localhost:4000/api/delete-token",
           {
-            data: { username, tokenId: zephyrToken.id },
+            data: { username, tokenId: azureToken.id },
           }
         );
 
@@ -141,6 +141,8 @@ function AzureSection() {
           type="password"
           id="api-token-azure"
           placeholder="Enter your Azure Token"
+          value={apiToken}
+          onChange={(e) => setApiToken(e.target.value)}
         />
       </div>
       <button className="save-button" onClick={handleSaveToken}>
