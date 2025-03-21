@@ -1,0 +1,1105 @@
+{
+  "id": "10249",
+  "key": "GG-246",
+  "fields": {
+    "summary": "Securely Integrate Jira Cloud API for Authentication & Issue Retrieval",
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 4
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "As a backend developer,",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "I want to securely authenticate users and manage their API tokens for Jira and Azure DevOps,"
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "so that our system can safely retrieve project and issue data while ensuring data integrity, privacy, and security."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": []
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "📌 "
+            },
+            {
+              "type": "text",
+              "text": "Acceptance Criteria:",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "✅ "
+            },
+            {
+              "type": "text",
+              "text": "1. Secure User Authentication",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "The system must allow users to register and log in using a secure authentication mechanism."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "User passwords must be "
+                    },
+                    {
+                      "type": "text",
+                      "text": "hashed with bcrypt",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " before storing them in the database."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Authentication must be validated against stored credentials in MySQL."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "The system must prevent duplicate usernames by enforcing "
+                    },
+                    {
+                      "type": "text",
+                      "text": "unique constraints",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": "."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Passwords must meet "
+                    },
+                    {
+                      "type": "text",
+                      "text": "complexity requirements",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " (min. 8 characters, including letters, numbers, and special symbols)."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "✅ "
+            },
+            {
+              "type": "text",
+              "text": "2. Secure Token Storage & Management",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "User API tokens (Jira and Azure DevOps) must be "
+                    },
+                    {
+                      "type": "text",
+                      "text": "encrypted using AES-256",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " before storing in MySQL."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "A "
+                    },
+                    {
+                      "type": "text",
+                      "text": "many-to-many relationship",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " must be maintained between users and tokens via the "
+                    },
+                    {
+                      "type": "text",
+                      "text": "tokenreg",
+                      "marks": [
+                        {
+                          "type": "code"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " table."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Tokens must be retrieved and "
+                    },
+                    {
+                      "type": "text",
+                      "text": "decrypted securely",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " before being used in API requests."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Expired or invalid tokens must be handled gracefully with appropriate error messages."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "✅ "
+            },
+            {
+              "type": "text",
+              "text": "3. Retrieve Jira & Azure DevOps Data Securely",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "The system must fetch "
+                    },
+                    {
+                      "type": "text",
+                      "text": "projects, issues, screens, and fields",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " from Jira and Azure DevOps."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "API requests must use "
+                    },
+                    {
+                      "type": "text",
+                      "text": "authenticated Bearer tokens",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " to securely access external services."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Tokens must be validated before making API requests to ensure they are still valid."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "If the API request fails, the system must log errors and retry the request when appropriate."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "The system should return "
+                    },
+                    {
+                      "type": "text",
+                      "text": "only relevant issue data",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " to the frontend in a structured JSON format."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "✅ "
+            },
+            {
+              "type": "text",
+              "text": "4. Security & Compliance",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "User passwords and API tokens must "
+                    },
+                    {
+                      "type": "text",
+                      "text": "never be stored in plain text",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": "."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "The system must enforce "
+                    },
+                    {
+                      "type": "text",
+                      "text": "HTTPS/TLS encryption",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " for all API requests."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "CORS should be configured to "
+                    },
+                    {
+                      "type": "text",
+                      "text": "allow requests only from authorized frontend domains",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": "."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Rate limiting should be implemented to "
+                    },
+                    {
+                      "type": "text",
+                      "text": "prevent abuse of API endpoints",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": "."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Sensitive environment variables (e.g., "
+                    },
+                    {
+                      "type": "text",
+                      "text": "database credentials and encryption keys",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": ") must be stored in "
+                    },
+                    {
+                      "type": "text",
+                      "text": ".env",
+                      "marks": [
+                        {
+                          "type": "code"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " and never exposed."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "issuetype": {
+      "id": "10011",
+      "name": "Story"
+    },
+    "status": {
+      "name": "Completed"
+    },
+    "priority": {
+      "name": "Medium"
+    },
+    "creator": {
+      "displayName": "andres gottlieb",
+      "emailAddress": "andres.gottlieb10@gmail.com"
+    },
+    "reporter": {
+      "displayName": "andres gottlieb",
+      "emailAddress": "andres.gottlieb10@gmail.com"
+    },
+    "assignee": {
+      "displayName": "andres gottlieb",
+      "emailAddress": "andres.gottlieb10@gmail.com"
+    },
+    "created": "2025-02-18T10:07:16.330-0400",
+    "updated": "2025-02-26T21:25:13.268-0400",
+    "duedate": null,
+    "labels": [],
+    "components": [],
+    "fixVersions": [],
+    "attachment": [],
+    "subtasks": [
+      {
+        "id": "10260",
+        "key": "GG-257",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10260",
+        "fields": {
+          "summary": "Implement OAuth Login Redirect",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10261",
+        "key": "GG-258",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10261",
+        "fields": {
+          "summary": "Securely Store the Token",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10262",
+        "key": "GG-259",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10262",
+        "fields": {
+          "summary": " Implement Secure API Call to Retrieve Jira Issues",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10263",
+        "key": "GG-260",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10263",
+        "fields": {
+          "summary": "Handle API Errors & Edge Cases",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10264",
+        "key": "GG-261",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10264",
+        "fields": {
+          "summary": "Configure CORS Restrictions",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10265",
+        "key": "GG-262",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10265",
+        "fields": {
+          "summary": "Enforce HTTPS & Secure Headers",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10287",
+        "key": "GG-284",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10287",
+        "fields": {
+          "summary": "Database schema creation",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      }
+    ],
+    "issuelinks": [],
+    "comments": [],
+    "customfield_10030": {
+      "name": "Submitted forms",
+      "value": null
+    },
+    "customfield_10031": {
+      "name": "Total forms",
+      "value": null
+    },
+    "customfield_10032": {
+      "name": "Design",
+      "value": null
+    },
+    "customfield_10034": {
+      "name": "Project overview key",
+      "value": null
+    },
+    "customfield_10035": {
+      "name": "Project overview status",
+      "value": null
+    },
+    "customfield_10027": {
+      "name": "[CHART] Time in Status",
+      "value": null
+    },
+    "customfield_10028": {
+      "name": "Locked forms",
+      "value": null
+    },
+    "customfield_10029": {
+      "name": "Open forms",
+      "value": null
+    },
+    "customfield_10020": {
+      "name": "Sprint",
+      "value": [
+        {
+          "id": 5,
+          "name": "Sprint 08",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-02-18T17:28:44.000Z",
+          "endDate": "2025-02-25T04:00:00.000Z",
+          "completeDate": "2025-02-25T17:33:31.632Z"
+        },
+        {
+          "id": 6,
+          "name": "Sprint 09",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-02-25T17:33:07.063Z",
+          "endDate": "2025-03-04T17:33:45.000Z",
+          "completeDate": "2025-03-05T15:17:13.255Z"
+        }
+      ]
+    },
+    "customfield_10021": {
+      "name": "Flagged",
+      "value": null
+    },
+    "customfield_10022": {
+      "name": "Target start",
+      "value": null
+    },
+    "customfield_10023": {
+      "name": "Target end",
+      "value": null
+    },
+    "customfield_10024": {
+      "name": "Sentiment",
+      "value": null
+    },
+    "customfield_10025": {
+      "name": "Goals",
+      "value": null
+    },
+    "customfield_10026": {
+      "name": "[CHART] Date of First Response",
+      "value": null
+    },
+    "customfield_10016": {
+      "name": "Story point estimate",
+      "value": null
+    },
+    "customfield_10017": {
+      "name": "Issue color",
+      "value": null
+    },
+    "customfield_10018": {
+      "name": "Parent Link",
+      "value": {
+        "hasEpicLinkFieldDependency": false,
+        "showField": false,
+        "nonEditableReason": {
+          "reason": "EPIC_LINK_SHOULD_BE_USED",
+          "message": "To set an epic as the parent, use the epic link instead"
+        }
+      }
+    },
+    "customfield_10019": {
+      "name": "Rank",
+      "value": "0|i001i3:"
+    },
+    "customfield_10010": {
+      "name": "Request Type",
+      "value": null
+    },
+    "customfield_10014": {
+      "name": "Epic Link",
+      "value": null
+    },
+    "customfield_10015": {
+      "name": "Start date",
+      "value": null
+    },
+    "customfield_10005": {
+      "name": "Change type",
+      "value": null
+    },
+    "customfield_10006": {
+      "name": "Change risk",
+      "value": null
+    },
+    "customfield_10007": {
+      "name": "Change reason",
+      "value": null
+    },
+    "customfield_10008": {
+      "name": "Actual start",
+      "value": null
+    },
+    "customfield_10009": {
+      "name": "Actual end",
+      "value": null
+    },
+    "customfield_10000": {
+      "name": "development",
+      "value": "{}"
+    },
+    "customfield_10001": {
+      "name": "Team",
+      "value": null
+    },
+    "customfield_10002": {
+      "name": "Organizations",
+      "value": []
+    },
+    "customfield_10003": {
+      "name": "Approvers",
+      "value": null
+    },
+    "customfield_10004": {
+      "name": "Impact",
+      "value": null
+    },
+    "customfield_10039": {
+      "name": "Story Points",
+      "value": 5
+    }
+  }
+}

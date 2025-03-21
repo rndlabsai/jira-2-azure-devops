@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10016",
+  "name": "Story point estimate",
+  "description": "Measurement of complexity and/or size of a requirement.",
+  "type": "number",
+  "referenceName": "Custom10016.Story point estimate",
+  "usage": "workItem"
+}

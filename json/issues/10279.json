@@ -1,0 +1,376 @@
+{
+  "id": "10279",
+  "key": "GG-276",
+  "fields": {
+    "summary": "Implement New Migrate UI",
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "This subtask focuses on converting the approved migration UI mockups into an interactive interface. The new migrate UI should be developed according to the design specifications, ensuring that it is responsive, intuitive, and aligned with the overall platform branding. The implementation will involve coding the layout and integrating basic functionality."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "The goal is to ensure that the migration UI is seamless, easy to use, and reliable, allowing users to perform the migration without confusion or difficulty."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Acceptance Criteria:",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "orderedList",
+          "attrs": {
+            "order": 1
+          },
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "UI Implementation",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": ": The migration UI is implemented based on the approved mockups, with all UI components styled according to the design system."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Responsive Design",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": ": The migration UI is fully responsive and works correctly."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Data Migration Functionality",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": ": The UI is integrated with the backend to correctly handle data migration processes, with all relevant steps clearly presented to the user."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Branding Compliance",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": ": The migration UI follows the platform’s branding guidelines, ensuring a cohesive visual experience."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Dependencies:",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Feedback from stakeholders."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Business Value:",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "Implementing a well-functioning, user-friendly migration UI ensures that users can easily migrate their data without complications. It contributes to a smoother transition process, fostering user trust and improving satisfaction with the platform."
+            }
+          ]
+        }
+      ]
+    },
+    "issuetype": {
+      "id": "10017",
+      "name": "Sub-task"
+    },
+    "status": {
+      "name": "Completed"
+    },
+    "priority": {
+      "name": "Medium"
+    },
+    "creator": {
+      "displayName": "Mauricio Antezana",
+      "emailAddress": ""
+    },
+    "reporter": {
+      "displayName": "Mauricio Antezana",
+      "emailAddress": ""
+    },
+    "assignee": {
+      "displayName": "Mauricio Antezana"
+    },
+    "created": "2025-02-19T22:33:59.772-0400",
+    "updated": "2025-02-24T20:50:03.991-0400",
+    "duedate": null,
+    "labels": [],
+    "components": [],
+    "fixVersions": [],
+    "attachment": [],
+    "subtasks": [],
+    "issuelinks": [],
+    "comments": [],
+    "customfield_10030": {
+      "name": "Submitted forms",
+      "value": null
+    },
+    "customfield_10031": {
+      "name": "Total forms",
+      "value": null
+    },
+    "customfield_10032": {
+      "name": "Design",
+      "value": null
+    },
+    "customfield_10034": {
+      "name": "Project overview key",
+      "value": null
+    },
+    "customfield_10035": {
+      "name": "Project overview status",
+      "value": null
+    },
+    "customfield_10027": {
+      "name": "[CHART] Time in Status",
+      "value": null
+    },
+    "customfield_10028": {
+      "name": "Locked forms",
+      "value": null
+    },
+    "customfield_10029": {
+      "name": "Open forms",
+      "value": null
+    },
+    "customfield_10020": {
+      "name": "Sprint",
+      "value": [
+        {
+          "id": 5,
+          "name": "Sprint 08",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-02-18T17:28:44.000Z",
+          "endDate": "2025-02-25T04:00:00.000Z",
+          "completeDate": "2025-02-25T17:33:31.632Z"
+        }
+      ]
+    },
+    "customfield_10021": {
+      "name": "Flagged",
+      "value": null
+    },
+    "customfield_10022": {
+      "name": "Target start",
+      "value": null
+    },
+    "customfield_10023": {
+      "name": "Target end",
+      "value": null
+    },
+    "customfield_10024": {
+      "name": "Sentiment",
+      "value": null
+    },
+    "customfield_10025": {
+      "name": "Goals",
+      "value": null
+    },
+    "customfield_10026": {
+      "name": "[CHART] Date of First Response",
+      "value": null
+    },
+    "customfield_10016": {
+      "name": "Story point estimate",
+      "value": null
+    },
+    "customfield_10017": {
+      "name": "Issue color",
+      "value": null
+    },
+    "customfield_10018": {
+      "name": "Parent Link",
+      "value": {
+        "hasEpicLinkFieldDependency": false,
+        "showField": false,
+        "nonEditableReason": {
+          "reason": "SUBTASK_LINK_SHOULD_BE_USED",
+          "message": "To set the parent for a sub-task, use the sub-task link."
+        }
+      }
+    },
+    "customfield_10019": {
+      "name": "Rank",
+      "value": "0|i001o3:"
+    },
+    "customfield_10010": {
+      "name": "Request Type",
+      "value": null
+    },
+    "customfield_10014": {
+      "name": "Epic Link",
+      "value": null
+    },
+    "customfield_10015": {
+      "name": "Start date",
+      "value": null
+    },
+    "customfield_10005": {
+      "name": "Change type",
+      "value": null
+    },
+    "customfield_10006": {
+      "name": "Change risk",
+      "value": null
+    },
+    "customfield_10007": {
+      "name": "Change reason",
+      "value": null
+    },
+    "customfield_10008": {
+      "name": "Actual start",
+      "value": null
+    },
+    "customfield_10009": {
+      "name": "Actual end",
+      "value": null
+    },
+    "customfield_10000": {
+      "name": "development",
+      "value": "{}"
+    },
+    "customfield_10001": {
+      "name": "Team",
+      "value": null
+    },
+    "customfield_10002": {
+      "name": "Organizations",
+      "value": []
+    },
+    "customfield_10003": {
+      "name": "Approvers",
+      "value": null
+    },
+    "customfield_10004": {
+      "name": "Impact",
+      "value": null
+    }
+  }
+}

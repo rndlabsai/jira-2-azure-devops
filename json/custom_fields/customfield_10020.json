@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10020",
+  "name": "Sprint",
+  "description": "Jira Software sprint field",
+  "type": "array",
+  "referenceName": "Custom10020.Sprint",
+  "usage": "workItem"
+}

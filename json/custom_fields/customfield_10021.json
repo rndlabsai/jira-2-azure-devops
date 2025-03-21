@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10021",
+  "name": "Flagged",
+  "description": "Allows to flag issues with impediments.",
+  "type": "array",
+  "referenceName": "Custom10021.Flagged",
+  "usage": "workItem"
+}

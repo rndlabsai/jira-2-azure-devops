@@ -1,0 +1,581 @@
+{
+  "id": "10330",
+  "key": "GG-327",
+  "fields": {
+    "summary": "Run test Cases for Zephyr & Azure",
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Use case:",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "As a user managing API tokens for Zephyr and Azure DevOps, I want to be able to securely enter, save, and update my tokens so that the system can authenticate and communicate with Zephyr and Azure DevOps services."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Acceptance criteria:",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "The user must be able to enter their Zephyr and Azure DevOps API tokens."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "There must be a "
+                    },
+                    {
+                      "type": "text",
+                      "text": "\"Save Zephyr Token\"",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " button that securely saves the entered Zephyr token."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "There must be a "
+                    },
+                    {
+                      "type": "text",
+                      "text": "\"Save Azure Token\"",
+                      "marks": [
+                        {
+                          "type": "strong"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "text": " button that securely saves the entered Azure DevOps token."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "The system must validate the tokens upon saving and notify the user if the token is invalid."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "The tokens must be securely stored and encrypted."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "The user must receive a success or error message upon saving the token."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Technical notes:",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Ensure compatibility with React."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Implement secure storage for the tokens (e.g., using environment variables or secure browser storage)."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Use HTTPS for secure communication."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Handle errors gracefully, providing clear feedback to the user if a token is invalid or cannot be saved."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Ensure the form and buttons are responsive and accessible on various devices and screen sizes."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Consider implementing a mechanism to allow the user to update or delete the saved tokens if necessary."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "issuetype": {
+      "id": "10011",
+      "name": "Story"
+    },
+    "status": {
+      "name": "Canceled"
+    },
+    "priority": {
+      "name": "Medium"
+    },
+    "creator": {
+      "displayName": "Samuel Gossweiler",
+      "emailAddress": ""
+    },
+    "reporter": {
+      "displayName": "Samuel Gossweiler",
+      "emailAddress": ""
+    },
+    "assignee": {
+      "displayName": "Samuel Gossweiler"
+    },
+    "created": "2025-03-04T23:18:38.029-0400",
+    "updated": "2025-03-18T20:00:36.257-0400",
+    "duedate": null,
+    "labels": [],
+    "components": [],
+    "fixVersions": [],
+    "attachment": [],
+    "subtasks": [
+      {
+        "id": "10331",
+        "key": "GG-328",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10331",
+        "fields": {
+          "summary": "Run test cases - zephyr section",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10020",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Canceled",
+            "id": "10020",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10332",
+        "key": "GG-329",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10332",
+        "fields": {
+          "summary": "Run test cases - Azure section",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10020",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Canceled",
+            "id": "10020",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10333",
+        "key": "GG-330",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10333",
+        "fields": {
+          "summary": "Write reports",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10008",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Archived",
+            "id": "10008",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      }
+    ],
+    "issuelinks": [],
+    "comments": [],
+    "customfield_10030": {
+      "name": "Submitted forms",
+      "value": null
+    },
+    "customfield_10031": {
+      "name": "Total forms",
+      "value": null
+    },
+    "customfield_10032": {
+      "name": "Design",
+      "value": null
+    },
+    "customfield_10034": {
+      "name": "Project overview key",
+      "value": null
+    },
+    "customfield_10035": {
+      "name": "Project overview status",
+      "value": null
+    },
+    "customfield_10027": {
+      "name": "[CHART] Time in Status",
+      "value": null
+    },
+    "customfield_10028": {
+      "name": "Locked forms",
+      "value": null
+    },
+    "customfield_10029": {
+      "name": "Open forms",
+      "value": null
+    },
+    "customfield_10020": {
+      "name": "Sprint",
+      "value": [
+        {
+          "id": 7,
+          "name": "Sprint 10",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-03-04T15:18:22.002Z",
+          "endDate": "2025-03-11T15:18:00.000Z",
+          "completeDate": "2025-03-12T03:32:50.587Z"
+        },
+        {
+          "id": 40,
+          "name": "Sprint 11",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-03-12T03:33:29.737Z",
+          "endDate": "2025-03-18T15:18:00.000Z",
+          "completeDate": "2025-03-18T18:01:15.941Z"
+        },
+        {
+          "id": 73,
+          "name": "Sprint 12",
+          "state": "active",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-03-18T18:02:28.455Z",
+          "endDate": "2025-03-25T18:02:35.000Z"
+        }
+      ]
+    },
+    "customfield_10021": {
+      "name": "Flagged",
+      "value": null
+    },
+    "customfield_10022": {
+      "name": "Target start",
+      "value": null
+    },
+    "customfield_10023": {
+      "name": "Target end",
+      "value": null
+    },
+    "customfield_10024": {
+      "name": "Sentiment",
+      "value": null
+    },
+    "customfield_10025": {
+      "name": "Goals",
+      "value": null
+    },
+    "customfield_10026": {
+      "name": "[CHART] Date of First Response",
+      "value": null
+    },
+    "customfield_10016": {
+      "name": "Story point estimate",
+      "value": null
+    },
+    "customfield_10017": {
+      "name": "Issue color",
+      "value": null
+    },
+    "customfield_10018": {
+      "name": "Parent Link",
+      "value": {
+        "hasEpicLinkFieldDependency": false,
+        "showField": false,
+        "nonEditableReason": {
+          "reason": "EPIC_LINK_SHOULD_BE_USED",
+          "message": "To set an epic as the parent, use the epic link instead"
+        }
+      }
+    },
+    "customfield_10019": {
+      "name": "Rank",
+      "value": "0|i001xn:"
+    },
+    "customfield_10010": {
+      "name": "Request Type",
+      "value": null
+    },
+    "customfield_10014": {
+      "name": "Epic Link",
+      "value": null
+    },
+    "customfield_10015": {
+      "name": "Start date",
+      "value": null
+    },
+    "customfield_10005": {
+      "name": "Change type",
+      "value": null
+    },
+    "customfield_10006": {
+      "name": "Change risk",
+      "value": null
+    },
+    "customfield_10007": {
+      "name": "Change reason",
+      "value": null
+    },
+    "customfield_10008": {
+      "name": "Actual start",
+      "value": null
+    },
+    "customfield_10009": {
+      "name": "Actual end",
+      "value": null
+    },
+    "customfield_10000": {
+      "name": "development",
+      "value": "{}"
+    },
+    "customfield_10001": {
+      "name": "Team",
+      "value": null
+    },
+    "customfield_10002": {
+      "name": "Organizations",
+      "value": []
+    },
+    "customfield_10003": {
+      "name": "Approvers",
+      "value": null
+    },
+    "customfield_10004": {
+      "name": "Impact",
+      "value": null
+    },
+    "customfield_10039": {
+      "name": "Story Points",
+      "value": 3
+    }
+  }
+}

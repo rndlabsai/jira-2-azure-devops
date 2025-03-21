@@ -1,0 +1,556 @@
+{
+  "id": "10189",
+  "key": "GG-186",
+  "fields": {
+    "summary": "Develop Node JS login authentication - Jira Project List Retrieval",
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Use case:",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "As a member of Team Gamma, I want to develop a Node JS service to implement login authentication and retrieve the Jira project list, so that users can securely access the migration software and see their Jira projects."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Acceptance criteria:",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "GIVEN the user’s migrator credentials are collected and verified"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "WHEN the Node JS service requests them"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "AND the user's Jira credentials are collected"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "THEN the Node JS service should retrieve the user’s Jira projects."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Technical notes:",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "The Node JS service should:"
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "✅ Verify that the password has the minimum requirements on creation. 🔑"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "✅ Verify that the username is unique on creation. 👤"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "✅ Store credentials (username and password) on creation. 📂"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "✅ Implement login functionality with valid existing credentials. ✅"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "✅ Retrieve Jira's project list for authenticated users. 📊"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "issuetype": {
+      "id": "10011",
+      "name": "Story"
+    },
+    "status": {
+      "name": "Completed"
+    },
+    "priority": {
+      "name": "High"
+    },
+    "creator": {
+      "displayName": "Frederick Antonio Balderrama Mendoza",
+      "emailAddress": ""
+    },
+    "reporter": {
+      "displayName": "Stan Dalence",
+      "emailAddress": ""
+    },
+    "assignee": {
+      "displayName": "Frederick Antonio Balderrama Mendoza"
+    },
+    "created": "2025-02-11T09:53:07.008-0400",
+    "updated": "2025-02-18T10:24:42.720-0400",
+    "duedate": null,
+    "labels": [],
+    "components": [],
+    "fixVersions": [],
+    "attachment": [],
+    "subtasks": [
+      {
+        "id": "10194",
+        "key": "GG-191",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10194",
+        "fields": {
+          "summary": "Retrieve Jira's Project List",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/2",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/high_new.svg",
+            "name": "High",
+            "id": "2"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10191",
+        "key": "GG-188",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10191",
+        "fields": {
+          "summary": "Verify that password complies with minimun requirements",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/2",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/high_new.svg",
+            "name": "High",
+            "id": "2"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10193",
+        "key": "GG-190",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10193",
+        "fields": {
+          "summary": "Storing user credentials (username - password)",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10192",
+        "key": "GG-189",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10192",
+        "fields": {
+          "summary": "Verify that username is unique",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10202",
+        "key": "GG-199",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10202",
+        "fields": {
+          "summary": "Be able to login with a username and password already stored",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/2",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/high_new.svg",
+            "name": "High",
+            "id": "2"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      }
+    ],
+    "issuelinks": [],
+    "comments": [],
+    "customfield_10030": {
+      "name": "Submitted forms",
+      "value": null
+    },
+    "customfield_10031": {
+      "name": "Total forms",
+      "value": null
+    },
+    "customfield_10032": {
+      "name": "Design",
+      "value": null
+    },
+    "customfield_10034": {
+      "name": "Project overview key",
+      "value": null
+    },
+    "customfield_10035": {
+      "name": "Project overview status",
+      "value": null
+    },
+    "customfield_10027": {
+      "name": "[CHART] Time in Status",
+      "value": "10007_*:*_1_*:*_0_*|*_10006_*:*_1_*:*_172548541"
+    },
+    "customfield_10028": {
+      "name": "Locked forms",
+      "value": null
+    },
+    "customfield_10029": {
+      "name": "Open forms",
+      "value": null
+    },
+    "customfield_10020": {
+      "name": "Sprint",
+      "value": [
+        {
+          "id": 3,
+          "name": "Sprint 07",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-02-11T17:16:03.455Z",
+          "endDate": "2025-02-18T04:00:00.000Z",
+          "completeDate": "2025-02-18T17:26:09.602Z"
+        }
+      ]
+    },
+    "customfield_10021": {
+      "name": "Flagged",
+      "value": null
+    },
+    "customfield_10022": {
+      "name": "Target start",
+      "value": null
+    },
+    "customfield_10023": {
+      "name": "Target end",
+      "value": null
+    },
+    "customfield_10024": {
+      "name": "Sentiment",
+      "value": null
+    },
+    "customfield_10025": {
+      "name": "Goals",
+      "value": null
+    },
+    "customfield_10026": {
+      "name": "[CHART] Date of First Response",
+      "value": null
+    },
+    "customfield_10016": {
+      "name": "Story point estimate",
+      "value": null
+    },
+    "customfield_10017": {
+      "name": "Issue color",
+      "value": null
+    },
+    "customfield_10018": {
+      "name": "Parent Link",
+      "value": {
+        "hasEpicLinkFieldDependency": false,
+        "showField": false,
+        "nonEditableReason": {
+          "reason": "EPIC_LINK_SHOULD_BE_USED",
+          "message": "To set an epic as the parent, use the epic link instead"
+        }
+      }
+    },
+    "customfield_10019": {
+      "name": "Rank",
+      "value": "0|i0015z:"
+    },
+    "customfield_10010": {
+      "name": "Request Type",
+      "value": null
+    },
+    "customfield_10014": {
+      "name": "Epic Link",
+      "value": null
+    },
+    "customfield_10015": {
+      "name": "Start date",
+      "value": null
+    },
+    "customfield_10005": {
+      "name": "Change type",
+      "value": null
+    },
+    "customfield_10006": {
+      "name": "Change risk",
+      "value": null
+    },
+    "customfield_10007": {
+      "name": "Change reason",
+      "value": null
+    },
+    "customfield_10008": {
+      "name": "Actual start",
+      "value": null
+    },
+    "customfield_10009": {
+      "name": "Actual end",
+      "value": null
+    },
+    "customfield_10000": {
+      "name": "development",
+      "value": "{}"
+    },
+    "customfield_10001": {
+      "name": "Team",
+      "value": null
+    },
+    "customfield_10002": {
+      "name": "Organizations",
+      "value": []
+    },
+    "customfield_10003": {
+      "name": "Approvers",
+      "value": null
+    },
+    "customfield_10004": {
+      "name": "Impact",
+      "value": null
+    },
+    "customfield_10039": {
+      "name": "Story Points",
+      "value": 8
+    }
+  }
+}

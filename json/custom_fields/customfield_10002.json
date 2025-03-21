@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10002",
+  "name": "Organizations",
+  "description": "Stores the organizations that are associated with a Service Desk customer portal requests. This custom field is created programmatically and required by Service Desk.",
+  "type": "array",
+  "referenceName": "Custom10002.Organizations",
+  "usage": "workItem"
+}

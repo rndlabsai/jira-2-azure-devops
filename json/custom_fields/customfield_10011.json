@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10011",
+  "name": "Epic Name",
+  "description": "Provide a short name to identify this epic.",
+  "type": "string",
+  "referenceName": "Custom10011.Epic Name",
+  "usage": "workItem"
+}

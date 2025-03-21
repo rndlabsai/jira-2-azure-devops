@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10017",
+  "name": "Issue color",
+  "description": "",
+  "type": "string",
+  "referenceName": "Custom10017.Issue color",
+  "usage": "workItem"
+}

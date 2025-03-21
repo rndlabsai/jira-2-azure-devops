@@ -1,0 +1,665 @@
+{
+  "id": "10021",
+  "key": "GG-18",
+  "fields": {
+    "summary": "Validate Jira Cloud Credentials Before Data Fetching",
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 2
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Use case:"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "As a "
+            },
+            {
+              "type": "text",
+              "text": "user with access to Jira Cloud credentials",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": ", "
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "I want to "
+            },
+            {
+              "type": "text",
+              "text": "validate the Jira Cloud credentials",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " "
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "so that "
+            },
+            {
+              "type": "text",
+              "text": "I can ensure that the data fetching process will be successful and secure",
+              "marks": [
+                {
+                  "type": "strong"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": ". "
+            }
+          ]
+        },
+        {
+          "type": "rule"
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 2
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Acceptance criteria:"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "GIVEN",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " valid Jira Cloud credentials are provided"
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "WHEN",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " the user initiates the validation process"
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "AND",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " the system successfully verifies the credentials"
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "THEN",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " the user receives a confirmation message indicating the successful validation."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "GIVEN",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " invalid or expired Jira Cloud credentials are provided"
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "WHEN",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " the user initiates the validation process"
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "AND",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " the system detects that the credentials are invalid or expired"
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "THEN",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " the user receives an error message indicating that the credentials need to be updated."
+            }
+          ]
+        },
+        {
+          "type": "rule"
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 2
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Technical notes:"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "It's important to implement a secure mechanism to validate the Jira Cloud credentials. This may involve using API tokens or OAuth for secure access to Jira Cloud. Additionally, error handling should be in place to appropriately handle various scenarios such as connection failures, expired tokens, or invalid credentials. The validation process should not expose sensitive information and should be designed to ensure compatibility with Jira Cloud's security protocols."
+            }
+          ]
+        }
+      ]
+    },
+    "issuetype": {
+      "id": "10011",
+      "name": "Story"
+    },
+    "status": {
+      "name": "Completed"
+    },
+    "priority": {
+      "name": "Medium"
+    },
+    "creator": {
+      "displayName": "Stan Dalence",
+      "emailAddress": ""
+    },
+    "reporter": {
+      "displayName": "Stan Dalence",
+      "emailAddress": ""
+    },
+    "assignee": {
+      "displayName": "Frederick Antonio Balderrama Mendoza"
+    },
+    "created": "2025-02-09T15:58:03.527-0400",
+    "updated": "2025-03-03T23:41:12.849-0400",
+    "duedate": null,
+    "labels": [],
+    "components": [],
+    "fixVersions": [],
+    "attachment": [],
+    "subtasks": [
+      {
+        "id": "10250",
+        "key": "GG-247",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10250",
+        "fields": {
+          "summary": "Verify that jira credentials (api tokens) have not expired",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/2",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/high_new.svg",
+            "name": "High",
+            "id": "2"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10251",
+        "key": "GG-248",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10251",
+        "fields": {
+          "summary": "Inform user when credentials are invalid",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10252",
+        "key": "GG-249",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10252",
+        "fields": {
+          "summary": "Inform user when validation is successful",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      }
+    ],
+    "issuelinks": [],
+    "comments": [
+      {
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10021/comment/10008",
+        "id": "10008",
+        "author": {
+          "self": "https://grupogamma1.atlassian.net/rest/api/3/user?accountId=631b2f9509bc6014ea8d3fef",
+          "accountId": "631b2f9509bc6014ea8d3fef",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "24x24": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "16x16": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "32x32": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png"
+          },
+          "displayName": "Frederick Antonio Balderrama Mendoza",
+          "active": true,
+          "timeZone": "America/La_Paz",
+          "accountType": "atlassian"
+        },
+        "body": {
+          "type": "doc",
+          "version": 1,
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Missing frontend backend integration, so we can’t show this data to the user"
+                }
+              ]
+            }
+          ]
+        },
+        "updateAuthor": {
+          "self": "https://grupogamma1.atlassian.net/rest/api/3/user?accountId=631b2f9509bc6014ea8d3fef",
+          "accountId": "631b2f9509bc6014ea8d3fef",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "24x24": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "16x16": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "32x32": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png"
+          },
+          "displayName": "Frederick Antonio Balderrama Mendoza",
+          "active": true,
+          "timeZone": "America/La_Paz",
+          "accountType": "atlassian"
+        },
+        "created": "2025-02-24T13:41:44.284-0400",
+        "updated": "2025-02-24T13:41:44.284-0400",
+        "jsdPublic": true
+      },
+      {
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10021/comment/10009",
+        "id": "10009",
+        "author": {
+          "self": "https://grupogamma1.atlassian.net/rest/api/3/user?accountId=631b2f9509bc6014ea8d3fef",
+          "accountId": "631b2f9509bc6014ea8d3fef",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "24x24": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "16x16": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "32x32": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png"
+          },
+          "displayName": "Frederick Antonio Balderrama Mendoza",
+          "active": true,
+          "timeZone": "America/La_Paz",
+          "accountType": "atlassian"
+        },
+        "body": {
+          "type": "doc",
+          "version": 1,
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "The frontend backend integration is already available for the pending subtasks to be fully done."
+                }
+              ]
+            }
+          ]
+        },
+        "updateAuthor": {
+          "self": "https://grupogamma1.atlassian.net/rest/api/3/user?accountId=631b2f9509bc6014ea8d3fef",
+          "accountId": "631b2f9509bc6014ea8d3fef",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "24x24": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "16x16": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "32x32": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png"
+          },
+          "displayName": "Frederick Antonio Balderrama Mendoza",
+          "active": true,
+          "timeZone": "America/La_Paz",
+          "accountType": "atlassian"
+        },
+        "created": "2025-02-28T23:48:34.996-0400",
+        "updated": "2025-02-28T23:48:34.996-0400",
+        "jsdPublic": true
+      }
+    ],
+    "customfield_10030": {
+      "name": "Submitted forms",
+      "value": null
+    },
+    "customfield_10031": {
+      "name": "Total forms",
+      "value": null
+    },
+    "customfield_10032": {
+      "name": "Design",
+      "value": null
+    },
+    "customfield_10034": {
+      "name": "Project overview key",
+      "value": null
+    },
+    "customfield_10035": {
+      "name": "Project overview status",
+      "value": null
+    },
+    "customfield_10027": {
+      "name": "[CHART] Time in Status",
+      "value": null
+    },
+    "customfield_10028": {
+      "name": "Locked forms",
+      "value": null
+    },
+    "customfield_10029": {
+      "name": "Open forms",
+      "value": null
+    },
+    "customfield_10020": {
+      "name": "Sprint",
+      "value": [
+        {
+          "id": 5,
+          "name": "Sprint 08",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-02-18T17:28:44.000Z",
+          "endDate": "2025-02-25T04:00:00.000Z",
+          "completeDate": "2025-02-25T17:33:31.632Z"
+        },
+        {
+          "id": 6,
+          "name": "Sprint 09",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-02-25T17:33:07.063Z",
+          "endDate": "2025-03-04T17:33:45.000Z",
+          "completeDate": "2025-03-05T15:17:13.255Z"
+        }
+      ]
+    },
+    "customfield_10021": {
+      "name": "Flagged",
+      "value": null
+    },
+    "customfield_10022": {
+      "name": "Target start",
+      "value": null
+    },
+    "customfield_10023": {
+      "name": "Target end",
+      "value": null
+    },
+    "customfield_10024": {
+      "name": "Sentiment",
+      "value": null
+    },
+    "customfield_10025": {
+      "name": "Goals",
+      "value": null
+    },
+    "customfield_10026": {
+      "name": "[CHART] Date of First Response",
+      "value": "2025-02-24T13:41:44.284-0400"
+    },
+    "customfield_10016": {
+      "name": "Story point estimate",
+      "value": null
+    },
+    "customfield_10017": {
+      "name": "Issue color",
+      "value": null
+    },
+    "customfield_10018": {
+      "name": "Parent Link",
+      "value": {
+        "hasEpicLinkFieldDependency": false,
+        "showField": false,
+        "nonEditableReason": {
+          "reason": "EPIC_LINK_SHOULD_BE_USED",
+          "message": "To set an epic as the parent, use the epic link instead"
+        }
+      }
+    },
+    "customfield_10019": {
+      "name": "Rank",
+      "value": "0|i0003q:"
+    },
+    "customfield_10010": {
+      "name": "Request Type",
+      "value": null
+    },
+    "customfield_10014": {
+      "name": "Epic Link",
+      "value": "GG-1"
+    },
+    "customfield_10015": {
+      "name": "Start date",
+      "value": null
+    },
+    "customfield_10005": {
+      "name": "Change type",
+      "value": null
+    },
+    "customfield_10006": {
+      "name": "Change risk",
+      "value": null
+    },
+    "customfield_10007": {
+      "name": "Change reason",
+      "value": null
+    },
+    "customfield_10008": {
+      "name": "Actual start",
+      "value": null
+    },
+    "customfield_10009": {
+      "name": "Actual end",
+      "value": null
+    },
+    "customfield_10000": {
+      "name": "development",
+      "value": "{}"
+    },
+    "customfield_10001": {
+      "name": "Team",
+      "value": null
+    },
+    "customfield_10002": {
+      "name": "Organizations",
+      "value": []
+    },
+    "customfield_10003": {
+      "name": "Approvers",
+      "value": null
+    },
+    "customfield_10004": {
+      "name": "Impact",
+      "value": null
+    },
+    "customfield_10039": {
+      "name": "Story Points",
+      "value": 3
+    }
+  }
+}

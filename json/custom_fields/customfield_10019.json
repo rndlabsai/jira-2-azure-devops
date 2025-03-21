@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10019",
+  "name": "Rank",
+  "description": "Global rank field for Jira Software use only.",
+  "type": "any",
+  "referenceName": "Custom10019.Rank",
+  "usage": "workItem"
+}

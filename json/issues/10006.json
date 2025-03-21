@@ -1,0 +1,635 @@
+{
+  "id": "10006",
+  "key": "GG-3",
+  "fields": {
+    "summary": "Integrate React Front End with Backend",
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 2
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Use case:"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "As a "
+            },
+            {
+              "type": "text",
+              "text": "user",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": ", "
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "I want to integrate the React Front End with Jira Cloud REST API, "
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "so that I can login and store tokens in the database securely."
+            }
+          ]
+        },
+        {
+          "type": "rule"
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 2
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Acceptance criteria:"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "GIVEN",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " I have access to the React Front End, "
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "WHEN",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " I provide my username and password, "
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "AND",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " I can see the main page, "
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "THEN",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " I can successfully store a token in DB."
+            }
+          ]
+        },
+        {
+          "type": "rule"
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 2
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Technical notes:"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "The integration will involve using official REST API endpoints provided by Jira Cloud to fetch issues, workflows, screens, and custom fields for a specific project. The collected data will be securely handled and transmitted to the Node JS Backend for further processing. Progress will be displayed to the user to ensure transparency and monitoring of the export operation."
+            }
+          ]
+        }
+      ]
+    },
+    "issuetype": {
+      "id": "10011",
+      "name": "Story"
+    },
+    "status": {
+      "name": "Completed"
+    },
+    "priority": {
+      "name": "Medium"
+    },
+    "creator": {
+      "displayName": "Stan Dalence",
+      "emailAddress": ""
+    },
+    "reporter": {
+      "displayName": "Stan Dalence",
+      "emailAddress": ""
+    },
+    "assignee": {
+      "displayName": "andres gottlieb",
+      "emailAddress": "andres.gottlieb10@gmail.com"
+    },
+    "created": "2025-02-09T15:57:04.650-0400",
+    "updated": "2025-03-12T11:26:58.479-0400",
+    "duedate": null,
+    "labels": [],
+    "components": [],
+    "fixVersions": [],
+    "attachment": [],
+    "subtasks": [
+      {
+        "id": "10301",
+        "key": "GG-298",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10301",
+        "fields": {
+          "summary": " Setup Integration from DB and Backend with endpoints",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10302",
+        "key": "GG-299",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10302",
+        "fields": {
+          "summary": " Implement Authentication with DB",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10303",
+        "key": "GG-300",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10303",
+        "fields": {
+          "summary": "Database correction",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10304",
+        "key": "GG-301",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10304",
+        "fields": {
+          "summary": "Transmit Data Securely to Node.js Backend",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10353",
+        "key": "GG-350",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10353",
+        "fields": {
+          "summary": "Implement retrieval of tokens per user",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10354",
+        "key": "GG-351",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10354",
+        "fields": {
+          "summary": "Implement storage of encrypted tokens to DB",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10355",
+        "key": "GG-352",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10355",
+        "fields": {
+          "summary": "Implement deletion of tokens from db ",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      }
+    ],
+    "issuelinks": [],
+    "comments": [],
+    "customfield_10030": {
+      "name": "Submitted forms",
+      "value": null
+    },
+    "customfield_10031": {
+      "name": "Total forms",
+      "value": null
+    },
+    "customfield_10032": {
+      "name": "Design",
+      "value": null
+    },
+    "customfield_10034": {
+      "name": "Project overview key",
+      "value": null
+    },
+    "customfield_10035": {
+      "name": "Project overview status",
+      "value": null
+    },
+    "customfield_10027": {
+      "name": "[CHART] Time in Status",
+      "value": null
+    },
+    "customfield_10028": {
+      "name": "Locked forms",
+      "value": null
+    },
+    "customfield_10029": {
+      "name": "Open forms",
+      "value": null
+    },
+    "customfield_10020": {
+      "name": "Sprint",
+      "value": [
+        {
+          "id": 6,
+          "name": "Sprint 09",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-02-25T17:33:07.063Z",
+          "endDate": "2025-03-04T17:33:45.000Z",
+          "completeDate": "2025-03-05T15:17:13.255Z"
+        },
+        {
+          "id": 7,
+          "name": "Sprint 10",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-03-04T15:18:22.002Z",
+          "endDate": "2025-03-11T15:18:00.000Z",
+          "completeDate": "2025-03-12T03:32:50.587Z"
+        },
+        {
+          "id": 40,
+          "name": "Sprint 11",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-03-12T03:33:29.737Z",
+          "endDate": "2025-03-18T15:18:00.000Z",
+          "completeDate": "2025-03-18T18:01:15.941Z"
+        }
+      ]
+    },
+    "customfield_10021": {
+      "name": "Flagged",
+      "value": null
+    },
+    "customfield_10022": {
+      "name": "Target start",
+      "value": null
+    },
+    "customfield_10023": {
+      "name": "Target end",
+      "value": null
+    },
+    "customfield_10024": {
+      "name": "Sentiment",
+      "value": null
+    },
+    "customfield_10025": {
+      "name": "Goals",
+      "value": null
+    },
+    "customfield_10026": {
+      "name": "[CHART] Date of First Response",
+      "value": null
+    },
+    "customfield_10016": {
+      "name": "Story point estimate",
+      "value": null
+    },
+    "customfield_10017": {
+      "name": "Issue color",
+      "value": null
+    },
+    "customfield_10018": {
+      "name": "Parent Link",
+      "value": {
+        "hasEpicLinkFieldDependency": false,
+        "showField": false,
+        "nonEditableReason": {
+          "reason": "EPIC_LINK_SHOULD_BE_USED",
+          "message": "To set an epic as the parent, use the epic link instead"
+        }
+      }
+    },
+    "customfield_10019": {
+      "name": "Rank",
+      "value": "0|i0001b:"
+    },
+    "customfield_10010": {
+      "name": "Request Type",
+      "value": null
+    },
+    "customfield_10014": {
+      "name": "Epic Link",
+      "value": "GG-1"
+    },
+    "customfield_10015": {
+      "name": "Start date",
+      "value": null
+    },
+    "customfield_10005": {
+      "name": "Change type",
+      "value": null
+    },
+    "customfield_10006": {
+      "name": "Change risk",
+      "value": null
+    },
+    "customfield_10007": {
+      "name": "Change reason",
+      "value": null
+    },
+    "customfield_10008": {
+      "name": "Actual start",
+      "value": null
+    },
+    "customfield_10009": {
+      "name": "Actual end",
+      "value": null
+    },
+    "customfield_10000": {
+      "name": "development",
+      "value": "{}"
+    },
+    "customfield_10001": {
+      "name": "Team",
+      "value": null
+    },
+    "customfield_10002": {
+      "name": "Organizations",
+      "value": []
+    },
+    "customfield_10003": {
+      "name": "Approvers",
+      "value": null
+    },
+    "customfield_10004": {
+      "name": "Impact",
+      "value": null
+    },
+    "customfield_10039": {
+      "name": "Story Points",
+      "value": 5
+    }
+  }
+}

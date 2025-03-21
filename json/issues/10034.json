@@ -1,0 +1,826 @@
+{
+  "id": "10034",
+  "key": "GG-31",
+  "fields": {
+    "summary": "Develop Test Cases for Validating Successful Data Retrieval from Jira",
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 2
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Use case:"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "As a "
+            },
+            {
+              "type": "text",
+              "text": "quality assurance engineer",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": ", "
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "I want to develop test cases for validating successful data retrieval from Jira",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": ", "
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "so that I can ensure that the data is accurately and securely exported for migration.",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rule"
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 2
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Acceptance criteria:"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "GIVEN",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " the Jira Cloud credentials and project key or ID are provided, "
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "WHEN",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " the React front end collects the credentials and project information, "
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "AND",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " the Node JS backend successfully retrieves all the issues, workflows, screens, and custom fields for the specified project from Jira, "
+            },
+            {
+              "type": "hardBreak"
+            },
+            {
+              "type": "text",
+              "text": "THEN",
+              "marks": [
+                {
+                  "type": "em"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": " the data retrieval is considered successful. "
+            }
+          ]
+        },
+        {
+          "type": "rule"
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 2
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Technical notes:"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "All test cases must cover the integration between React JS front end and Jira Cloud REST API to ensure accurate capture of Jira data. In addition, security measures for handling credentials and tokens must be tested to prevent exposure in logs or version control. Error handling mechanisms for API integration failures should also be thoroughly tested to ensure robustness in handling unexpected scenarios."
+            }
+          ]
+        }
+      ]
+    },
+    "issuetype": {
+      "id": "10011",
+      "name": "Story"
+    },
+    "status": {
+      "name": "Completed"
+    },
+    "priority": {
+      "name": "Medium"
+    },
+    "creator": {
+      "displayName": "Stan Dalence",
+      "emailAddress": ""
+    },
+    "reporter": {
+      "displayName": "Stan Dalence",
+      "emailAddress": ""
+    },
+    "assignee": {
+      "displayName": "Camila Molina Toro"
+    },
+    "created": "2025-02-09T15:58:47.446-0400",
+    "updated": "2025-03-11T12:42:48.851-0400",
+    "duedate": null,
+    "labels": [],
+    "components": [],
+    "fixVersions": [],
+    "attachment": [],
+    "subtasks": [
+      {
+        "id": "10266",
+        "key": "GG-263",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10266",
+        "fields": {
+          "summary": "Planning & Documentation",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10267",
+        "key": "GG-264",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10267",
+        "fields": {
+          "summary": "Unit Testing for API Calls in the Backend (Node.js)",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10268",
+        "key": "GG-265",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10268",
+        "fields": {
+          "summary": "Integration Testing Between React Frontend and Node.js Backend",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10269",
+        "key": "GG-266",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10269",
+        "fields": {
+          "summary": "Security Testing for Credentials and Tokens Handling",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10019",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Completed",
+            "id": "10019",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      },
+      {
+        "id": "10270",
+        "key": "GG-267",
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10270",
+        "fields": {
+          "summary": "Error Handling & Edge Case Testing",
+          "status": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/status/10008",
+            "description": "",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/statuses/generic.png",
+            "name": "Archived",
+            "id": "10008",
+            "statusCategory": {
+              "self": "https://grupogamma1.atlassian.net/rest/api/3/statuscategory/3",
+              "id": 3,
+              "key": "done",
+              "colorName": "green",
+              "name": "Done"
+            }
+          },
+          "priority": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/priority/3",
+            "iconUrl": "https://grupogamma1.atlassian.net/images/icons/priorities/medium_new.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://grupogamma1.atlassian.net/rest/api/3/issuetype/10017",
+            "id": "10017",
+            "description": "A small piece of work that's part of a larger task.",
+            "iconUrl": "https://grupogamma1.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10316?size=medium",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316,
+            "hierarchyLevel": -1
+          }
+        }
+      }
+    ],
+    "issuelinks": [],
+    "comments": [
+      {
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10034/comment/10001",
+        "id": "10001",
+        "author": {
+          "self": "https://grupogamma1.atlassian.net/rest/api/3/user?accountId=620be6c8f4d8af0070fd1ecc",
+          "accountId": "620be6c8f4d8af0070fd1ecc",
+          "emailAddress": "andres.gottlieb10@gmail.com",
+          "avatarUrls": {
+            "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/620be6c8f4d8af0070fd1ecc/be203da5-11e0-453d-8460-5263083f4a87/48",
+            "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/620be6c8f4d8af0070fd1ecc/be203da5-11e0-453d-8460-5263083f4a87/24",
+            "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/620be6c8f4d8af0070fd1ecc/be203da5-11e0-453d-8460-5263083f4a87/16",
+            "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/620be6c8f4d8af0070fd1ecc/be203da5-11e0-453d-8460-5263083f4a87/32"
+          },
+          "displayName": "andres gottlieb",
+          "active": true,
+          "timeZone": "America/La_Paz",
+          "accountType": "atlassian"
+        },
+        "body": {
+          "type": "doc",
+          "version": 1,
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "emoji",
+                  "attrs": {
+                    "shortName": ":flag_on:",
+                    "id": "atlassian-flag_on",
+                    "text": ":flag_on:"
+                  }
+                },
+                {
+                  "type": "text",
+                  "text": " Flag added "
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "No reports because the test execution does not run"
+                }
+              ]
+            }
+          ]
+        },
+        "updateAuthor": {
+          "self": "https://grupogamma1.atlassian.net/rest/api/3/user?accountId=620be6c8f4d8af0070fd1ecc",
+          "accountId": "620be6c8f4d8af0070fd1ecc",
+          "emailAddress": "andres.gottlieb10@gmail.com",
+          "avatarUrls": {
+            "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/620be6c8f4d8af0070fd1ecc/be203da5-11e0-453d-8460-5263083f4a87/48",
+            "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/620be6c8f4d8af0070fd1ecc/be203da5-11e0-453d-8460-5263083f4a87/24",
+            "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/620be6c8f4d8af0070fd1ecc/be203da5-11e0-453d-8460-5263083f4a87/16",
+            "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/620be6c8f4d8af0070fd1ecc/be203da5-11e0-453d-8460-5263083f4a87/32"
+          },
+          "displayName": "andres gottlieb",
+          "active": true,
+          "timeZone": "America/La_Paz",
+          "accountType": "atlassian"
+        },
+        "created": "2025-02-18T13:46:23.947-0400",
+        "updated": "2025-02-18T13:46:23.947-0400",
+        "jsdPublic": true
+      },
+      {
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10034/comment/10002",
+        "id": "10002",
+        "author": {
+          "self": "https://grupogamma1.atlassian.net/rest/api/3/user?accountId=712020%3Af2e59d97-e49b-4763-aced-10dac432aafd",
+          "accountId": "712020:f2e59d97-e49b-4763-aced-10dac432aafd",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png",
+            "24x24": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png",
+            "16x16": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png",
+            "32x32": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png"
+          },
+          "displayName": "Samuel Gossweiler",
+          "active": true,
+          "timeZone": "America/La_Paz",
+          "accountType": "atlassian"
+        },
+        "body": {
+          "type": "doc",
+          "version": 1,
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "emoji",
+                  "attrs": {
+                    "shortName": ":flag_on:",
+                    "id": "atlassian-flag_on",
+                    "text": ":flag_on:"
+                  }
+                },
+                {
+                  "type": "text",
+                  "text": " Flag added "
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "No reports because the test execution does not run"
+                }
+              ]
+            }
+          ]
+        },
+        "updateAuthor": {
+          "self": "https://grupogamma1.atlassian.net/rest/api/3/user?accountId=712020%3Af2e59d97-e49b-4763-aced-10dac432aafd",
+          "accountId": "712020:f2e59d97-e49b-4763-aced-10dac432aafd",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png",
+            "24x24": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png",
+            "16x16": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png",
+            "32x32": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png"
+          },
+          "displayName": "Samuel Gossweiler",
+          "active": true,
+          "timeZone": "America/La_Paz",
+          "accountType": "atlassian"
+        },
+        "created": "2025-02-19T12:33:21.201-0400",
+        "updated": "2025-02-19T12:33:21.201-0400",
+        "jsdPublic": true
+      },
+      {
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10034/comment/10006",
+        "id": "10006",
+        "author": {
+          "self": "https://grupogamma1.atlassian.net/rest/api/3/user?accountId=712020%3Af2e59d97-e49b-4763-aced-10dac432aafd",
+          "accountId": "712020:f2e59d97-e49b-4763-aced-10dac432aafd",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png",
+            "24x24": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png",
+            "16x16": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png",
+            "32x32": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png"
+          },
+          "displayName": "Samuel Gossweiler",
+          "active": true,
+          "timeZone": "America/La_Paz",
+          "accountType": "atlassian"
+        },
+        "body": {
+          "type": "doc",
+          "version": 1,
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "emoji",
+                  "attrs": {
+                    "shortName": ":flag_off:",
+                    "id": "atlassian-flag_off",
+                    "text": ":flag_off:"
+                  }
+                },
+                {
+                  "type": "text",
+                  "text": " Flag removed "
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "We can now try the \"calls\""
+                }
+              ]
+            }
+          ]
+        },
+        "updateAuthor": {
+          "self": "https://grupogamma1.atlassian.net/rest/api/3/user?accountId=712020%3Af2e59d97-e49b-4763-aced-10dac432aafd",
+          "accountId": "712020:f2e59d97-e49b-4763-aced-10dac432aafd",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png",
+            "24x24": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png",
+            "16x16": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png",
+            "32x32": "https://secure.gravatar.com/avatar/b8e7bd5067f27eae05daaa6d5039b21e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FSG-5.png"
+          },
+          "displayName": "Samuel Gossweiler",
+          "active": true,
+          "timeZone": "America/La_Paz",
+          "accountType": "atlassian"
+        },
+        "created": "2025-02-24T12:32:25.147-0400",
+        "updated": "2025-02-24T12:32:25.147-0400",
+        "jsdPublic": true
+      },
+      {
+        "self": "https://grupogamma1.atlassian.net/rest/api/3/issue/10034/comment/10007",
+        "id": "10007",
+        "author": {
+          "self": "https://grupogamma1.atlassian.net/rest/api/3/user?accountId=631b2f9509bc6014ea8d3fef",
+          "accountId": "631b2f9509bc6014ea8d3fef",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "24x24": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "16x16": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "32x32": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png"
+          },
+          "displayName": "Frederick Antonio Balderrama Mendoza",
+          "active": true,
+          "timeZone": "America/La_Paz",
+          "accountType": "atlassian"
+        },
+        "body": {
+          "type": "doc",
+          "version": 1,
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Currently blocked due to frontend / backend integration not being implemented"
+                }
+              ]
+            }
+          ]
+        },
+        "updateAuthor": {
+          "self": "https://grupogamma1.atlassian.net/rest/api/3/user?accountId=631b2f9509bc6014ea8d3fef",
+          "accountId": "631b2f9509bc6014ea8d3fef",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "24x24": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "16x16": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png",
+            "32x32": "https://secure.gravatar.com/avatar/9c66efc38a7099c842a17eea91f192c9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FFM-6.png"
+          },
+          "displayName": "Frederick Antonio Balderrama Mendoza",
+          "active": true,
+          "timeZone": "America/La_Paz",
+          "accountType": "atlassian"
+        },
+        "created": "2025-02-24T13:39:18.121-0400",
+        "updated": "2025-02-24T13:39:18.121-0400",
+        "jsdPublic": true
+      }
+    ],
+    "customfield_10030": {
+      "name": "Submitted forms",
+      "value": null
+    },
+    "customfield_10031": {
+      "name": "Total forms",
+      "value": null
+    },
+    "customfield_10032": {
+      "name": "Design",
+      "value": null
+    },
+    "customfield_10034": {
+      "name": "Project overview key",
+      "value": null
+    },
+    "customfield_10035": {
+      "name": "Project overview status",
+      "value": null
+    },
+    "customfield_10027": {
+      "name": "[CHART] Time in Status",
+      "value": null
+    },
+    "customfield_10028": {
+      "name": "Locked forms",
+      "value": null
+    },
+    "customfield_10029": {
+      "name": "Open forms",
+      "value": null
+    },
+    "customfield_10020": {
+      "name": "Sprint",
+      "value": [
+        {
+          "id": 5,
+          "name": "Sprint 08",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-02-18T17:28:44.000Z",
+          "endDate": "2025-02-25T04:00:00.000Z",
+          "completeDate": "2025-02-25T17:33:31.632Z"
+        },
+        {
+          "id": 6,
+          "name": "Sprint 09",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-02-25T17:33:07.063Z",
+          "endDate": "2025-03-04T17:33:45.000Z",
+          "completeDate": "2025-03-05T15:17:13.255Z"
+        },
+        {
+          "id": 7,
+          "name": "Sprint 10",
+          "state": "closed",
+          "boardId": 3,
+          "goal": "",
+          "startDate": "2025-03-04T15:18:22.002Z",
+          "endDate": "2025-03-11T15:18:00.000Z",
+          "completeDate": "2025-03-12T03:32:50.587Z"
+        }
+      ]
+    },
+    "customfield_10021": {
+      "name": "Flagged",
+      "value": null
+    },
+    "customfield_10022": {
+      "name": "Target start",
+      "value": null
+    },
+    "customfield_10023": {
+      "name": "Target end",
+      "value": null
+    },
+    "customfield_10024": {
+      "name": "Sentiment",
+      "value": null
+    },
+    "customfield_10025": {
+      "name": "Goals",
+      "value": null
+    },
+    "customfield_10026": {
+      "name": "[CHART] Date of First Response",
+      "value": "2025-02-18T13:46:23.947-0400"
+    },
+    "customfield_10016": {
+      "name": "Story point estimate",
+      "value": null
+    },
+    "customfield_10017": {
+      "name": "Issue color",
+      "value": null
+    },
+    "customfield_10018": {
+      "name": "Parent Link",
+      "value": {
+        "hasEpicLinkFieldDependency": false,
+        "showField": false,
+        "nonEditableReason": {
+          "reason": "EPIC_LINK_SHOULD_BE_USED",
+          "message": "To set an epic as the parent, use the epic link instead"
+        }
+      }
+    },
+    "customfield_10019": {
+      "name": "Rank",
+      "value": "0|i001ej:"
+    },
+    "customfield_10010": {
+      "name": "Request Type",
+      "value": null
+    },
+    "customfield_10014": {
+      "name": "Epic Link",
+      "value": "GG-2"
+    },
+    "customfield_10015": {
+      "name": "Start date",
+      "value": null
+    },
+    "customfield_10005": {
+      "name": "Change type",
+      "value": null
+    },
+    "customfield_10006": {
+      "name": "Change risk",
+      "value": null
+    },
+    "customfield_10007": {
+      "name": "Change reason",
+      "value": null
+    },
+    "customfield_10008": {
+      "name": "Actual start",
+      "value": null
+    },
+    "customfield_10009": {
+      "name": "Actual end",
+      "value": null
+    },
+    "customfield_10000": {
+      "name": "development",
+      "value": "{}"
+    },
+    "customfield_10001": {
+      "name": "Team",
+      "value": null
+    },
+    "customfield_10002": {
+      "name": "Organizations",
+      "value": []
+    },
+    "customfield_10003": {
+      "name": "Approvers",
+      "value": null
+    },
+    "customfield_10004": {
+      "name": "Impact",
+      "value": null
+    },
+    "customfield_10039": {
+      "name": "Story Points",
+      "value": 3
+    }
+  }
+}

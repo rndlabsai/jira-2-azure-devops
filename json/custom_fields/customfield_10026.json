@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10026",
+  "name": "[CHART] Date of First Response",
+  "description": "",
+  "type": "datetime",
+  "referenceName": "Custom10026.[CHART] Date of First Response",
+  "usage": "workItem"
+}

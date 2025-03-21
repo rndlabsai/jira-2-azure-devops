@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10023",
+  "name": "Target end",
+  "description": "The targeted end date. This custom field is created and required by Advanced Roadmaps for Jira.",
+  "type": "date",
+  "referenceName": "Custom10023.Target end",
+  "usage": "workItem"
+}

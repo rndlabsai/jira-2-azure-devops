@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10030",
+  "name": "Submitted forms",
+  "description": "The number of submitted forms on the issue",
+  "type": "number",
+  "referenceName": "Custom10030.Submitted forms",
+  "usage": "workItem"
+}

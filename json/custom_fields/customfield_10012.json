@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10012",
+  "name": "Epic Status",
+  "description": "Epic Status field for Jira Software use only.",
+  "type": "option",
+  "referenceName": "Custom10012.Epic Status",
+  "usage": "workItem"
+}

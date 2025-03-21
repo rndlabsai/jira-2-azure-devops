@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10028",
+  "name": "Locked forms",
+  "description": "The number of locked forms on the issue",
+  "type": "number",
+  "referenceName": "Custom10028.Locked forms",
+  "usage": "workItem"
+}

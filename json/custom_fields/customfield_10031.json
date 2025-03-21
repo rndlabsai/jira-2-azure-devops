@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10031",
+  "name": "Total forms",
+  "description": "The total number of forms on the issue",
+  "type": "number",
+  "referenceName": "Custom10031.Total forms",
+  "usage": "workItem"
+}

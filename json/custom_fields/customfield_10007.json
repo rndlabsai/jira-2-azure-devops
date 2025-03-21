@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10007",
+  "name": "Change reason",
+  "description": "Choose the reason for the change request",
+  "type": "option",
+  "referenceName": "Custom10007.Change reason",
+  "usage": "workItem"
+}

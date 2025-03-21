@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10029",
+  "name": "Open forms",
+  "description": "The number of open forms on the issue",
+  "type": "number",
+  "referenceName": "Custom10029.Open forms",
+  "usage": "workItem"
+}

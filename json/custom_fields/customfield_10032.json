@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10032",
+  "name": "Design",
+  "description": "Custom field that stores design information for JQL",
+  "type": "array",
+  "referenceName": "Custom10032.Design",
+  "usage": "workItem"
+}

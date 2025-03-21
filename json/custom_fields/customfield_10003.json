@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10003",
+  "name": "Approvers",
+  "description": "Contains users needed for approval. This custom field was created by Jira.",
+  "type": "array",
+  "referenceName": "Custom10003.Approvers",
+  "usage": "workItem"
+}

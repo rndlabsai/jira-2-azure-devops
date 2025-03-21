@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10008",
+  "name": "Actual start",
+  "description": "Enter when the change actually started.",
+  "type": "datetime",
+  "referenceName": "Custom10008.Actual start",
+  "usage": "workItem"
+}

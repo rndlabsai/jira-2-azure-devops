@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10025",
+  "name": "Goals",
+  "description": "Link goals to issues",
+  "type": "array",
+  "referenceName": "Custom10025.Goals",
+  "usage": "workItem"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10015",
+  "name": "Start date",
+  "description": "Allows the planned start date for a piece of work to be set.",
+  "type": "date",
+  "referenceName": "Custom10015.Start date",
+  "usage": "workItem"
+}

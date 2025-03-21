@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10009",
+  "name": "Actual end",
+  "description": "Enter when the change actually ended.",
+  "type": "datetime",
+  "referenceName": "Custom10009.Actual end",
+  "usage": "workItem"
+}

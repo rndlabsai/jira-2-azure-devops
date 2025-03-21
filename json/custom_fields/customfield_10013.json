@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10013",
+  "name": "Epic Color",
+  "description": "Epic Color field for Jira Software use only.",
+  "type": "string",
+  "referenceName": "Custom10013.Epic Color",
+  "usage": "workItem"
+}

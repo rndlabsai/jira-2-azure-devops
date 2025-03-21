@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10033",
+  "name": "Vulnerability",
+  "description": "Custom field that stores vulnerability information for JQL",
+  "type": "any",
+  "referenceName": "Custom10033.Vulnerability",
+  "usage": "workItem"
+}

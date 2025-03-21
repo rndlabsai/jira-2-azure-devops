@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10034",
+  "name": "Project overview key",
+  "description": "Key of project overview connected via Atlassian Home for Jira Cloud",
+  "type": "string",
+  "referenceName": "Custom10034.Project overview key",
+  "usage": "workItem"
+}

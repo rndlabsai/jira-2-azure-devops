@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10027",
+  "name": "[CHART] Time in Status",
+  "description": "",
+  "type": "any",
+  "referenceName": "Custom10027.[CHART] Time in Status",
+  "usage": "workItem"
+}

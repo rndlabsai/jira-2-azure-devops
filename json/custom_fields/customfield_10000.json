@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10000",
+  "name": "development",
+  "description": "Includes development summary panel information used in JQL",
+  "type": "any",
+  "referenceName": "Custom10000.development",
+  "usage": "workItem"
+}

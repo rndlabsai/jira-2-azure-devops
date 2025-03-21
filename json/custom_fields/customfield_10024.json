@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10024",
+  "name": "Sentiment",
+  "description": "Sentiment is determined by content in the issue and latest comments from the customer. Content quality may vary",
+  "type": "array",
+  "referenceName": "Custom10024.Sentiment",
+  "usage": "workItem"
+}

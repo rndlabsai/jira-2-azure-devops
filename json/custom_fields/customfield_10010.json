@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10010",
+  "name": "Request Type",
+  "description": "Holds information about which Service Desk was used to create a ticket. This custom field is created programmatically and must not be modified.",
+  "type": "sd-customerrequesttype",
+  "referenceName": "Custom10010.Request Type",
+  "usage": "workItem"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "customfield_10014",
+  "name": "Epic Link",
+  "description": "Choose an epic to assign this issue to.",
+  "type": "any",
+  "referenceName": "Custom10014.Epic Link",
+  "usage": "workItem"
+}
