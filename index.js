@@ -18,10 +18,12 @@ let projects = [];
 let URL = null;
 // Email's cache
 let EMAIL = null;
-// Token's cache
-let API_TOKEN = null;
+// Jira Token's cache
+let JIRA_TOKEN = null;
 // Azure Devops Token's cache
 let AZURE_TOKEN = null;
+// Zephyr Token's cache
+let ZEPHYR_TOKEN = null;
 
 
 
@@ -46,11 +48,17 @@ app.use('/api/save-token', async (req, res, next) => {
             return res.status(400).json({ success: false, message: 'Missing required parameters: token or application.' });
         }
 
+        if (application === "Zephyr") {
+            ZEPHYR_TOKEN = token;
+
+            return next();
+        }
+
         if (application === "Azure Devops") {
             AZURE_TOKEN = token;
-            console.log(`projects before concatenation: ${projects}`);
+
             projects = projects.concat(await fetchAllProjects(token, "./json/projects.json"));
-            console.log(`projects after concatenation: ${projects}`);
+
             return next();
         }
 
@@ -61,7 +69,7 @@ app.use('/api/save-token', async (req, res, next) => {
 
             URL = url;
             EMAIL = email;
-            API_TOKEN = token;
+            JIRA_TOKEN = token;
             projects = projects.concat(await retrieveAndWriteProjects(url, email, token, "./json/projects.json"));
             return next(); // Ensure we return here to avoid further execution
         }
@@ -145,11 +153,23 @@ app.get('/api/tokens', async (req, res) => {
             url: token.url
         }));
 
+        const zephyrToken = decryptedTokens.find(token => token.Application === 'Zephyr');
+        if (zephyrToken) {
+            ZEPHYR_TOKEN = zephyrToken.Number;
+        }
+
         const azureToken = decryptedTokens.find(token => token.Application === 'Azure Devops');
+        if (azureToken) {
+            AZURE_TOKEN = azureToken.Number;
+            // Read projects from JSON file if cache is empty
+            if (projects.length === 0) {
+                projects = readArrayFromJSONFile("./json/projects.json", "projects");
+            }
+        }
 
         const jiraToken = decryptedTokens.find(token => token.Application === 'Jira');
         if (jiraToken) {
-            API_TOKEN = jiraToken.Number;
+            JIRA_TOKEN = jiraToken.Number;
             EMAIL = jiraToken.email;
             URL = jiraToken.url;
 
@@ -160,12 +180,11 @@ app.get('/api/tokens', async (req, res) => {
 
             // If still empty, retrieve Jira and Azure projects
             if (projects.length === 0) {
-                const jiraProjects = await retrieveAndWriteProjects(URL, EMAIL, API_TOKEN, "./json/projects.json");
-                const azureProjects = azureToken ? await fetchAllProjects(azureToken.Number, "./json/projects.json") : [];
-                projects = jiraProjects.concat(azureProjects);
+                const jiraProjects = await retrieveAndWriteProjects(URL, EMAIL, JIRA_TOKEN, "./json/projects.json");
+                projects = projects.concat(jiraProjects);
             }
         } else {
-            API_TOKEN = null;
+            JIRA_TOKEN = null;
             EMAIL = null;
             URL = null;
         }
@@ -241,7 +260,7 @@ app.delete('/api/delete-token', async (req, res) => {
         projects = [];
         URL = null;
         EMAIL = null;
-        API_TOKEN = null;
+        JIRA_TOKEN = null;
         emptyArrayFromJSONFile("./json/projects.json", "projects");
 
         res.status(200).json({ success: true, message: 'Token eliminado correctamente' });
@@ -259,6 +278,7 @@ app.get('/api/jira/projects', async (_, res) => {
 
 // ruta de migracion
 app.post('/api/migration', async (req, res) => {
+    console.dir(req.body, { depth: null });
     const { start, origin, destination, options } = req.body;
 
     if (!origin || !destination) {
@@ -276,13 +296,13 @@ app.post('/api/migration', async (req, res) => {
         }
         const options_paths = getSelectionPaths(new_options, "./json");
         const logFilePath = "./logfile.log";
-        const {azure_org, azure_proj} = destination.split('/');
+        const { azure_org, azure_proj } = destination.split('/');
 
 
-        migrate(URL, EMAIL, API_TOKEN, origin, logFilePath, "./json/total.json", new_options, options_paths)
+        migrate(URL, EMAIL, JIRA_TOKEN, origin, logFilePath, "./json/total.json", new_options, options_paths)
             //LUCHO - EYSE AQUI MIGRA?
             .then(() => {
-                const testMigration = new TestsMigration(API_TOKEN, origin, AZURE_TOKEN, azure_org, azure_proj, logFilePath);
+                const testMigration = new TestsMigration(ZEPHYR_TOKEN, origin, AZURE_TOKEN, azure_org, azure_proj, logFilePath);
                 testMigration.migrateTestPlans();
                 testMigration.migrateTestSuites();
                 testMigration.migrateTestCases();
