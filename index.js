@@ -8,6 +8,9 @@ import { readArrayFromJSONFile, getSelectionPaths, emptyArrayFromJSONFile, empty
 import { retrieveAndWriteProjects } from './api_calls/index.js';
 import { decryptToken, encryptToken } from './tokenService.js';
 import { migrate } from './migrations/jiraMigrations.js';
+import { fetchAllProjects } from './azure_functions/projects.js';
+import { TestsMigration } from './testMigration/TestMigration.js';
+
 
 // Project's cache
 let projects = [];
@@ -15,8 +18,14 @@ let projects = [];
 let URL = null;
 // Email's cache
 let EMAIL = null;
-// Token's cache
-let API_TOKEN = null;
+// Jira Token's cache
+let JIRA_TOKEN = null;
+// Azure Devops Token's cache
+let AZURE_TOKEN = null;
+// Zephyr Token's cache
+let ZEPHYR_TOKEN = null;
+
+
 
 const app = express();
 
@@ -34,19 +43,41 @@ app.use((req, _, next) => {
 app.use('/api/save-token', async (req, res, next) => {
     try {
         const { _, token, email, url, application } = req.body;
-        if (application !== "Jira") {
-            next();
+
+        if (!token || !application) {
+            return res.status(400).json({ success: false, message: 'Missing required parameters: token or application.' });
         }
 
-        URL = url;
-        EMAIL = email;
-        API_TOKEN = token;
-        projects = await retrieveAndWriteProjects(url, email, token, "./json/projects.json");
-    }
-    catch (e) {
+        if (application === "Zephyr") {
+            ZEPHYR_TOKEN = token;
+
+            return next();
+        }
+
+        if (application === "Azure Devops") {
+            AZURE_TOKEN = token;
+
+            projects = projects.concat(await fetchAllProjects(token, "./json/projects.json"));
+
+            return next();
+        }
+
+        if (application === "Jira") {
+            if (!token || !email || !url || !application) {
+                return res.status(400).json({ success: false, message: 'Faltan parámetros requeridos.' });
+            }
+
+            URL = url;
+            EMAIL = email;
+            JIRA_TOKEN = token;
+            projects = projects.concat(await retrieveAndWriteProjects(url, email, token, "./json/projects.json"));
+            return next(); // Ensure we return here to avoid further execution
+        }
+
+        return next();
+    } catch (e) {
         if (e.cause && e.cause === 'invalid_token') {
-            res.status(401).send({ message: "AUTHENTICATED_FAILED" });
-            return;
+            return res.status(401).send({ message: "AUTHENTICATED_FAILED" }); // Ensure we return here
         }
     }
 
@@ -87,6 +118,7 @@ app.post('/api/register', async (req, res) => {
 
 // ruta para login del user
 app.post('/api/login', async (req, res) => {
+    console.dir(req, { depth: null });
     try {
         const { username, password } = req.body;
         const user = await loginUser(username, password);
@@ -121,13 +153,38 @@ app.get('/api/tokens', async (req, res) => {
             url: token.url
         }));
 
+        const zephyrToken = decryptedTokens.find(token => token.Application === 'Zephyr');
+        if (zephyrToken) {
+            ZEPHYR_TOKEN = zephyrToken.Number;
+        }
+
+        const azureToken = decryptedTokens.find(token => token.Application === 'Azure Devops');
+        if (azureToken) {
+            AZURE_TOKEN = azureToken.Number;
+            // Read projects from JSON file if cache is empty
+            if (projects.length === 0) {
+                projects = readArrayFromJSONFile("./json/projects.json", "projects");
+            }
+        }
+
         const jiraToken = decryptedTokens.find(token => token.Application === 'Jira');
         if (jiraToken) {
-            API_TOKEN = jiraToken.Number;
+            JIRA_TOKEN = jiraToken.Number;
             EMAIL = jiraToken.email;
             URL = jiraToken.url;
+
+            // Read projects from JSON file if cache is empty
+            if (projects.length === 0) {
+                projects = readArrayFromJSONFile("./json/projects.json", "projects");
+            }
+
+            // If still empty, retrieve Jira and Azure projects
+            if (projects.length === 0) {
+                const jiraProjects = await retrieveAndWriteProjects(URL, EMAIL, JIRA_TOKEN, "./json/projects.json");
+                projects = projects.concat(jiraProjects);
+            }
         } else {
-            API_TOKEN = null;
+            JIRA_TOKEN = null;
             EMAIL = null;
             URL = null;
         }
@@ -142,10 +199,11 @@ app.get('/api/tokens', async (req, res) => {
 // ruta para guardar token
 app.post('/api/save-token', async (req, res) => {
     try {
+        console.dir(req.body, { depth: null });
         const { username, token, email, url, application } = req.body;
 
-        if (!username || !token || !email || !url || !application) {
-            return res.status(400).json({ success: false, message: 'Faltan parámetros requeridos.' });
+        if (!username || !token || !application) {
+            return res.status(400).json({ success: false, message: 'Missing required parameters.' });
         }
 
         const [userRows] = await pool.query('SELECT * FROM user WHERE username = ?', [username]);
@@ -166,7 +224,9 @@ app.post('/api/save-token', async (req, res) => {
         res.status(200).json({ success: true, message: `${application} credentials saved successfully!` });
     } catch (error) {
         console.error('❌ Error saving token:', error);
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
+        if (!res.headersSent) { // Ensure no response has been sent already
+            return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        }
     }
 });
 
@@ -200,7 +260,7 @@ app.delete('/api/delete-token', async (req, res) => {
         projects = [];
         URL = null;
         EMAIL = null;
-        API_TOKEN = null;
+        JIRA_TOKEN = null;
         emptyArrayFromJSONFile("./json/projects.json", "projects");
 
         res.status(200).json({ success: true, message: 'Token eliminado correctamente' });
@@ -218,6 +278,7 @@ app.get('/api/jira/projects', async (_, res) => {
 
 // ruta de migracion
 app.post('/api/migration', async (req, res) => {
+    console.dir(req.body, { depth: null });
     const { start, origin, destination, options } = req.body;
 
     if (!origin || !destination) {
@@ -234,8 +295,20 @@ app.post('/api/migration', async (req, res) => {
             };
         }
         const options_paths = getSelectionPaths(new_options, "./json");
+        const logFilePath = "./logfile.log";
+        const { azure_org, azure_proj } = destination.split('/');
 
-        migrate(URL, EMAIL, API_TOKEN, origin, "./logfile.log", "./json/total.json", new_options, options_paths);
+
+        migrate(URL, EMAIL, JIRA_TOKEN, origin, logFilePath, "./json/total.json", new_options, options_paths)
+            //LUCHO - EYSE AQUI MIGRA?
+            .then(() => {
+                const testMigration = new TestsMigration(ZEPHYR_TOKEN, origin, AZURE_TOKEN, azure_org, azure_proj, logFilePath);
+                testMigration.migrateTestPlans();
+                testMigration.migrateTestSuites();
+                testMigration.migrateTestCases();
+            });
+
+
 
         res.status(200).json({
             message: "Migration request received successfully.",

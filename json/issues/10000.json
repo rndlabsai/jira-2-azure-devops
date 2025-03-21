@@ -129,8 +129,8 @@
         "hasEpicLinkFieldDependency": false,
         "showField": false,
         "nonEditableReason": {
-          "reason": "EPIC_LINK_SHOULD_BE_USED",
-          "message": "To set an epic as the parent, use the epic link instead"
+          "reason": "PLUGIN_LICENSE_ERROR",
+          "message": "The Parent Link is only available to Jira Premium users."
         }
       }
     },
