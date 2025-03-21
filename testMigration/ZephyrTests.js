@@ -83,7 +83,12 @@ class ZephyrTests {
         //console.log(testData);
         return testData && testData.name ? testData.name : '';
     }
-    
+
+    async getNumOf(field){
+        const testData = await this.fetchZephyrData(`${this.baseUrl}${field}`);
+        //console.log(testData.total);
+        return testData && testData.total ? testData.total : 0;
+    }
 
     async fetchAndTransformTestCases() {
         const testCasesData = await this.fetchZephyrData(`${this.baseUrl}testcases`);
@@ -125,26 +130,28 @@ class ZephyrTests {
                 }
             ];
         }));
-        //onsole.log(transformedTestCases);
+        //console.log(transformedTestCases);
 
         return transformedTestCases;
     }
     convertJiraPriorityToAzure(jiraPriority) {
         const priorityMapping = {
-            "Highest": 1,  // Máxima prioridad
-            "High": 2,     // Alta
-            "Medium": 3,   // Media
-            "Low": 4,      // Baja
-            "Lowest": 5    // Mínima prioridad
+            "Highest": 1,  
+            "High": 2,     
+            "Medium": 3,   
+            "Low": 4,      
+            "Lowest": 5    
         };
     
-        return priorityMapping[jiraPriority] || 3; // Por defecto, asignamos prioridad Media (3)
+        return priorityMapping[jiraPriority] || 3; 
     }
 
 }
 
 module.exports = ZephyrTests;
+
 //const aux = new ZephyrTests('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2VVcmwiOiJodHRwczovL2RhbmllbHRvcnJpY29iLmF0bGFzc2lhbi5uZXQiLCJ1c2VyIjp7ImFjY291bnRJZCI6IjcxMjAyMDplNGZiNGU5OC0yNTczLTQ4ZjYtYmQ0ZS01NWI3NTEyNzAwNDAiLCJ0b2tlbklkIjoiM2RmZGE4NGYtZTI0MS00YTUyLTk2OWEtNDZiMmJhOGIwYjM4In19LCJpc3MiOiJjb20ua2Fub2FoLnRlc3QtbWFuYWdlciIsInN1YiI6IjU3NWMyY2Q4LWI1MWUtMzU2NS1iN2U1LTRmOGU3NTJkODFjNCIsImV4cCI6MTc3MTAyMDcxNiwiaWF0IjoxNzM5NDg0NzE2fQ.BbrBWYp3pontZl3Kj5VpMfAp9tZtWvkaBRzYS_4cLig', 'PZ');
+//console.log(aux.getNumOf('testplans'));
 //const aux = new ZephyrTests('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2VVcmwiOiJodHRwczovL2RhbmllbHRvcnJpY29iLmF0bGFzc2lhbi5uZXQiLCJ1c2VyIjp7ImFjY291bnRJZCI6IjcxMjAyMDplNGZiNGU5OC0yNTczLTQ4ZjYtYmQ0ZS01NWI3NTEyNzAwNDAiLCJ0b2tlbklkIjoiM2RmZGE4NGYtZTI0MS00YTUyLTk2OWEtNDZiMmJhOGIwYjM4In19LCJpc3MiOiJjb20ua2Fub2FoLnRlc3QtbWFuYWdlciIsInN1YiI6IjU3NWMyY2Q4LWI1MWUtMzU2NS1iN2U1LTRmOGU3NTJkODFjNCIsImV4cCI6MTc3MTAyMDcxNiwiaWF0IjoxNzM5NDg0NzE2fQ.BbrBWYp3pontZl3Kj5VpMfAp9tZtWvkaBRzYS_4cLig', 'PZ');
 //console.log(aux.fetchAndTransformTestCases());
 //console.log(aux.extractField('testplans'));
