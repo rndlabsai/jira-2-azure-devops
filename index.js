@@ -34,19 +34,22 @@ app.use((req, _, next) => {
 app.use('/api/save-token', async (req, res, next) => {
     try {
         const { _, token, email, url, application } = req.body;
+        console.log(`application is ${application}`);
         if (application !== "Jira") {
-            next();
+            return next(); // Ensure we return here to avoid further execution
+        }
+
+        if (!token || !email || !url || !application) {
+            return res.status(400).json({ success: false, message: 'Faltan parámetros requeridos.' });
         }
 
         URL = url;
         EMAIL = email;
         API_TOKEN = token;
         projects = await retrieveAndWriteProjects(url, email, token, "./json/projects.json");
-    }
-    catch (e) {
+    } catch (e) {
         if (e.cause && e.cause === 'invalid_token') {
-            res.status(401).send({ message: "AUTHENTICATED_FAILED" });
-            return;
+            return res.status(401).send({ message: "AUTHENTICATED_FAILED" }); // Ensure we return here
         }
     }
 
@@ -87,6 +90,7 @@ app.post('/api/register', async (req, res) => {
 
 // ruta para login del user
 app.post('/api/login', async (req, res) => {
+    console.dir(req, { depth: null });
     try {
         const { username, password } = req.body;
         const user = await loginUser(username, password);
@@ -142,10 +146,11 @@ app.get('/api/tokens', async (req, res) => {
 // ruta para guardar token
 app.post('/api/save-token', async (req, res) => {
     try {
+        console.dir(req.body, { depth: null });
         const { username, token, email, url, application } = req.body;
 
-        if (!username || !token || !email || !url || !application) {
-            return res.status(400).json({ success: false, message: 'Faltan parámetros requeridos.' });
+        if (!username || !token || !application) {
+            return res.status(400).json({ success: false, message: 'Missing required parameters.' });
         }
 
         const [userRows] = await pool.query('SELECT * FROM user WHERE username = ?', [username]);
@@ -166,7 +171,9 @@ app.post('/api/save-token', async (req, res) => {
         res.status(200).json({ success: true, message: `${application} credentials saved successfully!` });
     } catch (error) {
         console.error('❌ Error saving token:', error);
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
+        if (!res.headersSent) { // Ensure no response has been sent already
+            return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        }
     }
 });
 
