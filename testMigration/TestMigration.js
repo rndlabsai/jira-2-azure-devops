@@ -21,8 +21,12 @@ export class TestsMigration{
 
     async migrateTestPlans(){
         try{
+            const n = await this.zephyrHandler.getNumOf('testplans');
+            this.addToTotalToMigrate(n);
+
             const  testPlans = await this.zephyrHandler.extractField('testplans');
             this.log('Migrating test plans');
+
             for (const testPlan of testPlans) {
                 const testPlanData = {
                     name: testPlan.name,
@@ -47,8 +51,12 @@ export class TestsMigration{
 
     async migrateTestSuites() {
         try{
+            const n = await this.zephyrHandler.getNumOf('testcycles');
+            this.addToTotalToMigrate(n);
+            
             const testCycles = await this.zephyrHandler.extractField('testcycles');
             this.log('Migrating test cycles (test suites)');
+
             for (const testCycle of testCycles) {
 
                 const testPlanId = this.testPlanMapping[testCycle.testPlanIds[0]];
@@ -81,6 +89,8 @@ export class TestsMigration{
             const testCases = await this.zephyrHandler.fetchAndTransformTestCases();
             try{
 
+                const n = await this.zephyrHandler.getNumOf('testcases');
+                this.addToTotalToMigrate(n);
                 for (const testcase of testCases){
                     const testcaseObj = {
                         name: testcase[0].value,
@@ -130,6 +140,29 @@ export class TestsMigration{
             }
 
             totalJson.migrated += 1;
+
+            fs.writeFileSync(totalJsonPath, JSON.stringify(totalJson, null, 4), 'utf8');
+            this.log(`Updated total.json: ${JSON.stringify(totalJson)}`);
+        } catch (error) {
+            console.error('Failed to update total.json', error.message);
+        }
+    }
+
+    addToTotalToMigrate(n){
+        const totalJsonPath = '../json/total.json';
+
+        try {
+            let totalJson = {};
+            if (fs.existsSync(totalJsonPath)) {
+                const rawData = fs.readFileSync(totalJsonPath, 'utf8');
+                totalJson = rawData ? JSON.parse(rawData) : {};
+            }
+
+            if (!totalJson.total) {
+                totalJson.total = 0;
+            }
+
+            totalJson.total += n;
 
             fs.writeFileSync(totalJsonPath, JSON.stringify(totalJson, null, 4), 'utf8');
             this.log(`Updated total.json: ${JSON.stringify(totalJson)}`);

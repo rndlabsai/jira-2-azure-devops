@@ -141,4 +141,10 @@ export class ZephyrTests {
         return priorityMapping[jiraPriority] || 3; // Por defecto, asignamos prioridad Media (3)
     }
 
+    async getNumOf(field){
+        const testData = await this.fetchZephyrData(`${this.baseUrl}${field}`);
+        //console.log(Num de ${field}: ${testData.total});
+        return testData && testData.total ? testData.total : 0;
+    }
+
 }
