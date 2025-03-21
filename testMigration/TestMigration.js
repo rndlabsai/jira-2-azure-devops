@@ -1,6 +1,6 @@
-import  appendToLogFile  from '../utils/utils.js';
-import AzureDevOpsTests from './AzureDevOpsTests.js';
-import ZephyrTests from './ZephyrTests.js';
+import  { appendToLogFile } from '../utils/utils.js';
+import { AzureDevOpsTests } from './AzureDevOpsTests.js';
+import { ZephyrTests } from './ZephyrTests.js';
 
 
 
@@ -29,18 +29,17 @@ export class TestsMigration{
                     description: testPlan.description
                 };
                 try{
-                    this.log('Creating test plan:', testPlan);
+                    this.log('Creating test plan:' + JSON.stringify(testPlan));
                     const createdTestPlan = await this.azureHandler.createTestPlan(testPlanData);
-                    this.log('Test plan created:', createdTestPlan.id);
+                    this.testItemCreated('suite', createdTestPlan.id);
                     this.testPlanMapping[(testPlan.id)] = createdTestPlan.id;
-                }   
-                catch(error){
+                }   catch(error) {
                     this.log('Failed to create test plan');
                     throw error;
                 }
             }
         } catch(error){
-            this.appendLogFile('Failed to obtain Zephyr Jira Test Plans');
+            this.log('Failed to obtain Zephyr Jira Test Plans');
             console.error('Failed to create test plans', error.message);
         }
         
@@ -63,9 +62,10 @@ export class TestsMigration{
                 try{
                     this.log('Creating test suite:', testCycleData);
                     const createdTestSuite = await this.azureHandler.createTestSuite(testCycleData);
-                    this.log('Test suite created:', createdTestSuite.id);
+                    this.testItemCreated('suite', createdTestSuite.id);
                     this.testCyclesMapping[(testCycle.id)] = createdTestSuite.id;
-                } catch(error){
+                    
+                } catch(error) {
                     console.error('Failed to create test suite');
                 }   
                
@@ -77,28 +77,50 @@ export class TestsMigration{
        
     }
     async migrateTestCases(){
-        const testCases = await this.zephyrHandler.fetchAndTransformTestCases();
         try{
+            const testCases = await this.zephyrHandler.fetchAndTransformTestCases();
+            try{
 
-            for (const testcase of testCases){
-                console.log("---------------------Creating test case-------------------\n");
-                const id_test_case = await this.azureHandler.createTestCase(testcase);
+                for (const testcase of testCases){
+                    const testcaseObj = {
+                        name: testcase[0].value,
+                        description: testcase[1].value,
+                        priority: testcase[2].value
+                    }
+                    this.log('Creating test case:' + JSON.stringify(testcaseObj));
+                    const id_test_case = await this.azureHandler.createTestCase(testcase);
+                    this.testItemCreated('Test Case', id_test_case.id);
+                }
+                
+                // TO DO - MAP TEST CASES TO TEST SUITES WITH THE CORRESPONDING WORKITEM
+                /*
+
+
+                wait this.azureHandler. mapTestcaseToTestSuite(testPlanId, testSuiteId, testCaseIds); 
+                Just the creation of test cases is implemented, the mapping of test cases to test suites is pending 
+                due to the the problem exporting. There is no information about the realtion between a test case and a test suite
+                */
+               
+                
             }
-            /*
-            wait this.azureHandler. mapTestcaseToTestSuite(testPlanId, testSuiteId, testCaseIds); 
-            Just the creation of test cases is implemented, the mapping of test cases to test suites is pending 
-            due to the the problem exporting. There is no information about the realtion between a test case and a test suite
-            */
-            
-        }
-        catch(error){
+            catch(error){
+                console.error('Failed to create test cases', error.message);
+            }
+        } catch(error){
+            this.log('Failed to obtain Zephyr Jira Test Cases');
             console.error('Failed to create test cases', error.message);
         }
+        
     }
 
 
-    updateProgressBarCounter(){
+    //SEBAS - LUCHO
+    testItemCreated(type, id){
+        this.log(`New test Item Created: {type: ${type}, id: ${id}}`);
 
+        //  TODO - SEBAS - ADD VALU OF MIGRATED IN TOTAL.JSON
+        // Add migrated 
+        
     }
 
     log(content){
