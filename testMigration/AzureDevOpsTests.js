@@ -1,8 +1,8 @@
-const axios = require('axios');
-const fs = require("fs");
-const { json } = require('stream/consumers');
+import axios from 'axios';
+import fs from "fs";
 
-class AzureDevOpsTests {
+
+export class AzureDevOpsTests {
     constructor(pat, organization, project) {
         this.pat = pat;
         this.organization = organization;
@@ -24,18 +24,18 @@ class AzureDevOpsTests {
         if (!this.project) throw new Error('Project is required');
     }
 
-  
     // Utility
     async makeApiRequest(url, data, headers) {
         try {
             const response = await axios.post(url, data, { headers: headers });
             return response.data;
         } catch (error) {
+            fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
+            fs.writeFileSync('error.json', JSON.stringify(error.response.data, null, 2));
             console.error('API Request Failed:', error.message);
             throw error;
         }
     }
-
 
     async  createTestPlan(testPlanData) {
       
@@ -142,4 +142,3 @@ s
     }
 }
 
-module.exports = AzureDevOpsTests;
