@@ -113,14 +113,29 @@ export class TestsMigration{
         
     }
 
-
-    //SEBAS - LUCHO
     testItemCreated(type, id){
         this.log(`New test Item Created: {type: ${type}, id: ${id}}`);
 
-        //  TODO - SEBAS - ADD VALU OF MIGRATED IN TOTAL.JSON
-        // Add migrated 
-        
+        const totalJsonPath = '../json/total.json';
+
+        try {
+            let totalJson = {};
+            if (fs.existsSync(totalJsonPath)) {
+                const rawData = fs.readFileSync(totalJsonPath, 'utf8');
+                totalJson = rawData ? JSON.parse(rawData) : {};
+            }
+
+            if (!totalJson.migrated) {
+                totalJson.migrated = 0;
+            }
+
+            totalJson.migrated += 1;
+
+            fs.writeFileSync(totalJsonPath, JSON.stringify(totalJson, null, 4), 'utf8');
+            this.log(`Updated total.json: ${JSON.stringify(totalJson)}`);
+        } catch (error) {
+            console.error('Failed to update total.json', error.message);
+        }
     }
 
     log(content){
