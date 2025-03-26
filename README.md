@@ -24,3 +24,19 @@ Note: if you wanna run on a different port specify it on the docker-compose file
 - There is no OAuth implementation.
 - It is not possible to migrate jira issues without migrating custom fields.
 - If the Jira project has issue types that do not match the ones defined on the Azure Devops process for the destiny project, those can not be created directly (currently some _roundabouts_ are in process).
+
+---
+
+# Warnings
+- The Azure DevOps Project that is being migrated to, needs to have Test Plans Billing option activated.
+
+
+To activate Test Plans with free trial, follow these steps:
+
+1. Open **Organization Settings**
+2. Go to **Billing Option**
+3. Press *Start free trial* in **Basic + Test Plans**
+4. Go to **Users**
+5. On the tree dots on the left side, change user's **Access Level**
+6. Select *Basic + Test Plans*
+
