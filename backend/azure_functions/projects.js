@@ -4,6 +4,17 @@ import { updateCustomFields } from '../scripts/update_custom_fields.js';
 import cleanCustomFieldName from '../scripts/cleanCustomFieldName.js';
 import { appendToLogFile } from '../utils/utils.js';
 
+async function incrementFailedCount(totalJsonPath) {
+    try {
+        const raw = await fs.readFile(totalJsonPath, 'utf-8');
+        const data = JSON.parse(raw);
+        data.failed = (data.failed || 0) + 1;
+        await fs.writeFile(totalJsonPath, JSON.stringify(data, null, 2), 'utf-8');
+    } catch (err) {
+        console.error(`Failed to update failed count in total.json: ${err.message}`);
+    }
+}
+
 async function getMemberId(token) {
     const url = 'https://app.vssps.visualstudio.com/_apis/profile/profiles/me?api-version=7.1-preview.1';
     const response = await fetch(url, {
@@ -34,20 +45,45 @@ async function getProjects(organization, token) {
     return data.value.map(proj => ({ organization: organization, project: proj.name }));
 }
 
-export async function fetchAllProjects(token) {
+/**
+ * Fetch all projects for a given organization directly (no member/org discovery).
+ * Used when the PAT is scoped to a single organization.
+ */
+export async function fetchProjectsForOrg(token, organization) {
+    try {
+        const projects = await getProjects(organization, token);
+        console.log(`[Azure] Direct fetch for "${organization}": ${projects.length} project(s)`);
+        return projects;
+    } catch (error) {
+        console.error(`[Azure] fetchProjectsForOrg failed for "${organization}":`, error.message);
+        return [];
+    }
+}
+
+export async function fetchAllProjects(token, organization) {
+    // If an organization is provided, skip the member/org discovery and query directly.
+    // This is necessary for PATs scoped to a single organization.
+    if (organization) {
+        return fetchProjectsForOrg(token, organization);
+    }
+
     try {
         const memberId = await getMemberId(token);
+        console.log(`[Azure] Resolved memberId: ${memberId}`);
+
         const organizations = await getOrganizations(memberId, token);
+        console.log(`[Azure] Found organizations: ${JSON.stringify(organizations)}`);
 
         let allProjects = [];
         for (const org of organizations) {
             const projects = await getProjects(org, token);
+            console.log(`[Azure] Projects in "${org}": ${projects.length}`);
             allProjects = allProjects.concat(projects);
         }
 
         return allProjects;
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('[Azure] fetchAllProjects failed:', error.message);
         return [];
     }
 }
@@ -149,13 +185,58 @@ async function validateAssignee(token, organization, assignee) {
     return user ? assignee : null; // Return the assignee if found, otherwise null
 }
 
-async function createIssues(token, issuesFile, organization, project, workItemType, logfilepath) {
-    // Change "Story" to "User Story" for the creation process
-    if (workItemType === "Story") {
-        workItemType = "User Story";
+/**
+ * Fetch the work item types available in the target Azure DevOps project.
+ * Returns a Set of type names (lowercased) for case-insensitive matching.
+ */
+async function getProjectWorkItemTypes(token, organization, project) {
+    const url = `https://dev.azure.com/${organization}/${project}/_apis/wit/workitemtypes?api-version=7.0`;
+    const response = await fetch(url, {
+        headers: { 'Authorization': `Basic ${Buffer.from(':' + token).toString('base64')}` }
+    });
+    if (!response.ok) {
+        console.error(`[Azure] Failed to fetch work item types: ${response.statusText}`);
+        return new Set();
     }
+    const data = await response.json();
+    return new Set(data.value.map(t => t.name.toLowerCase()));
+}
 
-    const url = `https://dev.azure.com/${organization}/${project}/_apis/wit/workitems/$${workItemType}?api-version=7.0`;
+/**
+ * Map a Jira issue type to the best available Azure DevOps work item type.
+ * Falls back through a priority list until a match is found in the project's types.
+ * If nothing matches, defaults to 'Task' (present in all process templates).
+ */
+function resolveWorkItemType(jiraType, availableTypes) {
+    // Canonical mapping: Jira type → preferred Azure type → fallback chain
+    const mappings = {
+        'story':   ['User Story', 'Issue', 'Task'],
+        'epic':    ['Epic', 'Issue', 'Task'],
+        'task':    ['Task', 'Issue'],
+        'bug':     ['Bug', 'Issue', 'Task'],
+        'subtask': ['Task', 'Issue'],
+        'sub-task':['Task', 'Issue'],
+        'feature': ['Feature', 'Epic', 'Issue', 'Task'],
+    };
+
+    const key = jiraType.toLowerCase();
+    const candidates = mappings[key] || [jiraType, 'Task'];
+
+    for (const candidate of candidates) {
+        if (availableTypes.has(candidate.toLowerCase())) {
+            return candidate;
+        }
+    }
+    return 'Task'; // universal fallback
+}
+
+async function createIssues(token, issuesFile, organization, project, workItemType, logfilepath, availableWorkItemTypes) {
+    // Resolve to the best available work item type for this project's process template
+    const resolvedType = availableWorkItemTypes
+        ? resolveWorkItemType(workItemType, availableWorkItemTypes)
+        : (workItemType === 'Story' ? 'User Story' : workItemType);
+
+    const url = `https://dev.azure.com/${organization}/${project}/_apis/wit/workitems/$${encodeURIComponent(resolvedType)}?api-version=7.0`;
     const issueData = JSON.parse(await fs.readFile(issuesFile, 'utf-8'));
 
     const assignee = issueData.fields.assignee ? issueData.fields.assignee.displayName : null;
@@ -163,7 +244,11 @@ async function createIssues(token, issuesFile, organization, project, workItemTy
 
     const payload = [
         { op: 'add', path: '/fields/System.Title', value: issueData.fields.summary },
-        { op: 'add', path: '/fields/System.Description', value: issueData.fields.description.content[0]?.content[0]?.text || '' }
+        {
+            op: 'add',
+            path: '/fields/System.Description',
+            value: issueData.fields.description?.content?.[0]?.content?.[0]?.text || ''
+        }
     ];
 
     if (validatedAssignee) {
@@ -185,9 +270,10 @@ async function createIssues(token, issuesFile, organization, project, workItemTy
             throw new Error(`Failed to create issue: ${response.statusText}. Details: ${errorDetails}`);
         }
 
-        await appendToLogFile(logfilepath, `Issue created successfully. Issue key: ${issueData.key}`);
+        await appendToLogFile(logfilepath, `Issue created successfully. Issue key: ${issueData.key} (type: ${resolvedType})`);
     } catch (error) {
-        await appendToLogFile(logfilepath, `Error creating issue for workItemType: ${workItemType}. ${error.message}`);
+        await appendToLogFile(logfilepath, `Error creating issue for workItemType: ${resolvedType}. ${error.message}`);
+        throw error; // Re-throw so the caller can increment the failed counter
     }
 }
 
@@ -393,7 +479,7 @@ async function logAvailableWorkItemTypes(token, organization, processName) {
     }
 }
 
-export async function migrateData(token, customFieldsDir, workflowsDir, issuesDir, organization, project, logfilepath) {
+export async function migrateData(token, customFieldsDir, workflowsDir, issuesDir, organization, project, logfilepath, totalJsonPath = './json/total.json') {
     try {
         // Update custom fields before migration
         await appendToLogFile(logfilepath, 'Validating and updating custom fields...');
@@ -402,7 +488,13 @@ export async function migrateData(token, customFieldsDir, workflowsDir, issuesDi
         const customFieldFiles = await fs.readdir(customFieldsDir);
         for (const file of customFieldFiles) {
             const filePath = path.join(customFieldsDir, file);
-            await createCustomFields(token, filePath, organization, logfilepath);
+            try {
+                await createCustomFields(token, filePath, organization, logfilepath);
+            } catch (error) {
+                await appendToLogFile(logfilepath, `FAILED: custom field "${file}" - ${error.message}`);
+                await incrementFailedCount(totalJsonPath);
+                // Continue to the next custom field — do not abort the loop
+            }
         }
 
         // Retrieve all workItemTypes from issue JSON files
@@ -410,33 +502,61 @@ export async function migrateData(token, customFieldsDir, workflowsDir, issuesDi
         const workItemTypes = new Set();
         for (const file of issueFiles) {
             const filePath = path.join(issuesDir, file);
-            const issueData = JSON.parse(await fs.readFile(filePath, 'utf-8'));
-            workItemTypes.add(issueData.fields.issuetype.name); // Collect unique workItemTypes
+            try {
+                const issueData = JSON.parse(await fs.readFile(filePath, 'utf-8'));
+                workItemTypes.add(issueData.fields.issuetype.name); // Collect unique workItemTypes
+            } catch (error) {
+                await appendToLogFile(logfilepath, `FAILED: reading issue file "${file}" for work item type collection - ${error.message}`);
+                // Continue collecting types from remaining files
+            }
         }
 
         // Use workItemTypes for workflows creation
         const workflowFiles = await fs.readdir(workflowsDir);
         for (const file of workflowFiles) {
             const filePath = path.join(workflowsDir, file);
-            const workflowData = JSON.parse(await fs.readFile(filePath, 'utf-8'));
-
             try {
-                const processId = await getOrCreateProcessId(token, organization, workflowData.name);
-                for (const workItemType of workItemTypes) {
-                    await appendToLogFile(logfilepath, `Creating workflow for processId: ${processId}, workItemType: ${workItemType}`);
-                    await createWorkflows(token, filePath, organization, processId, workItemType, logfilepath);
+                const workflowData = JSON.parse(await fs.readFile(filePath, 'utf-8'));
+                try {
+                    const processId = await getOrCreateProcessId(token, organization, workflowData.name);
+                    for (const workItemType of workItemTypes) {
+                        await appendToLogFile(logfilepath, `Creating workflow for processId: ${processId}, workItemType: ${workItemType}`);
+                        try {
+                            await createWorkflows(token, filePath, organization, processId, workItemType, logfilepath);
+                        } catch (error) {
+                            await appendToLogFile(logfilepath, `FAILED: workflow "${workflowData.name}" for workItemType "${workItemType}" - ${error.message}`);
+                            await incrementFailedCount(totalJsonPath);
+                            // Continue to the next workItemType — do not abort the loop
+                        }
+                    }
+                } catch (error) {
+                    await appendToLogFile(logfilepath, `FAILED: processing workflow "${workflowData.name}" - ${error.message}`);
+                    await incrementFailedCount(totalJsonPath);
+                    // Continue to the next workflow file — do not abort the loop
                 }
             } catch (error) {
-                await appendToLogFile(logfilepath, `Error processing workflow "${workflowData.name}": ${error.message}`);
+                await appendToLogFile(logfilepath, `FAILED: reading workflow file "${file}" - ${error.message}`);
+                await incrementFailedCount(totalJsonPath);
+                // Continue to the next workflow file — do not abort the loop
             }
         }
+
+        // Fetch the project's available work item types once, used for all issue creation
+        const availableWorkItemTypes = await getProjectWorkItemTypes(token, organization, project);
+        console.log(`[Azure] Available work item types: ${[...availableWorkItemTypes].join(', ')}`);
 
         // Create issues
         for (const file of issueFiles) {
             const filePath = path.join(issuesDir, file);
-            const issueData = JSON.parse(await fs.readFile(filePath, 'utf-8'));
-            const workItemType = issueData.fields.issuetype.name; // Extract work item type from issue JSON
-            await createIssues(token, filePath, organization, project, workItemType, logfilepath);
+            try {
+                const issueData = JSON.parse(await fs.readFile(filePath, 'utf-8'));
+                const workItemType = issueData.fields.issuetype.name; // Extract work item type from issue JSON
+                await createIssues(token, filePath, organization, project, workItemType, logfilepath, availableWorkItemTypes);
+            } catch (error) {
+                await appendToLogFile(logfilepath, `FAILED: issue "${file}" - ${error.message}`);
+                await incrementFailedCount(totalJsonPath);
+                // Continue to the next issue — do not abort the loop
+            }
         }
 
         await appendToLogFile(logfilepath, 'Data migration completed successfully.');

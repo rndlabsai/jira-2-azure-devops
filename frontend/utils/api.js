@@ -10,6 +10,30 @@ const api = axios.create({
     }
 });
 
+// Request interceptor — attach JWT Bearer token to every outgoing request
+api.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
+// Response interceptor — on 401, clear localStorage and redirect to /login
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response && error.response.status === 401) {
+            localStorage.clear();
+            window.location.href = '/login';
+        }
+        return Promise.reject(error);
+    }
+);
+
 export const getTokens = async (username) => {
     const tokensResponse = await api.get(`/tokens?username=${username}`);
     return tokensResponse.data;
@@ -29,10 +53,10 @@ export const postLoginCredentials = async (username, password) => {
     const response = await postRequest("/login", { username, password });
 
     if (response.status === 200) {
-        return [response.data.success, response.data.user];
+        return [response.data.success, response.data.user, response.data.token];
     }
     else {
-        return [response.data.success, response.data.message];
+        return [response.data.success, response.data.message, null];
     }
 }
 
@@ -63,22 +87,22 @@ export const postTokens = async (username, api_token, application, email, url) =
 
 export const getJiraProjects = async () => {
     const response = await api.get("/jira/projects");
+    return response.data;
+};
 
-    if (response.status === 200) {
-        return response.data;
-    } else {
-        return response.data;
-    }
+export const refreshJiraProjects = async () => {
+    const response = await api.post("/jira/projects/refresh");
+    return response.data;
 };
 
 export const getAzureProjects = async () => {
     const response = await api.get("/azure/projects");
+    return response.data;
+};
 
-    if (response.status === 200) {
-        return response.data;
-    } else {
-        return response.data;
-    }
+export const refreshAzureProjects = async () => {
+    const response = await api.post("/azure/projects/refresh");
+    return response.data;
 };
 
 export const startMigration = async (origin, destination, options) => {
@@ -129,3 +153,19 @@ export const endMigration = async () => {
         throw new Error("Error ending migration...");
     }
 }
+
+export const deleteToken = async (username, application) => {
+    // First fetch the token ID for this application
+    const tokensResponse = await api.get(`/tokens?username=${username}`);
+    if (!tokensResponse.data.success || !tokensResponse.data.tokens) {
+        throw new Error('Could not retrieve tokens.');
+    }
+    const match = tokensResponse.data.tokens.find(t => t.Application === application);
+    if (!match || !match.id) {
+        throw new Error(`No ${application} token found for this user.`);
+    }
+    const deleteResponse = await api.delete('/delete-token', {
+        data: { username, tokenId: match.id }
+    });
+    return deleteResponse.data;
+};

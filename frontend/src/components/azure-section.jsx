@@ -1,63 +1,62 @@
-import { useState, useEffect } from "react"; // Importa useEffect
-import axios from "axios";
+import { useState, useEffect } from "react";
 import "./azure-section.css";
 import "../styles/global.css";
-import { getTokens, postTokens } from "../../utils/api";
+import { getTokens, postTokens, deleteToken as deleteTokenApi } from "../../utils/api";
 
 function AzureSection() {
   // Estados para almacenar los valores ingresados
   const [apiToken, setApiToken] = useState("");
   const [email, setEmail] = useState("");
-  const [url, setUrl] = useState("");
+  const [organization, setOrganization] = useState("");
 
-  // Obtener los tokens del usuario al cargar el componente
+  // Load user tokens on component mount
   useEffect(() => {
     const fetchTokens = async () => {
       const username = localStorage.getItem("username");
       if (!username) {
-        console.log("Usuario no ha iniciado sesión.");
+        console.log("User is not logged in.");
         return;
       }
 
       const tokens = localStorage.getItem("tokens");
       if (tokens) {
-        // Buscar el token de Jira
+        // Find the Azure token
         const parsedTokens = JSON.parse(tokens);
         const azureToken = parsedTokens.find(
           (token) => token.Application === "Azure Devops"
         );
         if (azureToken) {
-          // Llenar los campos con los datos del token de Jira
+          // Populate fields with the Azure token data
           setApiToken(azureToken.Number);
           setEmail(azureToken.email);
-          setUrl(azureToken.url);
+          setOrganization(azureToken.url || "");
         }
         return;
       }
 
       try {
-        // Hacer la solicitud para obtener los tokens
+        // Fetch tokens from the backend
         const response = await getTokens(username);
 
         if (response.success && response.tokens) {
-          // Buscar el token de Azure
+          // Find the Azure token
           const azureToken = response.tokens.find(
             (token) => token.Application === "Azure Devops"
           );
           if (azureToken) {
-            // Llenar los campos con los datos del token de Azure
+            // Populate fields with the Azure token data
             setApiToken(azureToken.Number);
             setEmail(azureToken.email);
-            setUrl(azureToken.url);
+            setOrganization(azureToken.url || "");
           }
         }
       } catch (error) {
-        console.error("Error al obtener los tokens:", error);
+        console.error("Error fetching tokens:", error);
       }
     };
 
     fetchTokens();
-  }, []); // El array vacío [] asegura que esto solo se ejecute una vez al montar el componente
+  }, []); // Empty array [] ensures this only runs once on mount
 
   const handleSaveToken = async () => {
     const username = localStorage.getItem("username");
@@ -72,7 +71,7 @@ function AzureSection() {
         apiToken,
         "Azure Devops",
         email || null,
-        url || null
+        organization || null
       );
 
       if (data[0]) {
@@ -97,50 +96,19 @@ function AzureSection() {
     }
 
     try {
-      // Obtener el ID del token de Azure del usuario
-      const response = await axios.get("http://localhost:4000/api/tokens", {
-        params: { username },
-      });
-
-      console.log("Respuesta del backend en deleteToken:", response.data); // Debug
-
-      if (response.data.success && response.data.tokens) {
-        // Buscar el token de Azure
-        const azureToken = response.data.tokens.find(
-          (token) => token.Application === "Azure Devops"
-        );
-
-        console.log("Token encontrado en deleteToken:", azureToken); // Debug
-
-        if (!azureToken || !azureToken.id) {
-          alert("No se encontró un token de Azure para este usuario.");
-          return;
-        }
-
-        console.log("Intentando eliminar el token con ID:", azureToken.id); // Debug
-
-        // Enviar solicitud para eliminar el token
-        const deleteResponse = await axios.delete(
-          "http://localhost:4000/api/delete-token",
-          {
-            data: { username, tokenId: azureToken.id, splitToken: false },
-          }
-        );
-
-        if (deleteResponse.data.success) {
-          alert("Token eliminado correctamente!");
-          // Limpiar los campos del formulario
-          setApiToken("");
-          setEmail("");
-          setUrl("");
-        } else {
-          alert("Error: " + deleteResponse.data.message);
-        }
+      const data = await deleteTokenApi(username, "Azure Devops");
+      if (data.success) {
+        alert("Token deleted successfully!");
+        setApiToken("");
+        setEmail("");
+        setOrganization("");
+      } else {
+        alert("Error: " + data.message);
       }
     } catch (error) {
-      console.error("Error al eliminar el token:", error);
+      console.error("Error deleting token:", error);
       alert(
-        "No se pudo eliminar el token: " +
+        "Unable to delete the token: " +
           (error.response?.data?.message || error.message)
       );
     }
@@ -157,6 +125,14 @@ function AzureSection() {
           placeholder="Enter your Azure Token"
           value={apiToken}
           onChange={(e) => setApiToken(e.target.value)}
+        />
+        <label htmlFor="azure-organization">Organization:</label>
+        <input
+          type="text"
+          id="azure-organization"
+          placeholder="Enter your Azure DevOps organization name"
+          value={organization}
+          onChange={(e) => setOrganization(e.target.value)}
         />
       </div>
       <button className="save-button" onClick={handleSaveToken}>

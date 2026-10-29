@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import "./jira-section.css";
 import "../styles/global.css";
-import axios from "axios";
-import { getTokens, postTokens } from "../../utils/api";
+import { getTokens, postTokens, deleteToken as deleteTokenApi } from "../../utils/api";
 
 function JiraSection() {
   // Estados para almacenar los valores ingresados
@@ -10,24 +9,24 @@ function JiraSection() {
   const [email, setEmail] = useState("");
   const [url, setUrl] = useState("");
 
-  // Obtener los tokens del usuario al cargar el componente
+  // Load user tokens on component mount
   useEffect(() => {
     const fetchTokens = async () => {
       const username = localStorage.getItem("username");
       if (!username) {
-        console.log("Usuario no ha iniciado sesión.");
+        console.log("User is not logged in.");
         return;
       }
 
       const tokens = localStorage.getItem("tokens");
       if (tokens) {
-        // Buscar el token de Jira
+        // Find the Jira token
         const parsedTokens = JSON.parse(tokens);
         const jiraToken = parsedTokens.find(
           (token) => token.Application === "Jira"
         );
         if (jiraToken) {
-          // Llenar los campos con los datos del token de Jira
+          // Populate fields with the Jira token data
           setApiToken(jiraToken.Number);
           setEmail(jiraToken.email);
           setUrl(jiraToken.url);
@@ -36,28 +35,28 @@ function JiraSection() {
       }
 
       try {
-        // Hacer la solicitud para obtener los tokens
+        // Fetch tokens from the backend
         const response = await getTokens(username);
 
         if (response.success && response.tokens) {
-          // Buscar el token de Jira
+          // Find the Jira token
           const jiraToken = response.tokens.find(
             (token) => token.Application === "Jira"
           );
           if (jiraToken) {
-            // Llenar los campos con los datos del token de Jira
+            // Populate fields with the Jira token data
             setApiToken(jiraToken.Number);
             setEmail(jiraToken.email);
             setUrl(jiraToken.url);
           }
         }
       } catch (error) {
-        console.error("Error al obtener los tokens:", error);
+        console.error("Error fetching tokens:", error);
       }
     };
 
     fetchTokens();
-  }, []); // El array vacío [] asegura que esto solo se ejecute una vez al montar el componente
+  }); // Empty array [] ensures this only runs once on mount
 
   const handleSaveToken = async () => {
     const username = localStorage.getItem("username");
@@ -97,50 +96,19 @@ function JiraSection() {
     }
 
     try {
-      // Obtener el ID del token de Jira del usuario
-      const response = await axios.get("http://localhost:4000/api/tokens", {
-        params: { username },
-      });
-
-      console.log("Respuesta del backend en deleteToken:", response.data); // Debug
-
-      if (response.data.success && response.data.tokens) {
-        // Buscar el token de Jira
-        const jiraToken = response.data.tokens.find(
-          (token) => token.Application === "Jira"
-        );
-
-        console.log("Token encontrado en deleteToken:", jiraToken); // Debug
-
-        if (!jiraToken || !jiraToken.id) {
-          alert("No se encontró un token de Jira para este usuario.");
-          return;
-        }
-
-        console.log("Intentando eliminar el token con ID:", jiraToken.id); // Debug
-
-        // Enviar solicitud para eliminar el token
-        const deleteResponse = await axios.delete(
-          "http://localhost:4000/api/delete-token",
-          {
-            data: { username, tokenId: jiraToken.id, splitToken: false },
-          }
-        );
-
-        if (deleteResponse.data.success) {
-          alert("Token eliminado correctamente!");
-          // Limpiar los campos del formulario
-          setApiToken("");
-          setEmail("");
-          setUrl("");
-        } else {
-          alert("Error: " + deleteResponse.data.message);
-        }
+      const data = await deleteTokenApi(username, "Jira");
+      if (data.success) {
+        alert("Token deleted successfully!");
+        setApiToken("");
+        setEmail("");
+        setUrl("");
+      } else {
+        alert("Error: " + data.message);
       }
     } catch (error) {
-      console.error("Error al eliminar el token:", error);
+      console.error("Error deleting token:", error);
       alert(
-        "No se pudo eliminar el token: " +
+        "Unable to delete the token: " +
           (error.response?.data?.message || error.message)
       );
     }
